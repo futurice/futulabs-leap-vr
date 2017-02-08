@@ -626,6 +626,7 @@ GameObject:
   m_Component:
   - component: {fileID: 387242465}
   - component: {fileID: 387242467}
+  - component: {fileID: 387242466}
   m_Layer: 0
   m_Name: Palm
   m_TagString: Untagged
@@ -647,6 +648,20 @@ Transform:
   m_Father: {fileID: 540169375}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -8.5308, y: 1.7105999, z: 171.3609}
+--- !u!114 &387242466
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 387242464}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6642b1fb43692e94fbe1c2457b107571, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Palm: {fileID: 387242465}
+  Menu: {fileID: 313642103}
+  RotationThreshold: 200
 --- !u!182 &387242467
 WindZone:
   m_ObjectHideFlags: 0
@@ -973,7 +988,7 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 952317458
+  randomSeed: 597656706
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -3885,7 +3900,7 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 995332413}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 251ea3343c15b4000a02573c7aad5a0b, type: 3}
   m_Name: 
@@ -4037,7 +4052,7 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1060014943}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 251ea3343c15b4000a02573c7aad5a0b, type: 3}
   m_Name: 
