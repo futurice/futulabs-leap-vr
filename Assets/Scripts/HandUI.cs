@@ -13,6 +13,8 @@ public class HandUI : MonoBehaviour
     /// </summary>
     public GameObject Menu; 
     public float RotationThreshold = 200f;
+    public float TimeThresHold = 1f;
+    private float TimeDT = 0;
 
     private bool MenuShown = false;
 	
@@ -23,23 +25,32 @@ public class HandUI : MonoBehaviour
 
     private void RotateToShowMenu(Transform t)
     {
-        if (t.localRotation.eulerAngles.z >= RotationThreshold && !MenuShown)
+        Vector3 rot = t.localRotation.eulerAngles;
+        if (rot.z >= RotationThreshold && !MenuShown && rot.z >= 0)
         {
-            ShowMenu();
-            MenuShown = true;
-            return;
+            TimeDT += Time.deltaTime;
+            if (TimeDT >= TimeThresHold)
+            {
+                ShowMenu();
+                MenuShown = true;
+                TimeDT = 0;
+            }
         }
-        else if (t.localRotation.eulerAngles.z < RotationThreshold && MenuShown)
+        if (rot.z < RotationThreshold && MenuShown)
         {
-            HideMenu();
-            MenuShown = false;
+            TimeDT += Time.deltaTime;
+            if (TimeDT >= TimeThresHold)
+            {
+                HideMenu();
+                MenuShown = false;
+                TimeDT = 0;
+            }
         }
     }
 
     private void ShowMenu()
     {
         Menu.SetActive(true);
-        Debug.Log("Setting active");
     }
 
     private void HideMenu()
