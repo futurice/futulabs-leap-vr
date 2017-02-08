@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Leap.Unity;
+using Leap.Unity.Interaction;
 
 namespace Futulabs
 {
@@ -13,6 +14,14 @@ interface IInteractableObjectController
     /// transform wrt. to hand gestures.
     /// </summary>
     LeapRTS LeapRTSComponent
+    {
+        get;
+    }
+    
+    /// <summary>
+    /// A Leap library interaction behaviour that will be enabled after creation.
+    /// </summary>
+    InteractionBehaviour LeapInteractionBehaviour
     {
         get;
     }
@@ -31,7 +40,7 @@ interface IInteractableObjectController
     /// The object must have an active Leap RTS component that controls the
     /// scaling and transform.
     /// </summary>
-    void Create(PinchDetector leftPinchDetector, PinchDetector rightPinchDetector);
+    void Create(InteractionManager interactionManager, PinchDetector leftPinchDetector, PinchDetector rightPinchDetector);
 
     /// <summary>
     /// This function materializes the object i.e. enables the Collider and

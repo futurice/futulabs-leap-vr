@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Leap.Unity;
+using Leap.Unity.Interaction;
 
 namespace Futulabs
 {
@@ -17,6 +18,9 @@ public class ObjectManager : Singleton<ObjectManager>
         CREATING    = 1
     }
 
+    [Header("Interactions")]
+    [SerializeField]
+    InteractionManager _interactionManager;
     [Header("Pinch")]
     [SerializeField]
     private PinchDetector _leftHandPinchDetector;
@@ -97,7 +101,7 @@ public class ObjectManager : Singleton<ObjectManager>
         // Create the object
         GameObject newObject = Instantiate(_interactableObjectPrefabs[objectIndex], position, Quaternion.identity, _objectContainer) as GameObject;
         _currentObject = newObject.GetComponent<IInteractableObjectController>();
-        _currentObject.Create(_leftHandPinchDetector, _rightHandPinchDetector);
+        _currentObject.Create(_interactionManager, _leftHandPinchDetector, _rightHandPinchDetector);
     }
 
     private void MaterializeObject()
