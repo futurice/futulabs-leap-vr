@@ -41,6 +41,9 @@ public class ObjectManager : Singleton<ObjectManager>
     // The object that is currently being created
     private IInteractableObjectController _currentObject = null;
 
+    // The objects created so far
+    private List<IInteractableObjectController> _createdObjects = null;
+
     public ObjectManagerState CurrentState
     {
         get;
@@ -49,6 +52,8 @@ public class ObjectManager : Singleton<ObjectManager>
 
     private void Awake()
     {
+        _createdObjects = new List<IInteractableObjectController>();
+        
         // Register handlers that materialize the object when the pinch is released
         _leftHandPinchDetector.OnDeactivate.AddListener(() =>
         {
@@ -87,9 +92,18 @@ public class ObjectManager : Singleton<ObjectManager>
         }
     }
 
+    public void ToggleGravityForInteractableObjects(bool enabled)
+    {
+        int numObjects = _createdObjects.Count;
+
+        for (int i = 0; i < numObjects; ++i)
+        {
+            _createdObjects[i].UseGravity = enabled;
+        }
+    }
+
     private void CreateObject()
     {
-        Debug.Log("ObjectManager CreateObject: TO DO");
         CurrentState = ObjectManagerState.CREATING;
             
         // Create the object at midpoint between the two pinches
@@ -98,9 +112,10 @@ public class ObjectManager : Singleton<ObjectManager>
         // TODO: Select object according to menu selection
         int objectIndex = Random.Range(0, _interactableObjectPrefabs.Length);
 
-        // Create the object
+        // Create the object and add to a list of objects
         GameObject newObject = Instantiate(_interactableObjectPrefabs[objectIndex], position, Quaternion.identity, _objectContainer) as GameObject;
         _currentObject = newObject.GetComponent<IInteractableObjectController>();
+        _createdObjects.Add(_currentObject);
         _currentObject.Create(_interactionManager, _leftHandPinchDetector, _rightHandPinchDetector);
     }
 
@@ -112,7 +127,6 @@ public class ObjectManager : Singleton<ObjectManager>
             return;
         }
 
-        Debug.Log("ObjectManager MaterializeObject: TO DO");
         _currentObject.Materialize();
 
         // Reset the ObjectManager state to READY so we can continue creating

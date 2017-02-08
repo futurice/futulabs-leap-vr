@@ -36,6 +36,15 @@ interface IInteractableObjectController
     }
 
     /// <summary>
+    /// Controls whether gravity affects this object
+    /// </summary>
+    bool UseGravity
+    {
+        get;
+        set;
+    }
+
+    /// <summary>
     /// Creates the object with Rigidbody and Collider components disabled.
     /// The object must have an active Leap RTS component that controls the
     /// scaling and transform.
@@ -52,8 +61,8 @@ interface IInteractableObjectController
     /// Morphs the object according to the difference in the pinch positions.
     /// The morphing changes the scale of the object, possibly non-uniformly.
     /// </summary>
-    /// <param name="leftPinchPosition"></param>
-    /// <param name="rightPinchPosition"></param>
+    /// <param name="leftPinchPosition">World position of the left pinch</param>
+    /// <param name="rightPinchPosition">World position of the right pinch</param>
     void Morph(Vector3 leftPinchPosition, Vector3 rightPinchPosition);
 }
 

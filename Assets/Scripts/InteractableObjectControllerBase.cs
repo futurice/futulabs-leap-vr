@@ -69,6 +69,19 @@ namespace Futulabs
             }
         }
 
+        public bool UseGravity
+        {
+            get
+            {
+                return LeapInteractionBehaviour.useGravity;
+            }
+
+            set
+            {
+                LeapInteractionBehaviour.useGravity = value;
+            }
+        }
+
         protected Collider[] Colliders
         {
             get
