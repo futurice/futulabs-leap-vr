@@ -45,6 +45,19 @@ namespace Leap.Unity {
     [SerializeField]
     private bool _allowScale = true;
 
+    public bool AllowScale
+    {
+        get
+        {
+            return _allowScale;
+        }
+
+        set
+        {
+            _allowScale = value;
+        }
+    }
+
     [Header("GUI Options")]
     [SerializeField]
     private KeyCode _toggleGuiState = KeyCode.None;
