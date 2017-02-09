@@ -85,10 +85,17 @@ namespace Futulabs
                 // Apply a little bit of force to get the object moving upwards
                 if (value == false)
                 {
-                    Debug.Log("Hello my girl");
                     LeapInteractionBehaviour.rigidbody.AddForce(10 * new Vector3(0, 1, 0));
                 }
             }
+        }
+
+        public void ChangePitch(Vector3 leftPos, Vector3 rightPos)
+        {
+            var size = (leftPos - rightPos).magnitude;
+            var pitch = Mathf.Round(100f * (Mathf.Pow(size, 0.4f) + 0.4f)) / 100f;
+            Debug.Log(pitch);
+            EffectAudioSource.pitch = pitch;
         }
 
         protected AudioSource EffectAudioSource
@@ -184,6 +191,7 @@ namespace Futulabs
             EnableMaterializedMeshes(true);
 
             // Disable looping and play the materialization sound effect
+            EffectAudioSource.pitch = 1;
             EffectAudioSource.loop = false;
             EffectAudioSource.Stop();
             EffectAudioSource.PlayOneShot(AudioManager.Instance.GetAudioClip(GameAudioClipType.INTERACTABLE_OBJECT_MATERIALIZATION));

@@ -151,6 +151,7 @@ public class ObjectManager : Singleton<ObjectManager>
             { 
                 _currentObject.Morph(_leftHandPinchDetector.Position, _rightHandPinchDetector.Position);
             }
+            _currentObject.ChangePitch(_leftHandPinchDetector.Position, _rightHandPinchDetector.Position);
         }
     }
 
