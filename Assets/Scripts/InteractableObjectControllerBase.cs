@@ -172,7 +172,7 @@ namespace Futulabs
             // Disable looping and play the materialization sound effect
             EffectAudioSource.loop = false;
             EffectAudioSource.Stop();
-            // TODO: Play sound
+            EffectAudioSource.PlayOneShot(AudioManager.Instance.GetAudioClip(GameAudioClipType.INTERACTABLE_OBJECT_MATERIALIZATION));
         }
 
         virtual public void Morph(Vector3 leftPinchPosition, Vector3 rightPinchPosition)

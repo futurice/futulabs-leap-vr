@@ -1,26 +1,26 @@
 fileFormatVersion: 2
-guid: 2d86fb34240e31749b1bd5ed643f6252
-timeCreated: 1486566629
+guid: 82df91214e9490841a71407034a518bf
+timeCreated: 1486634100
 licenseType: Pro
 ModelImporter:
   serializedVersion: 19
   fileIDToRecycleName:
     100000: Camera
-    100002: Cube
-    100004: Cube.Outline
-    100006: //RootNode
-    100008: Lamp
+    100002: Lamp
+    100004: Star
+    100006: Star.Outline
+    100008: //RootNode
     400000: Camera
-    400002: Cube
-    400004: Cube.Outline
-    400006: //RootNode
-    400008: Lamp
-    2300000: Cube
-    2300002: Cube.Outline
-    3300000: Cube
-    3300002: Cube.Outline
-    4300000: Cube
-    4300002: Cube.Outline
+    400002: Lamp
+    400004: Star
+    400006: Star.Outline
+    400008: //RootNode
+    2300000: Star
+    2300002: Star.Outline
+    3300000: Star
+    3300002: Star.Outline
+    4300000: Star
+    4300002: Star.Outline
   materials:
     importMaterials: 1
     materialName: 0

@@ -14,6 +14,10 @@ namespace Futulabs
 /// </summary>
 public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 {
+    [Header("Singleton")]
+    [SerializeField]
+    protected bool _singletonDontDestroyOnLoad = false;
+
     protected static T _instance = null;
     protected static object _lock = new object();
     protected static bool _applicationIsQuitting = false;
@@ -46,7 +50,12 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
                         _instance = singleton.AddComponent<T>();
                         singleton.name = "(singleton) " + typeof(T).ToString();
 
-                        DontDestroyOnLoad(singleton);
+                        Singleton<T> singletonInstance = _instance.GetComponent<Singleton<T>>();
+
+                        if (singletonInstance != null && singletonInstance.SingletonDontDestroyOnLoad)
+                        { 
+                            DontDestroyOnLoad(singleton);
+                        }
 
                         Debug.Log(string.Format("[Singleton] An instance of {0} is needed in the scene, so {1} was created with DontDestroyOnLoad.", typeof(T), singleton));
                     }
@@ -58,6 +67,14 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 
                 return _instance;
             }
+        }
+    }
+
+    public bool SingletonDontDestroyOnLoad
+    {
+        get
+        {
+            return _singletonDontDestroyOnLoad;
         }
     }
 

@@ -7,17 +7,34 @@ using Leap.Unity.Interaction;
 namespace Futulabs
 {
 
+[System.Serializable]
+public enum ObjectManagerState
+{
+    READY = 0,
+    CREATING = 1
+}
+
+[System.Serializable]
+public enum InteractableObjectType
+{
+    CUBE = 0,
+    ICONOSPHERE = 1,
+    STAR = 2
+}
+
+[System.Serializable]
+public class InteractableObject
+{
+    public InteractableObjectType type;
+    public GameObject prefab;
+}
+
 /// <summary>
 /// This class manages the creation of new objects.
 /// </summary>
 public class ObjectManager : Singleton<ObjectManager>
-{
-    public enum ObjectManagerState
-    {
-        READY       = 0,
-        CREATING    = 1
-    }
-
+{    
+    [Header("ObjectManager")]
     [Header("Interactions")]
     [SerializeField]
     InteractionManager _interactionManager;
@@ -34,15 +51,19 @@ public class ObjectManager : Singleton<ObjectManager>
     [SerializeField]
     private Transform _objectContainer;
     [SerializeField]
-    [Tooltip(@"Prefabs of the objects that can be created.
+    [Tooltip(@"Types and prefabs of the objects that can be created.
             The objects must have a script attached that implements IInteractableObject")]
-    private GameObject[] _interactableObjectPrefabs;
+    private InteractableObject[] _interactableObjects;
 
     // The object that is currently being created
     private IInteractableObjectController _currentObject = null;
 
     // The objects created so far
     private List<IInteractableObjectController> _createdObjects = null;
+
+    // Index of the current object type in the interactable objects array
+    private InteractableObjectType _currentObjectType;
+    private int _currentObjectTypeIndex = 0;
     
     private List<IInteractableObjectController> CreatedObjects
     {
@@ -61,6 +82,20 @@ public class ObjectManager : Singleton<ObjectManager>
     {
         get;
         private set;
+    }
+    
+    public InteractableObjectType CurrentCreatableObjectType
+    {
+        get
+        {
+            return _currentObjectType;
+        }
+        
+        set
+        {
+            _currentObjectType = value;
+            _currentObjectTypeIndex = Mathf.Clamp(System.Array.FindIndex(_interactableObjects, io => io.type == value), 0, _interactableObjects.Length-1);
+        }
     }
 
     private void Awake()
@@ -120,11 +155,8 @@ public class ObjectManager : Singleton<ObjectManager>
         // Create the object at midpoint between the two pinches
         Vector3 position = (_rightHandPinchDetector.Position - _leftHandPinchDetector.Position) * 0.5f;
 
-        // TODO: Select object according to menu selection
-        int objectIndex = Random.Range(0, _interactableObjectPrefabs.Length);
-
         // Create the object and add to a list of objects
-        GameObject newObject = Instantiate(_interactableObjectPrefabs[objectIndex], position, Quaternion.identity, _objectContainer) as GameObject;
+        GameObject newObject = Instantiate(_interactableObjects[_currentObjectTypeIndex].prefab, position, Quaternion.identity, _objectContainer) as GameObject;
         _currentObject = newObject.GetComponent<IInteractableObjectController>();
         CreatedObjects.Add(_currentObject);
         _currentObject.Create(_interactionManager, _leftHandPinchDetector, _rightHandPinchDetector);

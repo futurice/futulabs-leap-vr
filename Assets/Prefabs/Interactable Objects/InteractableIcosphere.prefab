@@ -45,7 +45,7 @@ GameObject:
   - component: {fileID: 114117397469399958}
   - component: {fileID: 114113142033273632}
   m_Layer: 0
-  m_Name: InteractiveIcosphere
+  m_Name: InteractableIcosphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
