@@ -211,6 +211,14 @@ namespace Futulabs
             }
 
             LeapInteractionBehaviour.isKinematic = !enabled;
+
+            Rigidbody[] rigidbodies = Rigidbodies;
+            int numRigidbodies = rigidbodies.Length;
+
+            for (int i = 0; i < numRigidbodies; ++i)
+            {
+                rigidbodies[i].detectCollisions = enabled;
+            }
         }
 
         virtual protected void OnCollisionEnter(Collision collision)
