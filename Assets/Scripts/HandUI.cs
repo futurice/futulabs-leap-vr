@@ -43,40 +43,30 @@ namespace Futulabs
         private bool CheckToShowMenu()
         {
             Debug.DrawRay(Camera.main.transform.position,
-    (MenuBox.position - Camera.main.transform.position).normalized);
-            return Physics.Raycast(new Ray(Camera.main.transform.position,
-                (MenuBox.position - Camera.main.transform.position).normalized),
-                Mathf.Infinity,
-                LayerMask.NameToLayer("Player Menu"));
+                (MenuBox.position - Camera.main.transform.position).normalized);
+            RaycastHit hit;
+            Physics.Raycast(new Ray(Camera.main.transform.position,
+                (MenuBox.position - Camera.main.transform.position).normalized),out hit);
+            return false;
         }
 
         private void RotateToShowMenu(Transform t)
         {
-
+            /*
             bool CheckShow = CheckToShowMenu();
             Debug.Log(CheckShow);
-            /*
-        if (CheckShow && !MenuShown)
-        {
-            TimeDT += Time.deltaTime;
-            if (TimeDT >= TimeThresHold)
+
+            if (CheckShow && !MenuShown)
             {
                 ShowMenu();
                 MenuShown = true;
-                TimeDT = 0;
             }
-        }
 
-        if (CheckShow && MenuShown)
-        {
-            TimeDT += Time.deltaTime;
-            if (TimeDT >= TimeThresHold)
+            if (CheckShow && MenuShown)
             {
                 HideMenu();
                 MenuShown = false;
-                TimeDT = 0;
-            }
-        }*/
+            }*/
         }
 
         Tweener moveTween;
