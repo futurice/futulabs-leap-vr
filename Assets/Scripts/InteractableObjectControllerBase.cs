@@ -85,7 +85,8 @@ namespace Futulabs
                 // Apply a little bit of force to get the object moving upwards
                 if (value == false)
                 {
-                    LeapInteractionBehaviour.AddLinearAcceleration(10.0f * transform.up);
+                    Debug.Log("Hello my girl");
+                    LeapInteractionBehaviour.rigidbody.AddForce(200 * new Vector3(0, 1, 0));
                 }
             }
         }
