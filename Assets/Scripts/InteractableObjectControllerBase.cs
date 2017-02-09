@@ -86,7 +86,7 @@ namespace Futulabs
                 if (value == false)
                 {
                     Debug.Log("Hello my girl");
-                    LeapInteractionBehaviour.rigidbody.AddForce(200 * new Vector3(0, 1, 0));
+                    LeapInteractionBehaviour.rigidbody.AddForce(10 * new Vector3(0, 1, 0));
                 }
             }
         }
