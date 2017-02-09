@@ -7,7 +7,6 @@ using UnityEngine;
 [System.Serializable]
 public enum SpawnShape
 {
-    Sphere,
     Box,
     Icosphere,
     Star

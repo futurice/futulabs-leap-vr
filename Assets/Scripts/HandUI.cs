@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 namespace Futulabs
 {
     public class HandUI : MonoBehaviour
@@ -13,11 +14,23 @@ namespace Futulabs
         /// Menu to show/hide
         /// </summary>
         public GameObject Menu;
+        public CanvasGroup canvasGroup;
         public float RotationThreshold = 200f;
         public float TimeThresHold = 1f;
         private float TimeDT = 0;
 
+        public Vector3 StartPos;
+        public Vector3 EndPos;
+        public float FadeTime = 0.25f;
+
+
         private bool MenuShown = false;
+
+        void Start()
+        {
+            Menu.transform.localPosition = StartPos;
+            canvasGroup.alpha = 0;
+        }
 
         // Update is called once per frame
         void Update()
@@ -28,7 +41,10 @@ namespace Futulabs
         private void RotateToShowMenu(Transform t)
         {
             Vector3 rot = t.localRotation.eulerAngles;
-            if (rot.z >= RotationThreshold && !MenuShown && rot.z >= 0)
+            var rotZ = rot.z;
+            if (rotZ < 0)
+                rotZ += 360;
+            if (rotZ >= RotationThreshold && !MenuShown && rotZ >= 0)
             {
                 TimeDT += Time.deltaTime;
                 if (TimeDT >= TimeThresHold)
@@ -38,7 +54,7 @@ namespace Futulabs
                     TimeDT = 0;
                 }
             }
-            if (rot.z < RotationThreshold && MenuShown)
+            if (rotZ < RotationThreshold && MenuShown)
             {
                 TimeDT += Time.deltaTime;
                 if (TimeDT >= TimeThresHold)
@@ -50,14 +66,29 @@ namespace Futulabs
             }
         }
 
+        Tweener moveTween;
+        Tweener alphaTween;
+
         private void ShowMenu()
         {
-            Menu.SetActive(true);
+            if(moveTween != null)
+                moveTween.Kill();
+            if (alphaTween != null)
+                alphaTween.Kill();
+            moveTween = Menu.transform.DOLocalMove(EndPos, FadeTime).SetEase(Ease.OutExpo);
+            alphaTween = canvasGroup.DOFade(1, FadeTime).SetEase(Ease.OutExpo);
+            canvasGroup.interactable = true;
         }
 
         private void HideMenu()
         {
-            Menu.SetActive(false);
+            if (moveTween != null)
+                moveTween.Kill();
+            if (alphaTween != null)
+                alphaTween.Kill();
+            moveTween = Menu.transform.DOLocalMove(StartPos, 0.25f).SetEase(Ease.OutExpo);
+            canvasGroup.interactable = false;
+            alphaTween = canvasGroup.DOFade(0, FadeTime).SetEase(Ease.OutExpo);
         }
     }
 }
