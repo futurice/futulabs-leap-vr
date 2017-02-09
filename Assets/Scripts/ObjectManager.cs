@@ -97,18 +97,33 @@ public class ObjectManager : Singleton<ObjectManager>
             _currentObjectTypeIndex = Mathf.Clamp(System.Array.FindIndex(_interactableObjects, io => io.type == value), 0, _interactableObjects.Length-1);
         }
     }
+    
+    private bool _leftPinchingBackup = false;
+    private bool _rightPinchingBackup = false;
 
-    private void Awake()
-    {        
+    private void Start()
+    {
         // Register handlers that materialize the object when the pinch is released
         _leftHandPinchDetector.OnDeactivate.AddListener(() =>
         {
+            _leftPinchingBackup = false;
             MaterializeObject();
         });
 
         _rightHandPinchDetector.OnDeactivate.AddListener(() =>
         {
+            _rightPinchingBackup = false;
             MaterializeObject();
+        });
+
+        _leftHandPinchDetector.OnActivate.AddListener(() =>
+        {
+            _leftPinchingBackup = true;
+        });
+
+        _rightHandPinchDetector.OnActivate.AddListener(() =>
+        {
+            _rightPinchingBackup = true;
         });
 
         CurrentState = ObjectManagerState.READY;
@@ -120,7 +135,8 @@ public class ObjectManager : Singleton<ObjectManager>
         if (CurrentState == ObjectManagerState.READY)
         {
             // If we are pinching with both hands
-            if (_leftHandPinchDetector.IsPinching && _rightHandPinchDetector.IsPinching)
+            if ((_leftHandPinchDetector.IsPinching && _rightHandPinchDetector.IsPinching) ||
+                    (_leftPinchingBackup && _rightPinchingBackup))
             {
                 // If the pinch distance is less than the maximum creation activation distance
                 if (Vector3.Distance(_leftHandPinchDetector.Position, _rightHandPinchDetector.Position) < _maxCreationActivationDistance)

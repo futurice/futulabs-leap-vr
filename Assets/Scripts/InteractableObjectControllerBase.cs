@@ -130,6 +130,19 @@ namespace Futulabs
             }
         }
 
+        virtual protected void Start()
+        {
+            EnableMaterializedMeshes(false);
+            EnableOutlineMeshes(false);
+            StartCoroutine(Activate());
+        }
+
+        virtual protected IEnumerator Activate()
+        {
+            yield return new WaitForEndOfFrame();
+            EnableOutlineMeshes(true);
+        }
+
         virtual public void Create(InteractionManager interactionManager, PinchDetector leftPinchDetector, PinchDetector rightPinchDetector)
         {
             LeapRTSComponent.AllowScale = !OverrideLeapRTSScaling;
