@@ -23,13 +23,15 @@ namespace Futulabs
         public Vector3 EndPos;
         public float FadeTime = 0.25f;
 
+        public Transform MenuBox;
+
 
         private bool MenuShown = false;
 
         void Start()
         {
-            Menu.transform.localPosition = StartPos;
-            canvasGroup.alpha = 0;
+            //Menu.transform.localPosition = StartPos;
+            //canvasGroup.alpha = 0;
         }
 
         // Update is called once per frame
@@ -38,32 +40,43 @@ namespace Futulabs
             RotateToShowMenu(Palm);
         }
 
+        private bool CheckToShowMenu()
+        {
+            Debug.DrawRay(Camera.main.transform.position,
+    (MenuBox.position - Camera.main.transform.position).normalized);
+            return Physics.Raycast(new Ray(Camera.main.transform.position,
+                (MenuBox.position - Camera.main.transform.position).normalized),
+                Mathf.Infinity,
+                LayerMask.NameToLayer("Player Menu"));
+        }
+
         private void RotateToShowMenu(Transform t)
         {
-            Vector3 rot = t.localRotation.eulerAngles;
-            var rotZ = rot.z;
-            if (rotZ < 0)
-                rotZ += 360;
-            if (rotZ >= RotationThreshold && !MenuShown && rotZ >= 0)
+
+            bool CheckShow = CheckToShowMenu();
+            Debug.Log(CheckShow);
+            /*
+        if (CheckShow && !MenuShown)
+        {
+            TimeDT += Time.deltaTime;
+            if (TimeDT >= TimeThresHold)
             {
-                TimeDT += Time.deltaTime;
-                if (TimeDT >= TimeThresHold)
-                {
-                    ShowMenu();
-                    MenuShown = true;
-                    TimeDT = 0;
-                }
+                ShowMenu();
+                MenuShown = true;
+                TimeDT = 0;
             }
-            if (rotZ < RotationThreshold && MenuShown)
+        }
+
+        if (CheckShow && MenuShown)
+        {
+            TimeDT += Time.deltaTime;
+            if (TimeDT >= TimeThresHold)
             {
-                TimeDT += Time.deltaTime;
-                if (TimeDT >= TimeThresHold)
-                {
-                    HideMenu();
-                    MenuShown = false;
-                    TimeDT = 0;
-                }
+                HideMenu();
+                MenuShown = false;
+                TimeDT = 0;
             }
+        }*/
         }
 
         Tweener moveTween;
@@ -71,7 +84,7 @@ namespace Futulabs
 
         private void ShowMenu()
         {
-            if(moveTween != null)
+            if (moveTween != null)
                 moveTween.Kill();
             if (alphaTween != null)
                 alphaTween.Kill();
@@ -86,9 +99,9 @@ namespace Futulabs
                 moveTween.Kill();
             if (alphaTween != null)
                 alphaTween.Kill();
-            moveTween = Menu.transform.DOLocalMove(StartPos, 0.25f).SetEase(Ease.OutExpo);
+            moveTween = Menu.transform.DOLocalMove(StartPos, FadeTime / 2).SetEase(Ease.OutExpo);
             canvasGroup.interactable = false;
-            alphaTween = canvasGroup.DOFade(0, FadeTime).SetEase(Ease.OutExpo);
+            alphaTween = canvasGroup.DOFade(0, FadeTime / 2).SetEase(Ease.OutExpo);
         }
     }
 }
