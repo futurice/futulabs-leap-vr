@@ -171,6 +171,9 @@ public class ObjectManager : Singleton<ObjectManager>
         }
 
         _currentObject.Materialize();
+        
+        // Set the gravity status
+        _currentObject.UseGravity = GameManager.Instance.IsGravityOn;
 
         // Reset the ObjectManager state to READY so we can continue creating
         CurrentState = ObjectManagerState.READY;
