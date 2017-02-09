@@ -4289,7 +4289,7 @@ Transform:
   - {fileID: 1600289430}
   m_Father: {fileID: 302669174}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: -8.5308, y: 1.7105999, z: 171.3609}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1119203261
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4303,8 +4303,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Palm: {fileID: 1119203260}
   Menu: {fileID: 1600289429}
-  RotationThreshold: 200
-  TimeThresHold: 1
+  RotationThreshold: 180
+  TimeThresHold: 0.2
 --- !u!1001 &1124803823
 Prefab:
   m_ObjectHideFlags: 0
