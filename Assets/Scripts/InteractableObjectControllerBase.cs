@@ -6,6 +6,7 @@ using Leap.Unity.Interaction;
 
 namespace Futulabs
 {
+    [RequireComponent(typeof(AudioSource))]             // Required to play sound effects related to this object
     [RequireComponent(typeof(Rigidbody))]               // Required by InteractionBehaviour
     [RequireComponent(typeof(LeapRTS))]                 // Required to do transform manipulations with Leap Motion
     [RequireComponent(typeof(InteractionBehaviour))]    // Required to for physics interactions with the Leap Motions hands
@@ -32,6 +33,7 @@ namespace Futulabs
 
         protected LeapRTS _leapRTSComponent;
         protected InteractionBehaviour _leapInteractionBehaviour;
+        protected AudioSource _effectAudioSource;
         protected Collider[] _colliders;
         protected Rigidbody[] _rigidbodies;
 
@@ -88,6 +90,19 @@ namespace Futulabs
             }
         }
 
+        protected AudioSource EffectAudioSource
+        {
+            get
+            {
+                if (_effectAudioSource == null)
+                {
+                    _effectAudioSource = GetComponent<AudioSource>();
+                }
+
+                return _effectAudioSource;
+            }
+        }
+
         protected Collider[] Colliders
         {
             get
@@ -132,6 +147,11 @@ namespace Futulabs
 
             // Turn on outline meshes
             EnableOutlineMeshes(true);
+
+            // Enable looping and play the creation sound effect
+            EffectAudioSource.loop = true;
+            EffectAudioSource.clip = AudioManager.Instance.GetAudioClip(GameAudioClipType.INTERACTABLE_OBJECT_CREATING);
+            EffectAudioSource.Play();
         }
 
         virtual public void Materialize()
@@ -148,6 +168,11 @@ namespace Futulabs
 
             // Turn on materialized meshes
             EnableMaterializedMeshes(true);
+
+            // Disable looping and play the materialization sound effect
+            EffectAudioSource.loop = false;
+            EffectAudioSource.Stop();
+            // TODO: Play sound
         }
 
         virtual public void Morph(Vector3 leftPinchPosition, Vector3 rightPinchPosition)
@@ -186,6 +211,15 @@ namespace Futulabs
             }
 
             LeapInteractionBehaviour.isKinematic = !enabled;
+        }
+
+        virtual protected void OnCollisionEnter(Collision collision)
+        {
+            // Play sound if the collision was 'energetic' enough
+            if (collision.relativeVelocity.magnitude > 2.0f)
+            {
+                EffectAudioSource.PlayOneShot(AudioManager.Instance.GetAudioClip(GameAudioClipType.INTERACTABLE_OBJECT_COLLISION));
+            }
         }
     }
 

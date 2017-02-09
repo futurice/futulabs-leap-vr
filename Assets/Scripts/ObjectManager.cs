@@ -43,6 +43,19 @@ public class ObjectManager : Singleton<ObjectManager>
 
     // The objects created so far
     private List<IInteractableObjectController> _createdObjects = null;
+    
+    private List<IInteractableObjectController> CreatedObjects
+    {
+        get
+        {
+            if (_createdObjects == null)
+            {
+                _createdObjects = new List<IInteractableObjectController>();
+            }
+
+            return _createdObjects;
+        }
+    }
 
     public ObjectManagerState CurrentState
     {
@@ -51,9 +64,7 @@ public class ObjectManager : Singleton<ObjectManager>
     }
 
     private void Awake()
-    {
-        _createdObjects = new List<IInteractableObjectController>();
-        
+    {        
         // Register handlers that materialize the object when the pinch is released
         _leftHandPinchDetector.OnDeactivate.AddListener(() =>
         {
@@ -94,11 +105,11 @@ public class ObjectManager : Singleton<ObjectManager>
 
     public void ToggleGravityForInteractableObjects(bool enabled)
     {
-        int numObjects = _createdObjects.Count;
+        int numObjects = CreatedObjects.Count;
 
         for (int i = 0; i < numObjects; ++i)
         {
-            _createdObjects[i].UseGravity = enabled;
+            CreatedObjects[i].UseGravity = enabled;
         }
     }
 
@@ -115,7 +126,7 @@ public class ObjectManager : Singleton<ObjectManager>
         // Create the object and add to a list of objects
         GameObject newObject = Instantiate(_interactableObjectPrefabs[objectIndex], position, Quaternion.identity, _objectContainer) as GameObject;
         _currentObject = newObject.GetComponent<IInteractableObjectController>();
-        _createdObjects.Add(_currentObject);
+        CreatedObjects.Add(_currentObject);
         _currentObject.Create(_interactionManager, _leftHandPinchDetector, _rightHandPinchDetector);
     }
 
