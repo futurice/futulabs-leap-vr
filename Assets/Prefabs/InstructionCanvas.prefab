@@ -121,7 +121,8 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Pinch with both hands to create objects
+  m_Text: Pinch your thumb and index finger with both hands close together to create
+    objects
 --- !u!114 &114910569417269720
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -142,7 +143,7 @@ MonoBehaviour:
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
-  m_DynamicPixelsPerUnit: 2250
+  m_DynamicPixelsPerUnit: 2500
 --- !u!222 &222041898029947622
 CanvasRenderer:
   m_ObjectHideFlags: 1
@@ -220,13 +221,13 @@ RectTransform:
   m_GameObject: {fileID: 1888459647910588}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.9, y: 0.9, z: 0.9}
   m_Children: []
   m_Father: {fileID: 224434852090625548}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.25}
-  m_SizeDelta: {x: -0.2, y: -0.70000005}
+  m_AnchoredPosition: {x: 0.000000018626451, y: 0.21500002}
+  m_SizeDelta: {x: -0.19999996, y: -0.31000003}
   m_Pivot: {x: 0.5, y: 0.5}
