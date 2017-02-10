@@ -25,10 +25,14 @@ namespace Futulabs
                 dt = 0;
                 UpperOK = true;
                 objectOfInterest = bBall;
+                Debug.Log("Upper triggered");
             }
             if (lowerTrigger == trig && bBall == objectOfInterest && dt <= MaxTime)
             {
                 game.BasketScore();
+                UpperOK = false;
+                objectOfInterest = null;
+                dt = 0;
             }
         }
     }
