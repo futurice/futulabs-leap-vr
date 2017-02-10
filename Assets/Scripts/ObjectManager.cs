@@ -7,194 +7,195 @@ using Leap.Unity.Interaction;
 namespace Futulabs
 {
 
-[System.Serializable]
-public enum ObjectManagerState
-{
-    READY = 0,
-    CREATING = 1
-}
-
-[System.Serializable]
-public enum InteractableObjectType
-{
-    CUBE = 0,
-    ICONOSPHERE = 1,
-    STAR = 2
-}
-
-[System.Serializable]
-public class InteractableObject
-{
-    public InteractableObjectType type;
-    public GameObject prefab;
-}
-
-/// <summary>
-/// This class manages the creation of new objects.
-/// </summary>
-public class ObjectManager : Singleton<ObjectManager>
-{    
-    [Header("ObjectManager")]
-    [Header("Interactions")]
-    [SerializeField]
-    InteractionManager _interactionManager;
-    [Header("Pinch")]
-    [SerializeField]
-    private PinchDetector _leftHandPinchDetector;
-    [SerializeField]
-    private PinchDetector _rightHandPinchDetector;
-    [SerializeField]
-    [Tooltip("Maximum distance between pinches, where the object creation activates.")]
-    private float _maxCreationActivationDistance = 0.01f;
-
-    [Header("Objects")]
-    [SerializeField]
-    private Transform _objectContainer;
-    [SerializeField]
-    [Tooltip(@"Types and prefabs of the objects that can be created.
-            The objects must have a script attached that implements IInteractableObject")]
-    private InteractableObject[] _interactableObjects;
-
-    // The object that is currently being created
-    private IInteractableObjectController _currentObject = null;
-
-    // The objects created so far
-    private List<IInteractableObjectController> _createdObjects = null;
-
-    // Index of the current object type in the interactable objects array
-    private InteractableObjectType _currentObjectType;
-    private int _currentObjectTypeIndex = 0;
-    
-    private List<IInteractableObjectController> CreatedObjects
+    [System.Serializable]
+    public enum ObjectManagerState
     {
-        get
+        READY = 0,
+        CREATING = 1
+    }
+
+    [System.Serializable]
+    public enum InteractableObjectType
+    {
+        CUBE = 0,
+        ICONOSPHERE = 1,
+        STAR = 2
+    }
+
+    [System.Serializable]
+    public class InteractableObject
+    {
+        public InteractableObjectType type;
+        public GameObject prefab;
+    }
+
+    /// <summary>
+    /// This class manages the creation of new objects.
+    /// </summary>
+    public class ObjectManager : Singleton<ObjectManager>
+    {
+        [Header("ObjectManager")]
+        [Header("Interactions")]
+        [SerializeField]
+        InteractionManager _interactionManager;
+        [Header("Pinch")]
+        [SerializeField]
+        private PinchDetector _leftHandPinchDetector;
+        [SerializeField]
+        private PinchDetector _rightHandPinchDetector;
+        [SerializeField]
+        [Tooltip("Maximum distance between pinches, where the object creation activates.")]
+        private float _maxCreationActivationDistance = 0.01f;
+
+        [Header("Objects")]
+        [SerializeField]
+        private Transform _objectContainer;
+        [SerializeField]
+        [Tooltip(@"Types and prefabs of the objects that can be created.
+            The objects must have a script attached that implements IInteractableObject")]
+        private InteractableObject[] _interactableObjects;
+
+        // The object that is currently being created
+        private IInteractableObjectController _currentObject = null;
+
+        // The objects created so far
+        private List<IInteractableObjectController> _createdObjects = null;
+
+        // Index of the current object type in the interactable objects array
+        private InteractableObjectType _currentObjectType;
+        private int _currentObjectTypeIndex = 0;
+
+        private List<IInteractableObjectController> CreatedObjects
         {
-            if (_createdObjects == null)
+            get
             {
-                _createdObjects = new List<IInteractableObjectController>();
+                if (_createdObjects == null)
+                {
+                    _createdObjects = new List<IInteractableObjectController>();
+                }
+
+                return _createdObjects;
+            }
+        }
+
+        public ObjectManagerState CurrentState
+        {
+            get;
+            private set;
+        }
+
+        public InteractableObjectType CurrentCreatableObjectType
+        {
+            get
+            {
+                return _currentObjectType;
             }
 
-            return _createdObjects;
-        }
-    }
-
-    public ObjectManagerState CurrentState
-    {
-        get;
-        private set;
-    }
-    
-    public InteractableObjectType CurrentCreatableObjectType
-    {
-        get
-        {
-            return _currentObjectType;
-        }
-        
-        set
-        {
-            _currentObjectType = value;
-            _currentObjectTypeIndex = Mathf.Clamp(System.Array.FindIndex(_interactableObjects, io => io.type == value), 0, _interactableObjects.Length-1);
-        }
-    }
-    
-    private bool _leftPinchingBackup = false;
-    private bool _rightPinchingBackup = false;
-
-    private void Start()
-    {
-        // Register handlers that materialize the object when the pinch is released
-        _leftHandPinchDetector.OnDeactivate.AddListener(() =>
-        {
-            _leftPinchingBackup = false;
-            MaterializeObject();
-        });
-
-        _rightHandPinchDetector.OnDeactivate.AddListener(() =>
-        {
-            _rightPinchingBackup = false;
-            MaterializeObject();
-        });
-
-        _leftHandPinchDetector.OnActivate.AddListener(() =>
-        {
-            _leftPinchingBackup = true;
-        });
-
-        _rightHandPinchDetector.OnActivate.AddListener(() =>
-        {
-            _rightPinchingBackup = true;
-        });
-
-        CurrentState = ObjectManagerState.READY;
-    }
-
-	private void Update()
-    {
-        // If the object manager is ready i.e. not busy creating an object
-        if (CurrentState == ObjectManagerState.READY)
-        {
-            // If we are pinching with both hands
-            if (_leftHandPinchDetector.IsPinching && _rightHandPinchDetector.IsPinching)
+            set
             {
-                // If the pinch distance is less than the maximum creation activation distance
-                if (Vector3.Distance(_leftHandPinchDetector.Position, _rightHandPinchDetector.Position) < _maxCreationActivationDistance)
+                _currentObjectType = value;
+                _currentObjectTypeIndex = Mathf.Clamp(System.Array.FindIndex(_interactableObjects, io => io.type == value), 0, _interactableObjects.Length - 1);
+            }
+        }
+
+        private bool _leftPinchingBackup = false;
+        private bool _rightPinchingBackup = false;
+
+        private void Start()
+        {
+
+            // Register handlers that materialize the object when the pinch is released
+            _leftHandPinchDetector.OnDeactivate.AddListener(() =>
+            {
+                _leftPinchingBackup = false;
+                MaterializeObject();
+            });
+
+            _rightHandPinchDetector.OnDeactivate.AddListener(() =>
+            {
+                _rightPinchingBackup = false;
+                MaterializeObject();
+            });
+
+            _leftHandPinchDetector.OnActivate.AddListener(() =>
+            {
+                _leftPinchingBackup = true;
+            });
+
+            _rightHandPinchDetector.OnActivate.AddListener(() =>
+            {
+                _rightPinchingBackup = true;
+            });
+
+            CurrentState = ObjectManagerState.READY;
+        }
+
+        private void Update()
+        {
+            // If the object manager is ready i.e. not busy creating an object
+            if (CurrentState == ObjectManagerState.READY)
+            {
+                // If we are pinching with both hands
+                if (_leftHandPinchDetector.IsPinching && _rightHandPinchDetector.IsPinching)
                 {
-                    CreateObject();
+                    // If the pinch distance is less than the maximum creation activation distance
+                    if (Vector3.Distance(_leftHandPinchDetector.Position, _rightHandPinchDetector.Position) < _maxCreationActivationDistance)
+                    {
+                        CreateObject();
+                    }
                 }
             }
-        }
-        else if (CurrentState == ObjectManagerState.CREATING)
-        {
-            if (_currentObject.OverrideLeapRTSScaling)
-            { 
-                _currentObject.Morph(_leftHandPinchDetector.Position, _rightHandPinchDetector.Position);
+            else if (CurrentState == ObjectManagerState.CREATING)
+            {
+                if (_currentObject.OverrideLeapRTSScaling)
+                {
+                    _currentObject.Morph(_leftHandPinchDetector.Position, _rightHandPinchDetector.Position);
+                }
+                _currentObject.ChangePitch(_leftHandPinchDetector.Position, _rightHandPinchDetector.Position);
             }
-            _currentObject.ChangePitch(_leftHandPinchDetector.Position, _rightHandPinchDetector.Position);
         }
-    }
 
-    public void ToggleGravityForInteractableObjects(bool enabled)
-    {
-        int numObjects = CreatedObjects.Count;
-
-        for (int i = 0; i < numObjects; ++i)
+        public void ToggleGravityForInteractableObjects(bool enabled)
         {
-            CreatedObjects[i].UseGravity = enabled;
+            int numObjects = CreatedObjects.Count;
+
+            for (int i = 0; i < numObjects; ++i)
+            {
+                CreatedObjects[i].UseGravity = enabled;
+            }
         }
-    }
 
-    private void CreateObject()
-    {
-        CurrentState = ObjectManagerState.CREATING;
-            
-        // Create the object at midpoint between the two pinches
-        Vector3 position = (_rightHandPinchDetector.Position - _leftHandPinchDetector.Position) * 0.5f;
-
-        // Create the object and add to a list of objects
-        GameObject newObject = Instantiate(_interactableObjects[_currentObjectTypeIndex].prefab, position, Quaternion.identity, _objectContainer) as GameObject;
-        _currentObject = newObject.GetComponent<IInteractableObjectController>();
-        CreatedObjects.Add(_currentObject);
-        _currentObject.Create(_interactionManager, _leftHandPinchDetector, _rightHandPinchDetector);
-    }
-
-    private void MaterializeObject()
-    {
-        // If we don't have an object to materialize - return
-        if (_currentObject == null)
+        private void CreateObject()
         {
-            return;
+            CurrentState = ObjectManagerState.CREATING;
+
+            // Create the object at midpoint between the two pinches
+            Vector3 position = (_rightHandPinchDetector.Position - _leftHandPinchDetector.Position) * 0.5f;
+
+            // Create the object and add to a list of objects
+            GameObject newObject = Instantiate(_interactableObjects[_currentObjectTypeIndex].prefab, position, Quaternion.identity, _objectContainer) as GameObject;
+            _currentObject = newObject.GetComponent<IInteractableObjectController>();
+            CreatedObjects.Add(_currentObject);
+            _currentObject.Create(_interactionManager, _leftHandPinchDetector, _rightHandPinchDetector);
         }
 
-        _currentObject.Materialize();
-        
-        // Set the gravity status
-        _currentObject.LeapInteractionBehaviour.useGravity = GameManager.Instance.IsGravityOn;
+        private void MaterializeObject()
+        {
+            // If we don't have an object to materialize - return
+            if (_currentObject == null)
+            {
+                return;
+            }
 
-        // Reset the ObjectManager state to READY so we can continue creating
-        CurrentState = ObjectManagerState.READY;
-        _currentObject = null;
+            _currentObject.Materialize();
+
+            // Set the gravity status
+            _currentObject.LeapInteractionBehaviour.useGravity = GameManager.Instance.IsGravityOn;
+
+            // Reset the ObjectManager state to READY so we can continue creating
+            CurrentState = ObjectManagerState.READY;
+            _currentObject = null;
+        }
     }
-}
 
 }

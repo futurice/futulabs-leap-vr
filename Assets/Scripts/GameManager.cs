@@ -23,6 +23,8 @@ namespace Futulabs
         private float _lastInstructionChangeTime = 0.0f;
         private bool _isGravityOn = true;
 
+        private int BasketballScore = 0;
+
         /// <summary>
         /// Returns the object that will be created by the ObjectManager.
         /// </summary>
@@ -118,6 +120,12 @@ namespace Futulabs
         {
             Debug.Log("GameManager ResetGame: Resetting the game");
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
+
+        public void BasketScore()
+        {
+            BasketballScore++;
+            //TODO: UpdateBasketScoreText
         }
     }
 
