@@ -135,8 +135,7 @@ public class ObjectManager : Singleton<ObjectManager>
         if (CurrentState == ObjectManagerState.READY)
         {
             // If we are pinching with both hands
-            if ((_leftHandPinchDetector.IsPinching && _rightHandPinchDetector.IsPinching) ||
-                    (_leftPinchingBackup && _rightPinchingBackup))
+            if (_leftHandPinchDetector.IsPinching && _rightHandPinchDetector.IsPinching)
             {
                 // If the pinch distance is less than the maximum creation activation distance
                 if (Vector3.Distance(_leftHandPinchDetector.Position, _rightHandPinchDetector.Position) < _maxCreationActivationDistance)
