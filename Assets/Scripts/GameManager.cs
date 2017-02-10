@@ -122,10 +122,13 @@ namespace Futulabs
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
 
+        [SerializeField]
+        private Text ScoreboardText;
         public void BasketScore()
         {
             BasketballScore++;
-            //TODO: UpdateBasketScoreText
+            string text = string.Format("{0:D2}", BasketballScore);
+            ScoreboardText.text = text;
         }
     }
 
