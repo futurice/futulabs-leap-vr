@@ -94,7 +94,6 @@ namespace Futulabs
         {
             var size = (leftPos - rightPos).magnitude;
             var pitch = Mathf.Round(100f * (Mathf.Pow(size, 0.4f) + 0.4f)) / 100f;
-            Debug.Log(pitch);
             EffectAudioSource.pitch = pitch;
         }
 
