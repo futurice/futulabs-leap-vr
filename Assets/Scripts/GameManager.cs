@@ -19,15 +19,15 @@ namespace Futulabs
         [SerializeField]
         private float _instructionChangeInterval = 10.0f;
 
-		[Header("Cube Lights")]
+		[Header("Wall Cube Lights")]
 		[SerializeField]
-		private LeverController _cubeLightsLever;
+		private LeverController _wallCubeLightsLever;
 		[SerializeField]
-		private Material _cubeEmissiveOutlineMaterial;
+		private Material _wallCubeEmissiveOutlineMaterial;
 		[SerializeField]
-		private Color _offEmissionColor;
+		private Color _wallCubeOutlineOffEmissionColor;
 		[SerializeField]
-		private Color _onEmissionColor;
+		private Color _wallCubeOutlineOnEmissionColor;
 
 		[Header("Score Board")]
 		[SerializeField]
@@ -75,8 +75,8 @@ namespace Futulabs
 			SetCubeLightsOff(true);
 
 			// Register lever callbacks
-			_cubeLightsLever.OnLeverTurnedOn += () => SetCubeLightsOn();
-			_cubeLightsLever.OnLeverTurnedOff += () =>  SetCubeLightsOff();
+			_wallCubeLightsLever.OnLeverTurnedOn += () => SetCubeLightsOn();
+			_wallCubeLightsLever.OnLeverTurnedOff += () =>  SetCubeLightsOff();
 		} 
 
         private void Update()
@@ -127,11 +127,11 @@ namespace Futulabs
 		{
 			if (immediate)
 			{
-				_cubeEmissiveOutlineMaterial.SetColor("Emission Color", _onEmissionColor);
+				_wallCubeEmissiveOutlineMaterial.SetColor("Emission Color", _wallCubeOutlineOnEmissionColor);
 			}
 			else
 			{
-				_cubeEmissiveOutlineMaterial.DOColor (_onEmissionColor, "Emission Color", 0.7f);
+				_wallCubeEmissiveOutlineMaterial.DOColor (_wallCubeOutlineOnEmissionColor, "Emission Color", 0.7f);
 			}
 		}
 
@@ -139,11 +139,11 @@ namespace Futulabs
 		{
 			if (immediate)
 			{
-				_cubeEmissiveOutlineMaterial.SetColor("Emission Color", _offEmissionColor);
+				_wallCubeEmissiveOutlineMaterial.SetColor("Emission Color", _wallCubeOutlineOffEmissionColor);
 			}
 			else
 			{
-				_cubeEmissiveOutlineMaterial.DOColor (_offEmissionColor, "Emission Color", 0.7f);
+				_wallCubeEmissiveOutlineMaterial.DOColor (_wallCubeOutlineOffEmissionColor, "Emission Color", 0.7f);
 			}
 		}
 

@@ -1200,12 +1200,12 @@ MonoBehaviour:
   - Open the menu by looking at your left palm
   - You can change the objects and toggle gravity in the menu
   _instructionChangeInterval: 10
-  _cubeLightsLever: {fileID: 1401852753}
-  _cubeEmissiveOutlineMaterial: {fileID: 2100000, guid: b92bf8e01900e734eb5312a570420ce2,
+  _wallCubeLightsLever: {fileID: 1401852753}
+  _wallCubeEmissiveOutlineMaterial: {fileID: 2100000, guid: b92bf8e01900e734eb5312a570420ce2,
     type: 2}
-  _offEmissionColor: {r: 0, g: 0, b: 0, a: 0}
-  _onEmissionColor: {r: 0.05882353, g: 0.88235295, b: 0.88235295, a: 1}
-  _scoreboardText: {fileID: 0}
+  _wallCubeOutlineOffEmissionColor: {r: 0, g: 0, b: 0, a: 0}
+  _wallCubeOutlineOnEmissionColor: {r: 0, g: 0.88235295, b: 1, a: 1}
+  _scoreboardText: {fileID: 431740747}
 --- !u!4 &177376557
 Transform:
   m_ObjectHideFlags: 0
@@ -2174,7 +2174,7 @@ GameObject:
   - component: {fileID: 431740748}
   - component: {fileID: 431740747}
   m_Layer: 5
-  m_Name: Text
+  m_Name: ScoreboardText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4083,7 +4083,7 @@ Prefab:
     - target: {fileID: 224083057606285580, guid: 18d6bf9063dcb1842be63f411fd9fc26,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -25
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224250120205738810, guid: 18d6bf9063dcb1842be63f411fd9fc26,
         type: 2}
@@ -4103,7 +4103,7 @@ Prefab:
     - target: {fileID: 224250120205738810, guid: 18d6bf9063dcb1842be63f411fd9fc26,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -175
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224460190533527984, guid: 18d6bf9063dcb1842be63f411fd9fc26,
         type: 2}
@@ -4123,7 +4123,7 @@ Prefab:
     - target: {fileID: 224460190533527984, guid: 18d6bf9063dcb1842be63f411fd9fc26,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -325
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224902383950411714, guid: 18d6bf9063dcb1842be63f411fd9fc26,
         type: 2}
@@ -4143,7 +4143,7 @@ Prefab:
     - target: {fileID: 224902383950411714, guid: 18d6bf9063dcb1842be63f411fd9fc26,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -475
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224163963623026224, guid: 18d6bf9063dcb1842be63f411fd9fc26,
         type: 2}
@@ -4163,7 +4163,7 @@ Prefab:
     - target: {fileID: 224163963623026224, guid: 18d6bf9063dcb1842be63f411fd9fc26,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -625
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4960979195461154, guid: 18d6bf9063dcb1842be63f411fd9fc26, type: 2}
       propertyPath: m_LocalRotation.x
