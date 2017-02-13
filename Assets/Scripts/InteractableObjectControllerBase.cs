@@ -37,6 +37,13 @@ namespace Futulabs
         protected Collider[] _colliders;
         protected Rigidbody[] _rigidbodies;
 
+        [SerializeField]
+        protected int _velocityFramesToCapture = 10;
+        protected Vector3[] _velocityFrames;
+        protected bool _captureFrames = false;
+        protected int _velocityIndex = 0;
+
+
         public LeapRTS LeapRTSComponent
         {
             get
@@ -149,8 +156,51 @@ namespace Futulabs
             EnableOutlineMeshes(true);
         }
 
+        protected Vector3 _currentFramePos;
+        protected Vector3 _lastFramePos;
+        protected Quaternion _lastRotationFrame;
+        protected Quaternion _currentRotationFrame;
+
+
+        virtual protected void FixedUpdate()
+        {
+            if (_captureFrames)
+            {
+                _lastRotationFrame = _currentRotationFrame;
+                _currentRotationFrame = transform.rotation;
+                CaptureFrame();
+            }
+        }
+
+        virtual protected void CaptureFrame()
+        {
+            if (_currentFramePos != null)
+                _lastFramePos = _currentFramePos;
+            _currentFramePos = transform.position;
+            if (_lastFramePos == null)
+                return;
+
+            Vector3 difference = _currentFramePos - _lastFramePos;
+            _velocityFrames[_velocityIndex] = difference;
+            _velocityIndex++;
+            _velocityIndex = _velocityIndex % _velocityFramesToCapture;
+        }
+
+        virtual protected Vector3 CalculateCurrentVelocity()
+        {
+            Vector3 average = new Vector3();
+            for (int i = 0; i < _velocityFrames.Length; i++)
+            {
+                average = average + _velocityFrames[i];
+            }
+            average /= _velocityFramesToCapture;
+            return average;
+        }
+
         virtual public void Create(InteractionManager interactionManager, PinchDetector leftPinchDetector, PinchDetector rightPinchDetector)
         {
+            _velocityFrames = new Vector3[_velocityFramesToCapture];
+            _captureFrames = true;
             LeapRTSComponent.AllowScale = !OverrideLeapRTSScaling;
             LeapRTSComponent.enabled = true;
             LeapRTSComponent.PinchDetectorA = leftPinchDetector;
@@ -174,11 +224,25 @@ namespace Futulabs
             EffectAudioSource.Play();
         }
 
+        virtual protected void AddCreationForce()
+        {
+            Vector3 velocity = CalculateCurrentVelocity();
+            Rigidbodies[0].velocity = velocity * ObjectManager.Instance.CreationForceScaleFactor;
+            Vector3 angularVel = ((_currentRotationFrame) * Quaternion.Inverse(_lastRotationFrame)).eulerAngles;
+            angularVel = new Vector3(
+                Mathf.DeltaAngle(0, angularVel.x) * Mathf.Deg2Rad,
+                Mathf.DeltaAngle(0, angularVel.y) * Mathf.Deg2Rad,
+                Mathf.DeltaAngle(0, angularVel.z) * Mathf.Deg2Rad) / Time.fixedDeltaTime;
+            Rigidbodies[0].angularVelocity = angularVel;
+        }
+
         virtual public void Materialize()
         {
             // Turn off the Leap RTS controller - there can be only one active at a time
             LeapRTSComponent.enabled = false;
             LeapInteractionBehaviour.enabled = true;
+
+            AddCreationForce();
 
             // Turn on Collider and Rigidbody components to enable physics
             EnableCollidersAndRigidbodies(true);
@@ -188,7 +252,6 @@ namespace Futulabs
 
             // Turn on materialized meshes
             EnableMaterializedMeshes(true);
-
             // Disable looping and play the materialization sound effect
             EffectAudioSource.pitch = 1;
             EffectAudioSource.loop = false;

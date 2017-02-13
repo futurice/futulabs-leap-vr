@@ -55,6 +55,10 @@ namespace Futulabs
             The objects must have a script attached that implements IInteractableObject")]
         private InteractableObject[] _interactableObjects;
 
+        [SerializeField]
+        private float _creationForceScaleFactor = 180;
+
+
         // The object that is currently being created
         private IInteractableObjectController _currentObject = null;
 
@@ -75,6 +79,14 @@ namespace Futulabs
                 }
 
                 return _createdObjects;
+            }
+        }
+
+        public float CreationForceScaleFactor
+        {
+            get
+            {
+                return _creationForceScaleFactor;
             }
         }
 
