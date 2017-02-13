@@ -129,6 +129,8 @@ namespace Futulabs
             BasketballScore++;
             string text = string.Format("{0:D2}", BasketballScore);
             ScoreboardText.text = text;
+            float pitch = Random.Range(50, 200) / 100f;
+            AudioManager.Instance.PlayAudioClip(GameAudioClipType.BASKETBALL_SCORE, pitch);
         }
     }
 

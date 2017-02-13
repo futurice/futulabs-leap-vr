@@ -56,6 +56,13 @@ namespace Futulabs
         {
             _effectAudioSource.PlayOneShot(GetAudioClip(type));
         }
+
+        public void PlayAudioClip(GameAudioClipType type, float pitch)
+        {
+            _effectAudioSource.pitch = pitch;
+            _effectAudioSource.PlayOneShot(GetAudioClip(type));
+            _effectAudioSource.pitch = 1;
+        }
     }
 
 }
