@@ -19,3 +19,4 @@ FutuLabs Leap Motion VR demo
 - Wobble wobble jelly effect on the wall
 - Bigger mass for bigger objects
 - Make the basketball font prettier
+- UI stops working

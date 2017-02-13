@@ -9,12 +9,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 183146e09617b2e41a21d0ecf5e56fcb, type: 3}
-  m_Name: Default
+  m_Name: DefaultInteractionMaterial
   m_EditorClassIdentifier: 
   _brushDisableDistance: 0.017
   _physicMaterialMode: 1
   _replacementMaterial: {fileID: 0}
-  _releaseDistance: 0.15
+  _releaseDistance: 1.7
   _releaseAngle: 180
   _warpingEnabled: 1
   _warpCurve:
@@ -39,7 +39,7 @@ MonoBehaviour:
   _holdingPoseController: {fileID: 11442344}
   _moveToController: {fileID: 11457276}
   _suspensionController: {fileID: 11470702}
-  _throwingController: {fileID: 11470524}
+  _throwingController: {fileID: 114579473224442112}
   _layerController: {fileID: 114370582508288228}
 --- !u!114 &11442344
 MonoBehaviour:
@@ -83,37 +83,6 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &11470524
-MonoBehaviour:
-  m_ObjectHideFlags: 3
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0d90d203addfcd4e9401006f44d79b4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _windowLength: 0.05
-  _windowDelay: 0.02
-  _velocityMultiplierCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 2
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    - serializedVersion: 2
-      time: 3
-      value: 1.5
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
 --- !u!114 &11470702
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -141,3 +110,32 @@ MonoBehaviour:
     layer: 8
   _interactionNoClipLayer:
     layer: 10
+--- !u!114 &114579473224442112
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69417b19ae8f33b4fb9d65c4a22026e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _velocityMultiplierCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: -0.0125
+      value: 1.003125
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 3
+      value: 1.496875
+      inSlope: 0.5446435
+      outSlope: 0.5446435
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0

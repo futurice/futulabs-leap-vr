@@ -66,8 +66,11 @@ namespace Futulabs
             }
         }
 
+        //public MeshRenderer cubeMeshR;
+
         private void Awake()
         {
+          //  _wallCubeEmissiveOutlineMaterial = cubeMeshR.sharedMaterial;
             // Change to first instruction
             ChangeToInstruction(0, true);
 
@@ -125,13 +128,13 @@ namespace Futulabs
 
 		private void SetCubeLightsOn(bool immediate =false)
 		{
-			if (immediate)
+            if (immediate)
 			{
-				_wallCubeEmissiveOutlineMaterial.SetColor("Emission Color", _wallCubeOutlineOnEmissionColor);
+				_wallCubeEmissiveOutlineMaterial.SetColor("_EmissionColor", _wallCubeOutlineOnEmissionColor);
 			}
 			else
 			{
-				_wallCubeEmissiveOutlineMaterial.DOColor (_wallCubeOutlineOnEmissionColor, "Emission Color", 0.7f);
+				_wallCubeEmissiveOutlineMaterial.DOColor (_wallCubeOutlineOnEmissionColor, "_EmissionColor", 0.7f);
 			}
 		}
 
@@ -139,11 +142,11 @@ namespace Futulabs
 		{
 			if (immediate)
 			{
-				_wallCubeEmissiveOutlineMaterial.SetColor("Emission Color", _wallCubeOutlineOffEmissionColor);
+				_wallCubeEmissiveOutlineMaterial.SetColor("_EmissionColor", _wallCubeOutlineOffEmissionColor);
 			}
 			else
 			{
-				_wallCubeEmissiveOutlineMaterial.DOColor (_wallCubeOutlineOffEmissionColor, "Emission Color", 0.7f);
+				_wallCubeEmissiveOutlineMaterial.DOColor (_wallCubeOutlineOffEmissionColor, "_EmissionColor", 0.7f);
 			}
 		}
 
