@@ -10,7 +10,8 @@ public enum GameAudioClipType
     INTERACTABLE_OBJECT_COLLISION = 1,
     INTERACTABLE_OBJECT_MATERIALIZATION = 2,
     UI_CLICK_DOWN = 3,
-    UI_CLICK_UP = 4
+    UI_CLICK_UP = 4,
+    BASKETBALL_SCORE = 5,
 }
 
 [System.Serializable]
