@@ -2,7 +2,8 @@
 FutuLabs Leap Motion VR demo
 
 ## Backlog
-- Keep linear (angular?) velocity when throwing/creating
+- Better grabbing objects
+- Better pinching effects
 - Full body or leg tracking
 - Lever (gravity?)
 - Ragdoll
