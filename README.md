@@ -5,12 +5,10 @@ FutuLabs Leap Motion VR demo
 - Better grabbing objects
 - Better pinching effects
 - Full body or leg tracking
-- Lever (gravity?)
 - Ragdoll
 - Tween the bloom
 - Materialization effect/animation
 - Basketball
-- Basketball sound
 - Basketball fireworks/effect
 - Chilicorn rigging/animation
 - Jedi powers (star wars background music, let's get sued)
@@ -19,3 +17,5 @@ FutuLabs Leap Motion VR demo
 - Sticky cubes (slap the cube?)
 - Cool-ass waLL effects
 - Wobble wobble jelly effect on the wall
+- Bigger mass for bigger objects
+- Make the basketball font prettier
