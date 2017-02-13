@@ -19,6 +19,20 @@ namespace Futulabs
         [SerializeField]
         private float _instructionChangeInterval = 10.0f;
 
+		[Header("Cube Lights")]
+		[SerializeField]
+		private LeverController _cubeLightsLever;
+		[SerializeField]
+		private Material _cubeEmissiveOutlineMaterial;
+		[SerializeField]
+		private Color _offEmissionColor;
+		[SerializeField]
+		private Color _onEmissionColor;
+
+		[Header("Score Board")]
+		[SerializeField]
+		private Text _scoreboardText;
+
         private int _currentInstructionIndex = 0;
         private float _lastInstructionChangeTime = 0.0f;
         private bool _isGravityOn = true;
@@ -56,7 +70,14 @@ namespace Futulabs
         {
             // Change to first instruction
             ChangeToInstruction(0, true);
-        } 
+
+			// Set the lights off at start
+			SetCubeLightsOff(true);
+
+			// Register lever callbacks
+			_cubeLightsLever.OnLeverTurnedOn += () => SetCubeLightsOn();
+			_cubeLightsLever.OnLeverTurnedOff += () =>  SetCubeLightsOff();
+		} 
 
         private void Update()
         {
@@ -102,6 +123,30 @@ namespace Futulabs
             }
         }
 
+		private void SetCubeLightsOn(bool immediate =false)
+		{
+			if (immediate)
+			{
+				_cubeEmissiveOutlineMaterial.SetColor("Emission Color", _onEmissionColor);
+			}
+			else
+			{
+				_cubeEmissiveOutlineMaterial.DOColor (_onEmissionColor, "Emission Color", 0.7f);
+			}
+		}
+
+		private void SetCubeLightsOff(bool immediate =false)
+		{
+			if (immediate)
+			{
+				_cubeEmissiveOutlineMaterial.SetColor("Emission Color", _offEmissionColor);
+			}
+			else
+			{
+				_cubeEmissiveOutlineMaterial.DOColor (_offEmissionColor, "Emission Color", 0.7f);
+			}
+		}
+
         public void ChangeCreatedInteractableObjectType(int t)
         {
             InteractableObjectType type = (InteractableObjectType)t;
@@ -121,14 +166,12 @@ namespace Futulabs
             Debug.Log("GameManager ResetGame: Resetting the game");
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
-
-        [SerializeField]
-        private Text ScoreboardText;
+			
         public void BasketScore()
         {
             BasketballScore++;
             string text = string.Format("{0:D2}", BasketballScore);
-            ScoreboardText.text = text;
+            _scoreboardText.text = text;
             float pitch = Random.Range(50, 200) / 100f;
             AudioManager.Instance.PlayAudioClip(GameAudioClipType.BASKETBALL_SCORE, pitch);
         }
