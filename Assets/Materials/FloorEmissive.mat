@@ -48,8 +48,8 @@ Material:
     - first:
         name: _Illum
       second:
-        m_Texture: {fileID: 2800000, guid: 250424be82b136b49832cb54d589d6ec, type: 3}
-        m_Scale: {x: 2, y: 2}
+        m_Texture: {fileID: 2800000, guid: 395aee323ab464acc996d20db11fac95, type: 3}
+        m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - first:
         name: _MainTex
