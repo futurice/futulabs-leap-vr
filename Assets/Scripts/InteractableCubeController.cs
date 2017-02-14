@@ -12,6 +12,14 @@ namespace Futulabs
         private bool _isSticky = false;
         private bool _isStuck = false;
 
+        public override float WallImpactLightIntensityMultiplier
+        {
+            get
+            {
+                return _isSticky ? 12.0f : 1.0f;
+            }
+        }
+
         protected override void FixedUpdate()
         {
             base.FixedUpdate();

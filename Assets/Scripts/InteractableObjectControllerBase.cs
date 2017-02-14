@@ -144,6 +144,22 @@ namespace Futulabs
             }
         }
 
+        virtual public Color EmissionColor
+        {
+            get
+            {
+                return _outlineMeshes[0].material.GetColor("_EmissionColor");
+            }
+        }
+
+        virtual public float WallImpactLightIntensityMultiplier
+        {
+            get
+            {
+                return 1.0f;
+            }
+        }
+
         virtual protected void Start()
         {
             EnableMaterializedMeshes(false);
