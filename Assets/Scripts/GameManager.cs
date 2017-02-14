@@ -19,19 +19,21 @@ namespace Futulabs
         [SerializeField]
         private float _instructionChangeInterval = 10.0f;
 
-		[Header("Wall Cube Lights")]
-		[SerializeField]
-		private LeverController _wallCubeLightsLever;
-		[SerializeField]
-		private Material _wallCubeEmissiveOutlineMaterial;
-		[SerializeField]
-		private Color _wallCubeOutlineOffEmissionColor;
-		[SerializeField]
-		private Color _wallCubeOutlineOnEmissionColor;
+        [Header("Wall Cube Lights")]
+        [SerializeField]
+        private LeverController _wallCubeLightsLever;
+        [SerializeField]
+        private Material _wallCubeEmissiveOutlineMaterial;
+        [SerializeField]
+        private Color _wallCubeOutlineOffEmissionColor;
+        [SerializeField]
+        private Color _wallCubeOutlineOnEmissionColor;
 
-		[Header("Score Board")]
-		[SerializeField]
-		private Text _scoreboardText;
+        [Header("Score Board")]
+        [SerializeField]
+        private Text _scoreboardTextOnes;
+        [SerializeField]
+        private Text _scoreboardTextTens;
 
         private int _currentInstructionIndex = 0;
         private float _lastInstructionChangeTime = 0.0f;
@@ -70,17 +72,17 @@ namespace Futulabs
 
         private void Awake()
         {
-          //  _wallCubeEmissiveOutlineMaterial = cubeMeshR.sharedMaterial;
+            //  _wallCubeEmissiveOutlineMaterial = cubeMeshR.sharedMaterial;
             // Change to first instruction
             ChangeToInstruction(0, true);
 
-			// Set the lights off at start
-			SetCubeLightsOff(true);
+            // Set the lights off at start
+            SetCubeLightsOff(true);
 
-			// Register lever callbacks
-			_wallCubeLightsLever.OnLeverTurnedOn += () => SetCubeLightsOn();
-			_wallCubeLightsLever.OnLeverTurnedOff += () =>  SetCubeLightsOff();
-		} 
+            // Register lever callbacks
+            _wallCubeLightsLever.OnLeverTurnedOn += () => SetCubeLightsOn();
+            _wallCubeLightsLever.OnLeverTurnedOff += () => SetCubeLightsOff();
+        }
 
         private void Update()
         {
@@ -92,11 +94,11 @@ namespace Futulabs
 
         private void ChangeToNextInstruction()
         {
-            int newInstructionIndex = (_currentInstructionIndex+1) % _instructionTexts.Count;
+            int newInstructionIndex = (_currentInstructionIndex + 1) % _instructionTexts.Count;
             ChangeToInstruction(newInstructionIndex);
         }
 
-        private void ChangeToInstruction(int newInstructionIndex, bool immediate =false)
+        private void ChangeToInstruction(int newInstructionIndex, bool immediate = false)
         {
             if (_instructionTexts == null || _instructionTexts.Count == 0 || _instructionsText == null)
             {
@@ -126,29 +128,29 @@ namespace Futulabs
             }
         }
 
-		private void SetCubeLightsOn(bool immediate =false)
-		{
+        private void SetCubeLightsOn(bool immediate = false)
+        {
             if (immediate)
-			{
-				_wallCubeEmissiveOutlineMaterial.SetColor("_EmissionColor", _wallCubeOutlineOnEmissionColor);
-			}
-			else
-			{
-				_wallCubeEmissiveOutlineMaterial.DOColor (_wallCubeOutlineOnEmissionColor, "_EmissionColor", 0.7f);
-			}
-		}
+            {
+                _wallCubeEmissiveOutlineMaterial.SetColor("_EmissionColor", _wallCubeOutlineOnEmissionColor);
+            }
+            else
+            {
+                _wallCubeEmissiveOutlineMaterial.DOColor(_wallCubeOutlineOnEmissionColor, "_EmissionColor", 0.7f);
+            }
+        }
 
-		private void SetCubeLightsOff(bool immediate =false)
-		{
-			if (immediate)
-			{
-				_wallCubeEmissiveOutlineMaterial.SetColor("_EmissionColor", _wallCubeOutlineOffEmissionColor);
-			}
-			else
-			{
-				_wallCubeEmissiveOutlineMaterial.DOColor (_wallCubeOutlineOffEmissionColor, "_EmissionColor", 0.7f);
-			}
-		}
+        private void SetCubeLightsOff(bool immediate = false)
+        {
+            if (immediate)
+            {
+                _wallCubeEmissiveOutlineMaterial.SetColor("_EmissionColor", _wallCubeOutlineOffEmissionColor);
+            }
+            else
+            {
+                _wallCubeEmissiveOutlineMaterial.DOColor(_wallCubeOutlineOffEmissionColor, "_EmissionColor", 0.7f);
+            }
+        }
 
         public void ChangeCreatedInteractableObjectType(int t)
         {
@@ -169,14 +171,17 @@ namespace Futulabs
             Debug.Log("GameManager ResetGame: Resetting the game");
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
-			
+
         public void BasketScore()
         {
             BasketballScore++;
-            string text = string.Format("{0:D2}", BasketballScore);
-            _scoreboardText.text = text;
-            float pitch = Random.Range(50, 200) / 100f;
-            AudioManager.Instance.PlayAudioClip(GameAudioClipType.BASKETBALL_SCORE, pitch);
+            if (BasketballScore > 99)
+                BasketballScore = 0; //TODO: fix this later if you really want to
+            int ones = BasketballScore % 10;
+            int tens = BasketballScore / 10;
+            _scoreboardTextOnes.text = ones.ToString();
+            _scoreboardTextTens.text = tens.ToString();
+            AudioManager.Instance.PlayAudioClip(GameAudioClipType.BASKETBALL_SCORE);
         }
     }
 
