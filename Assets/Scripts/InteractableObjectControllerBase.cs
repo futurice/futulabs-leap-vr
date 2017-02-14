@@ -322,6 +322,7 @@ namespace Futulabs
         private Tweener minEmissionTween;
         private Tweener minDiffuseTween;
         private Tweener minGainTween;
+
         virtual protected void DimOutlineBloom(float magnitude)
         {
             magnitude *= GameManager.Instance.OutlineTransitionFactor;
@@ -340,7 +341,7 @@ namespace Futulabs
 
         virtual protected void IlluminateOutlineBloom(float amount = 1)
         {
-            Debug.Log(amount);
+            amount = Mathf.Min(amount, 1);
             Color emission = Color.Lerp(GameManager.Instance.MinEmissionColor, GameManager.Instance.MaxEmissionColor, amount);
             Color diffuse = Color.Lerp(GameManager.Instance.MinEmissionColor, GameManager.Instance.MaxEmissionColor, amount);
             float gain = Mathf.Lerp(GameManager.Instance.MinEmissionGain, GameManager.Instance.MaxEmissionGain, amount);
@@ -348,9 +349,5 @@ namespace Futulabs
             _outlineMeshes[0].material.SetColor("_DiffuseColor", diffuse);
             _outlineMeshes[0].material.SetFloat("_EmissionGain", gain);
         }
-
-
-
     }
-
 }

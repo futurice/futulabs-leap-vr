@@ -7,8 +7,25 @@ using Leap.Unity.Interaction;
 namespace Futulabs
 {
 
-public class InteractableCubeController : InteractableObjectControllerBase
-{
-}
+    public class InteractableCubeController : InteractableObjectControllerBase
+    {
+        private bool _isSticky = false;
+
+        protected override void FixedUpdate()
+        {
+
+        }
+
+        public void MakeSticky()
+        {
+            _isSticky = true;
+            StickyOutline();
+        }
+
+        private void StickyOutline()
+        {
+
+        }
+    }
 
 }
