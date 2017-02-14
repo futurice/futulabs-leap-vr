@@ -20,3 +20,4 @@ FutuLabs Leap Motion VR demo
 - Bigger mass for bigger objects
 - Make the basketball font prettier
 - UI stops working
+- Lightsaber
