@@ -14,11 +14,11 @@ FutuLabs Leap Motion VR demo
 - Jedi powers (star wars background music, let's get sued)
 - Gravity gesture (lever?)
 - Personal gravity when you turn off global gravity
-- Sticky cubes (slap the cube?)
 - Cool-ass wall effects
 - Wobble wobble jelly effect on the wall
 - Bigger mass for bigger objects
 - Make the basketball font prettier
 - UI stops working
 - Lightsaber
-- Ironman beam, destroy shit man
+- Ironman beam, destroy things man
+- LAN Multiplayer
