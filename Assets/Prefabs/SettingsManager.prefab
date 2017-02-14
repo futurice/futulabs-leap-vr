@@ -60,14 +60,16 @@ MonoBehaviour:
   - 'You can change the created object and toggle gravity in the menu '
   WallCubeOutlineOffEmissionColor: {r: 0, g: 0, b: 0, a: 0}
   WallCubeOutlineOnEmissionColor: {r: 0, g: 0.88235295, b: 1, a: 1}
-  InteractableMaterialMinDiffuseColor: {r: 0.64705884, g: 0.64705884, b: 0.64705884,
-    a: 0}
-  InteractableMaterialMaxDiffuseColor: {r: 0.94509804, g: 1, b: 0, a: 0}
-  InteractableMaterialMinEmissionColor: {r: 0.2509804, g: 0.2509804, b: 0.2509804,
-    a: 0}
-  InteractableMaterialMaxEmissionColor: {r: 1, g: 0.4745098, b: 0, a: 0}
-  InteractableMaterialMinEmissionGain: 0
-  InteractableMaterialMaxEmissionGain: 0.4
+  InteractableMaterialMinDiffuseColor: {r: 1, g: 0.39310342, b: 0, a: 0}
+  InteractableMaterialMaxDiffuseColor: {r: 1, g: 0.47586203, b: 0, a: 0}
+  InteractableMaterialMinEmissionColor: {r: 1, g: 0.22718051, b: 0, a: 0}
+  InteractableMaterialMaxEmissionColor: {r: 1, g: 0.7241379, b: 0, a: 0}
+  InteractableMaterialMinEmissionGain: 0.42
+  InteractableMaterialMaxEmissionGain: 0.48
+  StickyOutlineMaterial: {fileID: 2100000, guid: 94b7a6397489abe438acda6a2abc06ff,
+    type: 2}
+  StickyMaterialGainMax: 0.45
+  StickyMaterialGainMin: 0.3
   InteractableMaterialOutlineTransitionFactor: 1
   InteractableMaterialOutlineMinGlowTime: 1
   InteractableMaterialOutlineMaxGlowTime: 2

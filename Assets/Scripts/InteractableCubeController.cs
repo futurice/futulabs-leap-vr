@@ -10,21 +10,37 @@ namespace Futulabs
     public class InteractableCubeController : InteractableObjectControllerBase
     {
         private bool _isSticky = false;
+        private bool _isStuck = false;
 
         protected override void FixedUpdate()
         {
             base.FixedUpdate();
         }
 
-        public void MakeSticky()
+        public override void Materialize()
         {
-            _isSticky = true;
-            StickyOutline();
+            base.Materialize();
+            _isSticky = GameManager.Instance.StickyCubes;
+            if (_isSticky)
+                _outlineMeshes[0].sharedMaterial = SettingsManager.Instance.StickyOutlineMaterial;
         }
 
-        private void StickyOutline()
-        {
 
+        protected override void OnCollisionEnter(Collision collision)
+        {
+            if (!_isSticky)
+                base.OnCollisionEnter(collision);
+            else
+                if (collision.gameObject.tag.Equals("Wall"))
+                Stick();
+        }
+
+        private void Stick()
+        {
+            _isStuck = true;
+            transform.rotation = Quaternion.identity;
+            Rigidbodies[0].isKinematic = true;
+            gameObject.tag = "Wall";
         }
     }
 

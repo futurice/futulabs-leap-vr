@@ -55,14 +55,14 @@ namespace Futulabs
         [Tooltip(@"Types and prefabs of the objects that can be created.
             The objects must have a script attached that implements IInteractableObject")]
         private InteractableObject[] _interactableObjects;
-        
-		[Header("Object Creation")]
-		[SerializeField]
-		[Tooltip("Scale factor for the force applied to the object when it's materialized - to allow throwing")]
+
+        [Header("Object Creation")]
+        [SerializeField]
+        [Tooltip("Scale factor for the force applied to the object when it's materialized - to allow throwing")]
         private float _creationForceScaleFactor = 180;
-		[SerializeField]
-		[Tooltip("How many frames should be captured to calculate the force when materialized")]
-		private int _creationForceWindowSize = 10;
+        [SerializeField]
+        [Tooltip("How many frames should be captured to calculate the force when materialized")]
+        private int _creationForceWindowSize = 10;
 
         // The object that is currently being created
         private IInteractableObjectController _currentObject = null;
@@ -95,13 +95,13 @@ namespace Futulabs
             }
         }
 
-		public int CreationForceWindowSize
-		{
-			get
-			{
-				return _creationForceWindowSize;
-			}
-		}
+        public int CreationForceWindowSize
+        {
+            get
+            {
+                return _creationForceWindowSize;
+            }
+        }
 
         public ObjectManagerState CurrentState
         {
