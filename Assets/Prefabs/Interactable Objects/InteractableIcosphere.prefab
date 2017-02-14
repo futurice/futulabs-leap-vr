@@ -122,7 +122,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 10302, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: cc4515bf0f8ebfb4bbd6cc643524d694, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -280,8 +280,6 @@ MonoBehaviour:
   - {fileID: 23720172602185724}
   - {fileID: 23811660661445352}
   _overrideLeapRTSScaling: 0
-  _minScale: 0.01
-  _maxScale: 0.05
 --- !u!114 &114117397469399958
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -310,6 +308,8 @@ MonoBehaviour:
   _pinchDetectorB: {fileID: 0}
   _oneHandedRotationMethod: 0
   _twoHandedRotationMethod: 2
+  _minScale: 0.1
+  _maxScale: 5
   _allowScale: 1
   _toggleGuiState: 0
   _showGUI: 0

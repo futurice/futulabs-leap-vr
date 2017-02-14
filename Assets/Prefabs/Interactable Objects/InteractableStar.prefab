@@ -59,7 +59,7 @@ Transform:
   m_GameObject: {fileID: 1976312594605202}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 15, y: 15, z: 15}
+  m_LocalScale: {x: 10, y: 10, z: 10}
   m_Children:
   - {fileID: 4834519284075296}
   m_Father: {fileID: 0}
@@ -122,7 +122,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 10302, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: cc4515bf0f8ebfb4bbd6cc643524d694, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -291,6 +291,8 @@ MonoBehaviour:
   _pinchDetectorB: {fileID: 0}
   _oneHandedRotationMethod: 0
   _twoHandedRotationMethod: 2
+  _minScale: 0.1
+  _maxScale: 3
   _allowScale: 1
   _toggleGuiState: 0
   _showGUI: 0
@@ -311,5 +313,3 @@ MonoBehaviour:
   - {fileID: 23283269628610960}
   - {fileID: 23629814599257652}
   _overrideLeapRTSScaling: 0
-  _minScale: 0.01
-  _maxScale: 0.05

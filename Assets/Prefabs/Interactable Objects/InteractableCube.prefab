@@ -276,6 +276,8 @@ MonoBehaviour:
   _pinchDetectorB: {fileID: 0}
   _oneHandedRotationMethod: 0
   _twoHandedRotationMethod: 2
+  _minScale: 0.1
+  _maxScale: 5
   _allowScale: 1
   _toggleGuiState: 0
   _showGUI: 0
@@ -296,8 +298,6 @@ MonoBehaviour:
   - {fileID: 23647209704383970}
   - {fileID: 23125823305722618}
   _overrideLeapRTSScaling: 0
-  _minScale: 0.01
-  _maxScale: 0.05
 --- !u!114 &114871799413031668
 MonoBehaviour:
   m_ObjectHideFlags: 1

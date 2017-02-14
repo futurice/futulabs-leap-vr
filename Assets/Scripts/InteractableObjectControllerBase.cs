@@ -25,12 +25,6 @@ namespace Futulabs
         [SerializeField]
         [Tooltip("Does the script implement its own scaling or should it use the Leap RTS default uniform scaling")]
         protected bool _overrideLeapRTSScaling = false;
-        [SerializeField]
-        [Tooltip("Minimum scale this object can get on any axis. Only affects if Leap RTS Scaling is overridden")]
-        protected float _minScale = 0.01f;
-        [SerializeField]
-        [Tooltip("Maximum scale this object can be morphed to on any axis. Only affects if Leap RTS Scaling is overriden")]
-        protected float _maxScale = 0.05f;
 
         protected LeapRTS _leapRTSComponent;
         protected InteractionBehaviour _leapInteractionBehaviour;
@@ -39,17 +33,17 @@ namespace Futulabs
         protected Rigidbody[] _rigidbodies;
 
         protected Vector3[] _velocityFrames;
-        protected bool _captureFrames = false;
+        protected bool _creating = false;
         protected int _velocityIndex = 0;
 
-		protected Vector3 _currentFramePos;
-		protected Vector3 _lastFramePos;
-		protected Quaternion _lastRotationFrame;
-		protected Quaternion _currentRotationFrame;
+        protected Vector3 _currentFramePos;
+        protected Vector3 _lastFramePos;
+        protected Quaternion _lastRotationFrame;
+        protected Quaternion _currentRotationFrame;
 
-		protected Tweener _minEmissionTween;
-		protected Tweener _minDiffuseTween;
-		protected Tweener _minGainTween;
+        protected Tweener _minEmissionTween;
+        protected Tweener _minDiffuseTween;
+        protected Tweener _minGainTween;
 
         public LeapRTS LeapRTSComponent
         {
@@ -163,9 +157,17 @@ namespace Futulabs
             EnableOutlineMeshes(true);
         }
 
+        virtual protected void Update()
+        {
+            if(_creating)
+            {
+
+            }
+        }
+
         virtual protected void FixedUpdate()
         {
-            if (_captureFrames)
+            if (_creating)
             {
                 _lastRotationFrame = _currentRotationFrame;
                 _currentRotationFrame = transform.rotation;
@@ -184,7 +186,7 @@ namespace Futulabs
             Vector3 difference = _currentFramePos - _lastFramePos;
             _velocityFrames[_velocityIndex] = difference;
             _velocityIndex++;
-			_velocityIndex = _velocityIndex % ObjectManager.Instance.CreationForceWindowSize;
+            _velocityIndex = _velocityIndex % ObjectManager.Instance.CreationForceWindowSize;
         }
 
         virtual protected Vector3 CalculateCurrentVelocity()
@@ -194,14 +196,14 @@ namespace Futulabs
             {
                 average = average + _velocityFrames[i];
             }
-			average /= ObjectManager.Instance.CreationForceWindowSize;
+            average /= ObjectManager.Instance.CreationForceWindowSize;
             return average;
         }
 
         virtual public void Create(InteractionManager interactionManager, PinchDetector leftPinchDetector, PinchDetector rightPinchDetector)
         {
-			_velocityFrames = new Vector3[ObjectManager.Instance.CreationForceWindowSize];
-            _captureFrames = true;
+            _velocityFrames = new Vector3[ObjectManager.Instance.CreationForceWindowSize];
+            _creating = true;
             LeapRTSComponent.AllowScale = !OverrideLeapRTSScaling;
             LeapRTSComponent.enabled = true;
             LeapRTSComponent.PinchDetectorA = leftPinchDetector;
@@ -265,7 +267,7 @@ namespace Futulabs
 
         virtual public void Morph(Vector3 leftPinchPosition, Vector3 rightPinchPosition)
         {
-            // No need to do this - the Leap RTS uniform scaling works fine for cubes
+
         }
 
         virtual protected void EnableOutlineMeshes(bool enabled)
@@ -323,27 +325,27 @@ namespace Futulabs
 
         virtual protected void DimOutlineBloom(float magnitude)
         {
-			magnitude *= SettingsManager.Instance.InteractableMaterialOutlineTransitionFactor;
+            magnitude *= SettingsManager.Instance.InteractableMaterialOutlineTransitionFactor;
             IlluminateOutlineBloom(magnitude);
             _minEmissionTween.Kill();
             _minDiffuseTween.Kill();
             _minGainTween.Kill();
 
-			magnitude = Mathf.Max(SettingsManager.Instance.InteractableMaterialOutlineMinGlowTime, magnitude);
-			magnitude = Mathf.Min(SettingsManager.Instance.InteractableMaterialOutlineMaxGlowTime, magnitude);
+            magnitude = Mathf.Max(SettingsManager.Instance.InteractableMaterialOutlineMinGlowTime, magnitude);
+            magnitude = Mathf.Min(SettingsManager.Instance.InteractableMaterialOutlineMaxGlowTime, magnitude);
 
-			_minEmissionTween = _outlineMeshes[0].material.DOColor(SettingsManager.Instance.InteractableMaterialMinEmissionColor, "_EmissionColor", magnitude).SetEase(Ease.OutExpo);
-			_minDiffuseTween = _outlineMeshes[0].material.DOColor(SettingsManager.Instance.InteractableMaterialMinDiffuseColor, "_DiffuseColor", magnitude).SetEase(Ease.OutExpo);
-			_minGainTween = _outlineMeshes[0].material.DOFloat(SettingsManager.Instance.InteractableMaterialMinEmissionGain, "_EmissionGain", magnitude).SetEase(Ease.OutExpo);
+            _minEmissionTween = _outlineMeshes[0].material.DOColor(SettingsManager.Instance.InteractableMaterialMinEmissionColor, "_EmissionColor", magnitude).SetEase(Ease.OutExpo);
+            _minDiffuseTween = _outlineMeshes[0].material.DOColor(SettingsManager.Instance.InteractableMaterialMinDiffuseColor, "_DiffuseColor", magnitude).SetEase(Ease.OutExpo);
+            _minGainTween = _outlineMeshes[0].material.DOFloat(SettingsManager.Instance.InteractableMaterialMinEmissionGain, "_EmissionGain", magnitude).SetEase(Ease.OutExpo);
         }
 
         virtual protected void IlluminateOutlineBloom(float amount = 1)
         {
-			amount = Mathf.Clamp01(amount);
+            amount = Mathf.Clamp01(amount);
 
-			Color emission = Color.Lerp(SettingsManager.Instance.InteractableMaterialMinEmissionColor, SettingsManager.Instance.InteractableMaterialMaxEmissionColor, amount);
-			Color diffuse = Color.Lerp(SettingsManager.Instance.InteractableMaterialMinDiffuseColor, SettingsManager.Instance.InteractableMaterialMaxDiffuseColor, amount);
-			float gain = Mathf.Lerp(SettingsManager.Instance.InteractableMaterialMinEmissionGain, SettingsManager.Instance.InteractableMaterialMaxEmissionGain, amount);
+            Color emission = Color.Lerp(SettingsManager.Instance.InteractableMaterialMinEmissionColor, SettingsManager.Instance.InteractableMaterialMaxEmissionColor, amount);
+            Color diffuse = Color.Lerp(SettingsManager.Instance.InteractableMaterialMinDiffuseColor, SettingsManager.Instance.InteractableMaterialMaxDiffuseColor, amount);
+            float gain = Mathf.Lerp(SettingsManager.Instance.InteractableMaterialMinEmissionGain, SettingsManager.Instance.InteractableMaterialMaxEmissionGain, amount);
 
             _outlineMeshes[0].material.SetColor("_EmissionColor", emission);
             _outlineMeshes[0].material.SetColor("_DiffuseColor", diffuse);
