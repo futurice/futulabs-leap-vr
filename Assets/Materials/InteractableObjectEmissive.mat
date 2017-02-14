@@ -90,7 +90,7 @@ Material:
       second: 0
     - first:
         name: _EmissionGain
-      second: 0.5
+      second: 0
     - first:
         name: _EmissionTextureContrast
       second: 1
@@ -136,7 +136,7 @@ Material:
       second: {r: 1, g: 1, b: 1, a: 1}
     - first:
         name: _DiffuseColor
-      second: {r: 0.9117647, g: 0.41510257, b: 0.03352074, a: 1}
+      second: {r: 0, g: 0, b: 0, a: 1}
     - first:
         name: _EmissionColor
-      second: {r: 0.8014706, g: 0.28189653, b: 0, a: 1}
+      second: {r: 0.16176468, g: 0.16176468, b: 0.16176468, a: 1}

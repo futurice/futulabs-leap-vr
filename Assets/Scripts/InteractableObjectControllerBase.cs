@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Leap.Unity;
 using Leap.Unity.Interaction;
+using DG.Tweening;
 
 namespace Futulabs
 {
@@ -217,11 +218,13 @@ namespace Futulabs
 
             // Turn on outline meshes
             EnableOutlineMeshes(true);
+            IlluminateOutlineBloom();
 
             // Enable looping and play the creation sound effect
             EffectAudioSource.loop = true;
             EffectAudioSource.clip = AudioManager.Instance.GetAudioClip(GameAudioClipType.INTERACTABLE_OBJECT_CREATING);
             EffectAudioSource.Play();
+
         }
 
         virtual protected void AddCreationForce()
@@ -307,12 +310,47 @@ namespace Futulabs
 
         virtual protected void OnCollisionEnter(Collision collision)
         {
+            var velocityMag = collision.relativeVelocity.magnitude;
+            DimOutlineBloom(velocityMag);
             // Play sound if the collision was 'energetic' enough
-            if (collision.relativeVelocity.magnitude > 2.0f)
+            if (velocityMag > 2.0f) //TODO: nice magic number broonas
             {
                 EffectAudioSource.PlayOneShot(AudioManager.Instance.GetAudioClip(GameAudioClipType.INTERACTABLE_OBJECT_COLLISION));
             }
         }
+
+        private Tweener minEmissionTween;
+        private Tweener minDiffuseTween;
+        private Tweener minGainTween;
+        virtual protected void DimOutlineBloom(float magnitude)
+        {
+            magnitude *= GameManager.Instance.OutlineTransitionFactor;
+            IlluminateOutlineBloom(magnitude);
+            minEmissionTween.Kill();
+            minDiffuseTween.Kill();
+            minGainTween.Kill();
+
+            magnitude = Mathf.Max(GameManager.Instance.OutlineMinGlowTime, magnitude);
+            magnitude = Mathf.Min(GameManager.Instance.OutlineMaxGlowTime, magnitude);
+
+            minEmissionTween = _outlineMeshes[0].material.DOColor(GameManager.Instance.MinEmissionColor, "_EmissionColor", magnitude).SetEase(Ease.OutExpo);
+            minDiffuseTween = _outlineMeshes[0].material.DOColor(GameManager.Instance.MinDiffuseColor, "_DiffuseColor", magnitude).SetEase(Ease.OutExpo);
+            minGainTween = _outlineMeshes[0].material.DOFloat(GameManager.Instance.MinEmissionGain, "_EmissionGain", magnitude).SetEase(Ease.OutExpo);
+        }
+
+        virtual protected void IlluminateOutlineBloom(float amount = 1)
+        {
+            Debug.Log(amount);
+            Color emission = Color.Lerp(GameManager.Instance.MinEmissionColor, GameManager.Instance.MaxEmissionColor, amount);
+            Color diffuse = Color.Lerp(GameManager.Instance.MinEmissionColor, GameManager.Instance.MaxEmissionColor, amount);
+            float gain = Mathf.Lerp(GameManager.Instance.MinEmissionGain, GameManager.Instance.MaxEmissionGain, amount);
+            _outlineMeshes[0].material.SetColor("_EmissionColor", emission);
+            _outlineMeshes[0].material.SetColor("_DiffuseColor", diffuse);
+            _outlineMeshes[0].material.SetFloat("_EmissionGain", gain);
+        }
+
+
+
     }
 
 }

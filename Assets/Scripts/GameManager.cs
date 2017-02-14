@@ -29,6 +29,37 @@ namespace Futulabs
         [SerializeField]
         private Color _wallCubeOutlineOnEmissionColor;
 
+        //TODO: Hey let's move all this crap in some settings file (refactor)
+        [Header("Interactable Material Outline Colors")]
+        [SerializeField]
+        private Color _maxEmission;
+        [SerializeField]
+        private Color _maxDiffuse;
+        [SerializeField]
+        private float _maxEmissionGain = 0.4f;
+        [SerializeField]
+        private Color _minEmission;
+        [SerializeField]
+        private Color _minDiffuse;
+        [SerializeField]
+        private float _minEmissionGain = 0f;
+        [SerializeField]
+        private float _outlineTransitionFactor = 3f;
+        [SerializeField]
+        private float _outlineMinGlowTime = 0.5f;
+        [SerializeField]
+        private float _outlineMaxGlowTime = 2f;
+
+        public Color MaxEmissionColor { get { return _maxEmission; } }
+        public Color MaxDiffuseColor { get { return _maxDiffuse; } }
+        public float MaxEmissionGain { get { return _maxEmissionGain; } }
+        public Color MinEmissionColor { get { return _minEmission; } }
+        public Color MinDiffuseColor { get { return _minDiffuse; } }
+        public float MinEmissionGain { get { return _minEmissionGain; } }
+        public float OutlineTransitionFactor { get { return _outlineTransitionFactor; } }
+        public float OutlineMinGlowTime { get { return _outlineMinGlowTime; } }
+        public float OutlineMaxGlowTime { get { return _outlineMaxGlowTime; } }
+
         [Header("Score Board")]
         [SerializeField]
         private Text _scoreboardTextOnes;
@@ -69,7 +100,6 @@ namespace Futulabs
         }
 
         //public MeshRenderer cubeMeshR;
-
         private void Awake()
         {
             //  _wallCubeEmissiveOutlineMaterial = cubeMeshR.sharedMaterial;

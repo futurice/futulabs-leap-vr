@@ -15,7 +15,7 @@ FutuLabs Leap Motion VR demo
 - Gravity gesture (lever?)
 - Personal gravity when you turn off global gravity
 - Sticky cubes (slap the cube?)
-- Cool-ass waLL effects
+- Cool-ass wall effects
 - Wobble wobble jelly effect on the wall
 - Bigger mass for bigger objects
 - Make the basketball font prettier
