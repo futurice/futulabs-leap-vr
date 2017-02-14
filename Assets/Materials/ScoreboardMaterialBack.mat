@@ -6,12 +6,13 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: WallCubeOutlineEmissive
-  m_Shader: {fileID: 4800000, guid: fb944acb6ea5b6b4e961e6f8feb2b64a, type: 3}
-  m_ShaderKeywords: _EMISSION
+  m_Name: ScoreboardMaterialBack
+  m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
+  m_ShaderKeywords: _ALPHATEST_ON _EMISSION
   m_LightmapFlags: 1
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
+  m_CustomRenderQueue: 2450
+  stringTagMap:
+    RenderType: TransparentCutout
   m_SavedProperties:
     serializedVersion: 2
     m_TexEnvs:
@@ -41,12 +42,6 @@ Material:
         m_Offset: {x: 0, y: 0}
     - first:
         name: _EmissionMap
-      second:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - first:
-        name: _Illum
       second:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -89,12 +84,6 @@ Material:
         name: _DstBlend
       second: 0
     - first:
-        name: _EmissionGain
-      second: 0.1
-    - first:
-        name: _EmissionTextureContrast
-      second: 1
-    - first:
         name: _GlossMapScale
       second: 1
     - first:
@@ -108,7 +97,7 @@ Material:
       second: 0
     - first:
         name: _Mode
-      second: 0
+      second: 1
     - first:
         name: _OcclusionStrength
       second: 1
@@ -133,10 +122,7 @@ Material:
     m_Colors:
     - first:
         name: _Color
-      second: {r: 1, g: 1, b: 1, a: 1}
-    - first:
-        name: _DiffuseColor
-      second: {r: 1, g: 1, b: 1, a: 1}
+      second: {r: 1, g: 0.68275857, b: 0, a: 1}
     - first:
         name: _EmissionColor
-      second: {r: 0, g: 0, b: 0, a: 0}
+      second: {r: 0.46550733, g: 0.33255917, b: 0.16429669, a: 1}

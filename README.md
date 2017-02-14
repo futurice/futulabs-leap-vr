@@ -2,7 +2,7 @@
 FutuLabs Leap Motion VR demo
 
 ## Backlog
-- Better grabbing objects
+- Better grabbing objects (tried tweaking the values in material, not much of a difference)
 - Better pinching effects
 - Full body or leg tracking
 - Ragdoll

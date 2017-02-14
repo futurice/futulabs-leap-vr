@@ -10,6 +10,7 @@ namespace Futulabs
     [RequireComponent(typeof(Rigidbody))]               // Required by InteractionBehaviour
     [RequireComponent(typeof(LeapRTS))]                 // Required to do transform manipulations with Leap Motion
     [RequireComponent(typeof(InteractionBehaviour))]    // Required to for physics interactions with the Leap Motions hands
+    [RequireComponent(typeof(Light))]                   // Required for materialization effect
     public class InteractableObjectControllerBase : MonoBehaviour, IInteractableObjectController
     {
         [Header("Meshes")]
