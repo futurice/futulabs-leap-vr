@@ -38,6 +38,7 @@ namespace Futulabs
         [Header("Interactions")]
         [SerializeField]
         InteractionManager _interactionManager;
+
         [Header("Pinch")]
         [SerializeField]
         private PinchDetector _leftHandPinchDetector;
@@ -54,10 +55,14 @@ namespace Futulabs
         [Tooltip(@"Types and prefabs of the objects that can be created.
             The objects must have a script attached that implements IInteractableObject")]
         private InteractableObject[] _interactableObjects;
-
-        [SerializeField]
+        
+		[Header("Object Creation")]
+		[SerializeField]
+		[Tooltip("Scale factor for the force applied to the object when it's materialized - to allow throwing")]
         private float _creationForceScaleFactor = 180;
-
+		[SerializeField]
+		[Tooltip("How many frames should be captured to calculate the force when materialized")]
+		private int _creationForceWindowSize = 10;
 
         // The object that is currently being created
         private IInteractableObjectController _currentObject = null;
@@ -90,6 +95,14 @@ namespace Futulabs
             }
         }
 
+		public int CreationForceWindowSize
+		{
+			get
+			{
+				return _creationForceWindowSize;
+			}
+		}
+
         public ObjectManagerState CurrentState
         {
             get;
@@ -110,33 +123,18 @@ namespace Futulabs
             }
         }
 
-        private bool _leftPinchingBackup = false;
-        private bool _rightPinchingBackup = false;
-
         private void Start()
         {
 
             // Register handlers that materialize the object when the pinch is released
             _leftHandPinchDetector.OnDeactivate.AddListener(() =>
             {
-                _leftPinchingBackup = false;
                 MaterializeObject();
             });
 
             _rightHandPinchDetector.OnDeactivate.AddListener(() =>
             {
-                _rightPinchingBackup = false;
                 MaterializeObject();
-            });
-
-            _leftHandPinchDetector.OnActivate.AddListener(() =>
-            {
-                _leftPinchingBackup = true;
-            });
-
-            _rightHandPinchDetector.OnActivate.AddListener(() =>
-            {
-                _rightPinchingBackup = true;
             });
 
             CurrentState = ObjectManagerState.READY;

@@ -38,12 +38,18 @@ namespace Futulabs
         protected Collider[] _colliders;
         protected Rigidbody[] _rigidbodies;
 
-        [SerializeField]
-        protected int _velocityFramesToCapture = 10;
         protected Vector3[] _velocityFrames;
         protected bool _captureFrames = false;
         protected int _velocityIndex = 0;
 
+		protected Vector3 _currentFramePos;
+		protected Vector3 _lastFramePos;
+		protected Quaternion _lastRotationFrame;
+		protected Quaternion _currentRotationFrame;
+
+		protected Tweener _minEmissionTween;
+		protected Tweener _minDiffuseTween;
+		protected Tweener _minGainTween;
 
         public LeapRTS LeapRTSComponent
         {
@@ -157,12 +163,6 @@ namespace Futulabs
             EnableOutlineMeshes(true);
         }
 
-        protected Vector3 _currentFramePos;
-        protected Vector3 _lastFramePos;
-        protected Quaternion _lastRotationFrame;
-        protected Quaternion _currentRotationFrame;
-
-
         virtual protected void FixedUpdate()
         {
             if (_captureFrames)
@@ -184,7 +184,7 @@ namespace Futulabs
             Vector3 difference = _currentFramePos - _lastFramePos;
             _velocityFrames[_velocityIndex] = difference;
             _velocityIndex++;
-            _velocityIndex = _velocityIndex % _velocityFramesToCapture;
+			_velocityIndex = _velocityIndex % ObjectManager.Instance.CreationForceWindowSize;
         }
 
         virtual protected Vector3 CalculateCurrentVelocity()
@@ -194,13 +194,13 @@ namespace Futulabs
             {
                 average = average + _velocityFrames[i];
             }
-            average /= _velocityFramesToCapture;
+			average /= ObjectManager.Instance.CreationForceWindowSize;
             return average;
         }
 
         virtual public void Create(InteractionManager interactionManager, PinchDetector leftPinchDetector, PinchDetector rightPinchDetector)
         {
-            _velocityFrames = new Vector3[_velocityFramesToCapture];
+			_velocityFrames = new Vector3[ObjectManager.Instance.CreationForceWindowSize];
             _captureFrames = true;
             LeapRTSComponent.AllowScale = !OverrideLeapRTSScaling;
             LeapRTSComponent.enabled = true;
@@ -255,6 +255,7 @@ namespace Futulabs
 
             // Turn on materialized meshes
             EnableMaterializedMeshes(true);
+
             // Disable looping and play the materialization sound effect
             EffectAudioSource.pitch = 1;
             EffectAudioSource.loop = false;
@@ -312,6 +313,7 @@ namespace Futulabs
         {
             var velocityMag = collision.relativeVelocity.magnitude;
             DimOutlineBloom(velocityMag);
+
             // Play sound if the collision was 'energetic' enough
             if (velocityMag > 2.0f) //TODO: nice magic number broonas
             {
@@ -319,32 +321,30 @@ namespace Futulabs
             }
         }
 
-        private Tweener minEmissionTween;
-        private Tweener minDiffuseTween;
-        private Tweener minGainTween;
-
         virtual protected void DimOutlineBloom(float magnitude)
         {
-            magnitude *= GameManager.Instance.OutlineTransitionFactor;
+			magnitude *= SettingsManager.Instance.InteractableMaterialOutlineTransitionFactor;
             IlluminateOutlineBloom(magnitude);
-            minEmissionTween.Kill();
-            minDiffuseTween.Kill();
-            minGainTween.Kill();
+            _minEmissionTween.Kill();
+            _minDiffuseTween.Kill();
+            _minGainTween.Kill();
 
-            magnitude = Mathf.Max(GameManager.Instance.OutlineMinGlowTime, magnitude);
-            magnitude = Mathf.Min(GameManager.Instance.OutlineMaxGlowTime, magnitude);
+			magnitude = Mathf.Max(SettingsManager.Instance.InteractableMaterialOutlineMinGlowTime, magnitude);
+			magnitude = Mathf.Min(SettingsManager.Instance.InteractableMaterialOutlineMaxGlowTime, magnitude);
 
-            minEmissionTween = _outlineMeshes[0].material.DOColor(GameManager.Instance.MinEmissionColor, "_EmissionColor", magnitude).SetEase(Ease.OutExpo);
-            minDiffuseTween = _outlineMeshes[0].material.DOColor(GameManager.Instance.MinDiffuseColor, "_DiffuseColor", magnitude).SetEase(Ease.OutExpo);
-            minGainTween = _outlineMeshes[0].material.DOFloat(GameManager.Instance.MinEmissionGain, "_EmissionGain", magnitude).SetEase(Ease.OutExpo);
+			_minEmissionTween = _outlineMeshes[0].material.DOColor(SettingsManager.Instance.InteractableMaterialMinEmissionColor, "_EmissionColor", magnitude).SetEase(Ease.OutExpo);
+			_minDiffuseTween = _outlineMeshes[0].material.DOColor(SettingsManager.Instance.InteractableMaterialMinDiffuseColor, "_DiffuseColor", magnitude).SetEase(Ease.OutExpo);
+			_minGainTween = _outlineMeshes[0].material.DOFloat(SettingsManager.Instance.InteractableMaterialMinEmissionGain, "_EmissionGain", magnitude).SetEase(Ease.OutExpo);
         }
 
         virtual protected void IlluminateOutlineBloom(float amount = 1)
         {
-            amount = Mathf.Min(amount, 1);
-            Color emission = Color.Lerp(GameManager.Instance.MinEmissionColor, GameManager.Instance.MaxEmissionColor, amount);
-            Color diffuse = Color.Lerp(GameManager.Instance.MinEmissionColor, GameManager.Instance.MaxEmissionColor, amount);
-            float gain = Mathf.Lerp(GameManager.Instance.MinEmissionGain, GameManager.Instance.MaxEmissionGain, amount);
+			amount = Mathf.Clamp01(amount);
+
+			Color emission = Color.Lerp(SettingsManager.Instance.InteractableMaterialMinEmissionColor, SettingsManager.Instance.InteractableMaterialMaxEmissionColor, amount);
+			Color diffuse = Color.Lerp(SettingsManager.Instance.InteractableMaterialMinDiffuseColor, SettingsManager.Instance.InteractableMaterialMaxDiffuseColor, amount);
+			float gain = Mathf.Lerp(SettingsManager.Instance.InteractableMaterialMinEmissionGain, SettingsManager.Instance.InteractableMaterialMaxEmissionGain, amount);
+
             _outlineMeshes[0].material.SetColor("_EmissionColor", emission);
             _outlineMeshes[0].material.SetColor("_DiffuseColor", diffuse);
             _outlineMeshes[0].material.SetFloat("_EmissionGain", gain);
