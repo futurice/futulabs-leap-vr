@@ -13,7 +13,7 @@ namespace Futulabs
 
         protected override void FixedUpdate()
         {
-
+            base.FixedUpdate();
         }
 
         public void MakeSticky()
