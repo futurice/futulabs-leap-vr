@@ -49,6 +49,7 @@ namespace Futulabs
             transform.rotation = Quaternion.identity;
             Rigidbodies[0].isKinematic = true;
             gameObject.tag = "Wall";
+            EffectAudioSource.PlayOneShot(AudioManager.Instance.GetAudioClip(GameAudioClipType.INTERACTABLE_OBJECT_STICK));
         }
     }
 

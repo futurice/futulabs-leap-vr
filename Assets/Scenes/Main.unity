@@ -326,6 +326,8 @@ MonoBehaviour:
     audioClip: {fileID: 8300000, guid: 950e6e66be1f197459ac2cc4676f2af2, type: 3}
   - audioClipType: 5
     audioClip: {fileID: 8300000, guid: ef0a082d2de68404bb98057091f6682f, type: 3}
+  - audioClipType: 6
+    audioClip: {fileID: 8300000, guid: 2c40a04678a08f1459212c60a0ef66aa, type: 3}
 --- !u!82 &44316928
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1454,19 +1456,19 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4960979195461154, guid: 18d6bf9063dcb1842be63f411fd9fc26, type: 2}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: -0.0000000018626447
       objectReference: {fileID: 0}
     - target: {fileID: 4960979195461154, guid: 18d6bf9063dcb1842be63f411fd9fc26, type: 2}
       propertyPath: m_LocalRotation.z
-      value: -6.984919e-10
+      value: -0.000000008149071
       objectReference: {fileID: 0}
     - target: {fileID: 4984450656830628, guid: 18d6bf9063dcb1842be63f411fd9fc26, type: 2}
       propertyPath: m_LocalRotation.y
-      value: -0.047819965
+      value: -0.047819972
       objectReference: {fileID: 0}
     - target: {fileID: 4984450656830628, guid: 18d6bf9063dcb1842be63f411fd9fc26, type: 2}
       propertyPath: m_LocalRotation.w
-      value: -0.9962125
+      value: -0.9962126
       objectReference: {fileID: 0}
     - target: {fileID: 114933231369338968, guid: 18d6bf9063dcb1842be63f411fd9fc26,
         type: 2}
