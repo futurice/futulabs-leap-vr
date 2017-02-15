@@ -11,6 +11,8 @@ namespace Futulabs
     {
         private bool _isSticky = false;
         private bool _isStuck = false;
+        [SerializeField]
+        private ImpactLightController LightControllerPrefab;
 
         public override float WallImpactLightIntensityMultiplier
         {
@@ -50,6 +52,15 @@ namespace Futulabs
             Rigidbodies[0].isKinematic = true;
             gameObject.tag = "Wall";
             EffectAudioSource.PlayOneShot(AudioManager.Instance.GetAudioClip(GameAudioClipType.INTERACTABLE_OBJECT_STICK));
+            gameObject.layer = LayerMask.NameToLayer("Environment");
+            StartCoroutine(DelayAddScript());
+        }
+
+        IEnumerator DelayAddScript()
+        {
+            yield return new WaitForEndOfFrame();
+            LightWallController wallScript = gameObject.AddComponent<LightWallController>();
+            wallScript.LightPrefab = LightControllerPrefab;
         }
     }
 

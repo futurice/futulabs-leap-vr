@@ -298,6 +298,8 @@ MonoBehaviour:
   - {fileID: 23647209704383970}
   - {fileID: 23125823305722618}
   _overrideLeapRTSScaling: 0
+  LightControllerPrefab: {fileID: 114936622847976280, guid: 52255062e31379940b3277e02cebe57a,
+    type: 2}
 --- !u!114 &114871799413031668
 MonoBehaviour:
   m_ObjectHideFlags: 1

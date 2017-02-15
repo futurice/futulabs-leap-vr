@@ -15,7 +15,6 @@ namespace Futulabs
             InteractableObjectControllerBase icb = collision.gameObject.GetComponent<InteractableObjectControllerBase>();
             Color lightcolor = icb.EmissionColor;
             float intensityMultiplier = icb.WallImpactLightIntensityMultiplier;
-            Debug.Log(intensityMultiplier);
             light.Init(collision.relativeVelocity.magnitude * intensityMultiplier, lightcolor);
         }
     }
