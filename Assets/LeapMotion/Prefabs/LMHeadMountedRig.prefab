@@ -822,6 +822,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4971026748931604}
   - component: {fileID: 114166508681794478}
+  - component: {fileID: 114360002232943712}
+  - component: {fileID: 114865365434661772}
+  - component: {fileID: 114063935431797132}
   m_Layer: 0
   m_Name: Palm
   m_TagString: Untagged
@@ -1676,22 +1679,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1 &1934517835685270
-GameObject:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 4535218844981254}
-  - component: {fileID: 65250276987814826}
-  m_Layer: 0
-  m_Name: ShowMenuBox
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
 --- !u!1 &1934916301451040
 GameObject:
   m_ObjectHideFlags: 1
@@ -2386,19 +2373,6 @@ Transform:
   m_Father: {fileID: 4592786041057406}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &4535218844981254
-Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1934517835685270}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.0168, z: 0.0149}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 4971026748931604}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4535314416914100
 Transform:
   m_ObjectHideFlags: 1
@@ -2807,7 +2781,7 @@ Transform:
   m_Children:
   - {fileID: 4365685583691480}
   m_Father: {fileID: 4971026748931604}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -90, y: -180, z: 0}
 --- !u!4 &4948192244951058
 Transform:
@@ -2874,7 +2848,6 @@ Transform:
   m_LocalPosition: {x: 0.080000065, y: 0.119999886, z: 1.4000001}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 4535218844981254}
   - {fileID: 4943888502015066}
   m_Father: {fileID: 4681578064489092}
   m_RootOrder: 0
@@ -2981,18 +2954,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.36, y: 0.7, z: 0.05}
   m_Center: {x: 0, y: 0.18, z: 0}
---- !u!65 &65250276987814826
-BoxCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1934517835685270}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.012006321, y: 0.014708992, z: 0.012046295}
-  m_Center: {x: 0.0033861313, y: -0.033126354, z: -0.010046149}
 --- !u!114 &114013993529016356
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3133,6 +3094,53 @@ MonoBehaviour:
   _perBoneMass: 0.2
   _collisionDetection: 2
   _material: {fileID: 13400000, guid: 7cb9646d25ecc1a4f8d790618b63c821, type: 2}
+--- !u!114 &114063935431797132
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1345785751394314}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2474ece6beb54f10ac1437338b3cb89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnActivate:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 114166508681794478}
+        m_MethodName: ShowMenu
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  OnDeactivate:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 114166508681794478}
+        m_MethodName: HideMenu
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  Detectors: []
+  AddAllSiblingDetectorsOnAwake: 1
+  GateType: 0
+  Negate: 0
 --- !u!114 &114085577821400898
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3387,7 +3395,7 @@ MonoBehaviour:
   StartPos: {x: 0.09, y: -0.05, z: -0.05}
   EndPos: {x: 0.01, y: -0.05, z: -0.05}
   FadeTime: 0.5
-  MenuBox: {fileID: 4535218844981254}
+  MenuBox: {fileID: 0}
 --- !u!114 &114185793492450062
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3812,6 +3820,57 @@ MonoBehaviour:
   deformPosition: 0
   modelFingerPointing: {x: 1, y: 0, z: 0}
   modelPalmFacing: {x: -0, y: -1, z: 0}
+--- !u!114 &114360002232943712
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1345785751394314}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c057ae8396c1146c98a146b81dcc5870, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnActivate:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 114166508681794478}
+        m_MethodName: ShowMenu2
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  OnDeactivate:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 114166508681794478}
+        m_MethodName: HideMenu2
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  Period: 0.1
+  HandModel: {fileID: 114327065045141928}
+  PointingType: 1
+  PointingDirection: {x: 0, y: 0, z: -1}
+  TargetObject: {fileID: 0}
+  OnAngle: 45
+  OffAngle: 65
+  ShowGizmos: 1
 --- !u!114 &114419741128948932
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4833,6 +4892,37 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114865365434661772
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1345785751394314}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e98e641d160144e87a3d33fcdb893a02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnActivate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  OnDeactivate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  Period: 0.1
+  HandModel: {fileID: 114327065045141928}
+  Thumb: 0
+  Index: 0
+  Middle: 0
+  Ring: 0
+  Pinky: 0
+  MinimumExtendedCount: 5
+  MaximumExtendedCount: 5
+  ShowGizmos: 1
 --- !u!114 &114872401864362650
 MonoBehaviour:
   m_ObjectHideFlags: 1
