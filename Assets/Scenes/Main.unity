@@ -2577,6 +2577,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1571622861}
   - component: {fileID: 1571622862}
+  - component: {fileID: 1571622863}
   m_Layer: 0
   m_Name: Collider
   m_TagString: Untagged
@@ -2590,13 +2591,13 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1571622860}
-  m_LocalRotation: {x: 0, y: 0.58997166, z: 0, w: 0.80742395}
-  m_LocalPosition: {x: -0.426, y: 0.079, z: 0.969}
+  m_LocalRotation: {x: 0, y: 0.55433613, z: 0, w: 0.8322929}
+  m_LocalPosition: {x: -0.449, y: 0.107, z: 1.052}
   m_LocalScale: {x: 1, y: 1.0000004, z: 1}
   m_Children: []
   m_Father: {fileID: 1902621981}
   m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 0, y: 72.31, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 67.33, z: 0}
 --- !u!65 &1571622862
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2607,8 +2608,23 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.5, y: 0.05, z: 0.05}
+  m_Size: {x: 0.35, y: 0.05, z: 0.05}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1571622863
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1571622860}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f24ff9cf9e708fe48bba4a108b673993, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _spectrumTime: 10
+  _floorMaterial: {fileID: 2100000, guid: eef00a85dc64d9d479a51c0accfc5fe6, type: 2}
+  _saturation: 1
+  _value: 1
 --- !u!1 &1616170498
 GameObject:
   m_ObjectHideFlags: 0

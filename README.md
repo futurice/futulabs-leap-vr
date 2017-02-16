@@ -16,7 +16,6 @@ FutuLabs Leap Motion VR demo
 - Personal gravity when you turn off global gravity
 - Wobble wobble jelly effect on the wall
 - Bigger mass for bigger objects
-- Make the basketball font prettier
 - UI stops working
 - Lightsaber
 - Ironman beam, destroy things man
