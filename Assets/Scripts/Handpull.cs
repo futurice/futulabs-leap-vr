@@ -13,20 +13,20 @@ namespace Futulabs
 
         [Tooltip("Where the physgun should start")]
         [SerializeField]
-        private Transform _originTransform;
+        private Transform _originStart;
+        [Tooltip("Where the physgun should point")]
+        [SerializeField]
+        private Transform _originForward;
 
         private InteractableObjectControllerBase _pulledObject; //object currently being pulled
         private Rigidbody _pulledObjectRigidbody;
 
         [SerializeField]
         private LineRenderer pointer;
-        private float dt;
         private void FixedUpdate()
         {
             if (_activated)
             {
-                dt += Time.deltaTime;
-                _physMaterial.SetTextureOffset("Offset", new Vector2(dt, 0));
                 if (!_pullingObject)
                     FindObject();
                 else
@@ -37,8 +37,9 @@ namespace Futulabs
         private void FindObject()
         {
             RaycastHit hit;
-            Physics.Raycast(_originTransform.position, _originTransform.forward, out hit/*, LayerMask.GetMask("Default")*/);
-            ChangePointer(_originTransform.position, hit.point);
+            Vector3 avgForward = Vector3.Lerp(_originStart.forward, _originForward.forward, 0.5f);
+            Physics.Raycast(_originStart.position, avgForward, out hit);
+            ChangePointer(_originStart.position, hit.point);
             //Debug.DrawRay(_originTransform.position, _originTransform.forward * 2);
             if (hit.collider.gameObject.tag.Equals("InteractableObject"))
             {
@@ -52,19 +53,21 @@ namespace Futulabs
         private void ChangePointer(Vector3 start, Vector3 end)
         {
             pointer.SetPosition(0, start);
-            pointer.SetPosition(1, end);
+            pointer.SetPosition(1, Vector3.Lerp(start, end, 0.01f));
+            pointer.SetPosition(2, Vector3.Lerp(start, end, 0.5f));
+            pointer.SetPosition(3, Vector3.Lerp(start, end, 0.75f));
+            pointer.SetPosition(4, end);
         }
 
         private void PullObject()
         {
-            Vector3 velocity = (_originTransform.position - _pulledObject.transform.position); //TODO: Magic
-            ChangePointer(_originTransform.position, _pulledObject.transform.position);
+            Vector3 velocity = (_originStart.position - _pulledObject.transform.position);
+            ChangePointer(_originStart.position, _pulledObject.transform.position);
             _pulledObjectRigidbody.velocity = velocity;
         }
 
         public void ActivatePulling()
         {
-            dt = 0;
             pointer.enabled = true;
             _activated = true;
         }
