@@ -6,7 +6,7 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: FrontColor
+  m_Name: CutterBladeMaterial
   m_Shader: {fileID: 4800000, guid: 31bfda934c27bd54a96d5f3f1ae1d398, type: 3}
   m_ShaderKeywords: _EMISSION
   m_LightmapFlags: 1
@@ -145,4 +145,4 @@ Material:
       second: {r: 0.2205882, g: 0.5162272, b: 1, a: 1}
     - first:
         name: _TintColor
-      second: {r: 0.0441176, g: 0.32758614, b: 1, a: 1}
+      second: {r: 0.044117488, g: 0.32758597, b: 1, a: 1}
