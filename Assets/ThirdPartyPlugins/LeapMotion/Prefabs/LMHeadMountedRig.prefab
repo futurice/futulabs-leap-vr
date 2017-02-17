@@ -1803,6 +1803,8 @@ GameObject:
   - component: {fileID: 4640504890881866}
   - component: {fileID: 114579536727680426}
   - component: {fileID: 114882556248480266}
+  - component: {fileID: 114570841323830734}
+  - component: {fileID: 114829310034678672}
   - component: {fileID: 120489878935861552}
   m_Layer: 0
   m_Name: Index Finger
@@ -1810,7 +1812,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1934916301451040
 GameObject:
   m_ObjectHideFlags: 1
@@ -4215,7 +4217,7 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
-  Period: 1
+  Period: 1.4
   HandModel: {fileID: 114079802875801908}
   Thumb: 0
   Index: 0
@@ -4262,34 +4264,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   OnActivate:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 114166508681794478}
-        m_MethodName: ShowMenu2
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
   OnDeactivate:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 114166508681794478}
-        m_MethodName: HideMenu2
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
   Period: 0.1
@@ -4299,7 +4279,7 @@ MonoBehaviour:
   TargetObject: {fileID: 0}
   OnAngle: 45
   OffAngle: 65
-  ShowGizmos: 1
+  ShowGizmos: 0
 --- !u!114 &114419741128948932
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4704,6 +4684,35 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
+--- !u!114 &114570841323830734
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1908783696057706}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c057ae8396c1146c98a146b81dcc5870, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnActivate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  OnDeactivate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  Period: 0.1
+  HandModel: {fileID: 114327065045141928}
+  PointingType: 1
+  PointingDirection: {x: 0, y: 0, z: 1}
+  TargetObject: {fileID: 0}
+  OnAngle: 77.1
+  OffAngle: 129.5
+  ShowGizmos: 1
 --- !u!114 &114575035798734150
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4770,8 +4779,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _physMaterial: {fileID: 2100000, guid: a4c5cc9a2f7c1934295abea649d2cb9c, type: 2}
-  _originStart: {fileID: 4640504890881866}
-  _originForward: {fileID: 4971026748931604}
+  _ignoreRaycastLayers:
+    serializedVersion: 2
+    m_Bits: 4294967294
+  _originStart: {fileID: 4971026748931604}
+  _originForward: {fileID: 4640504890881866}
   pointer: {fileID: 120489878935861552}
 --- !u!114 &114583869872766638
 MonoBehaviour:
@@ -5274,6 +5286,53 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114829310034678672
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1908783696057706}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2474ece6beb54f10ac1437338b3cb89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnActivate:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 114579536727680426}
+        m_MethodName: ActivatePulling
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  OnDeactivate:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 114579536727680426}
+        m_MethodName: DeactivePulling
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  Detectors: []
+  AddAllSiblingDetectorsOnAwake: 1
+  GateType: 0
+  Negate: 0
 --- !u!114 &114835964915523682
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5447,46 +5506,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   OnActivate:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 114579536727680426}
-        m_MethodName: ActivatePulling
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
   OnDeactivate:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 114579536727680426}
-        m_MethodName: DeactivePulling
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
   Period: 0.1
   HandModel: {fileID: 114327065045141928}
-  Thumb: 1
+  Thumb: 2
   Index: 0
-  Middle: 1
-  Ring: 1
-  Pinky: 1
-  MinimumExtendedCount: 1
-  MaximumExtendedCount: 1
-  ShowGizmos: 1
+  Middle: 0
+  Ring: 0
+  Pinky: 0
+  MinimumExtendedCount: 4
+  MaximumExtendedCount: 5
+  ShowGizmos: 0
 --- !u!114 &114886394605387578
 MonoBehaviour:
   m_ObjectHideFlags: 1

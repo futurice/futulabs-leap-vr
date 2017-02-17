@@ -11,6 +11,9 @@ namespace Futulabs
         [SerializeField]
         private Material _physMaterial;
 
+        [SerializeField]
+        private LayerMask _ignoreRaycastLayers;
+
         [Tooltip("Where the physgun should start")]
         [SerializeField]
         private Transform _originStart;
@@ -38,9 +41,8 @@ namespace Futulabs
         {
             RaycastHit hit;
             Vector3 avgForward = Vector3.Lerp(_originStart.forward, _originForward.forward, 0.5f);
-            Physics.Raycast(_originStart.position, avgForward, out hit);
+            Physics.Raycast(_originStart.position, avgForward, out hit, Mathf.Infinity, _ignoreRaycastLayers);
             ChangePointer(_originStart.position, hit.point);
-            //Debug.DrawRay(_originTransform.position, _originTransform.forward * 2);
             if (hit.collider.gameObject.tag.Equals("InteractableObject"))
             {
                 _pullingObject = true;

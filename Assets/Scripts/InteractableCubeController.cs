@@ -40,34 +40,28 @@ namespace Futulabs
             base.Materialize();
             _isSticky = GameManager.Instance.StickyCubes;
             if (_isSticky)
+            {
                 _outlineMesh.sharedMaterial = SettingsManager.Instance.StickyOutlineMaterial;
+                var stickyComponent = SolidMeshGameObject.AddComponent<Stickyness>();
+                stickyComponent.Init(this);
+            }
         }
 
-
-        protected override void OnCollisionEnter(Collision collision)
-        {
-            if (!_isSticky)
-                base.OnCollisionEnter(collision);
-            else
-                if (collision.gameObject.tag.Equals("Wall"))
-                Stick();
-        }
-
-        private void Stick()
+        public void Stick()
         {
             _isStuck = true;
-            transform.rotation = Quaternion.identity;
+            Rigidbody.transform.rotation = Quaternion.identity;
             Rigidbody.isKinematic = true;
-            gameObject.tag = "Wall";
+            Rigidbody.gameObject.tag = "Wall";
             EffectAudioSource.PlayOneShot(AudioManager.Instance.GetAudioClip(GameAudioClipType.INTERACTABLE_OBJECT_STICK));
-            gameObject.layer = LayerMask.NameToLayer("Environment");
+            Rigidbody.gameObject.layer = LayerMask.NameToLayer("Environment");
             StartCoroutine(DelayAddScript());
         }
 
         private IEnumerator DelayAddScript()
         {
             yield return new WaitForEndOfFrame();
-            LightWallController wallScript = gameObject.AddComponent<LightWallController>();
+            LightWallController wallScript = Rigidbody.gameObject.AddComponent<LightWallController>();
             wallScript.LightPrefab = LightControllerObject;
         }
     }
