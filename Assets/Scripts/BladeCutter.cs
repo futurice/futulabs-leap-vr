@@ -24,7 +24,7 @@ namespace Futulabs
                 InteractableObjectControllerBase interactableObject = collision.gameObject.GetComponentInParent<InteractableObjectControllerBase>();               
                 GameObject rightHalf = new GameObject(interactableObject.transform.name);
                 InteractableObjectControllerBase rightHalfInteractableObject = rightHalf.AddComponent(interactableObject.GetType()) as InteractableObjectControllerBase;
-                rightHalf.transform.SetParent(ObjectManager.Instance.ObjectContainer);
+                rightHalf.transform.SetParent(ObjectManager.Instance.ObjectContainer, true);
                 rightHalf.transform.localScale = Vector3.Scale(interactableObject.transform.parent.localScale, interactableObject.transform.localScale);
                 rightHalf.tag = "InteractableObject";
 
@@ -45,8 +45,10 @@ namespace Futulabs
 					);
 				})
 				.Subscribe (outlinePieces => {
-					// Rebuild the references for the new InteractableObjectController
-					rightHalfInteractableObject.RebuildReferences();
+                    // Rebuild the references for the new InteractableObjectController
+                    outlinePieces[(int)MeshCut.MeshCutPieces.RIGHT_SIDE].transform.localPosition = Vector3.zero;
+                    outlinePieces[(int)MeshCut.MeshCutPieces.RIGHT_SIDE].transform.localRotation = Quaternion.identity;
+                    rightHalfInteractableObject.RebuildReferences();
 				});
 
                 _lastCutTime = Time.time;
@@ -66,7 +68,7 @@ namespace Futulabs
 					leftSideGameObject.transform.SetParent(leftParent, true);
 					rightSideGameObject.transform.SetParent(rightParent, true);
 					rightSideGameObject.transform.localScale = leftSideGameObject.transform.localScale;
-
+                    
 					return pieces;
 				});
         }

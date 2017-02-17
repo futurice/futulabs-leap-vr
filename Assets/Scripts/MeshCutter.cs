@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UniRx;
+using System.Linq;
 
 namespace Futulabs
 {
@@ -16,7 +17,9 @@ namespace Futulabs
 
 		public class MeshCutSide
 		{
-			readonly private Mesh  _targetMesh 	= null;
+			readonly private Vector3[]  _targetMeshVertices 	= null;
+            readonly private Vector3[]  _targetMeshNormals      = null;
+            readonly private Vector2[]  _targetMeshUVs          = null;
 
 			public List<Vector3>  	vertices  	= new List<Vector3>();
 			public List<Vector3>  	normals   	= new List<Vector3>();
@@ -24,9 +27,11 @@ namespace Futulabs
 			public List<int>      	triangles 	= new List<int>();
 			public List<List<int>> 	subIndices 	= new List<List<int>>();
 
-			public MeshCutSide(Mesh target)
+			public MeshCutSide(Vector3[] targetMeshVertices, Vector3[] targetMeshNormals, Vector2[] targetMeshUVs)
 			{
-				_targetMesh = target;
+				_targetMeshVertices = targetMeshVertices;
+                _targetMeshNormals = targetMeshNormals;
+                _targetMeshUVs = targetMeshUVs;
 			}
 
 			public void ClearAll()
@@ -51,17 +56,17 @@ namespace Futulabs
 				triangles.Add(base_index+1);
 				triangles.Add(base_index+2);
 
-				vertices.Add(_targetMesh.vertices[p1]);
-				vertices.Add(_targetMesh.vertices[p2]);
-				vertices.Add(_targetMesh.vertices[p3]);
+				vertices.Add(_targetMeshVertices[p1]);
+				vertices.Add(_targetMeshVertices[p2]);
+				vertices.Add(_targetMeshVertices[p3]);
 
-				normals.Add(_targetMesh.normals[p1]);
-				normals.Add(_targetMesh.normals[p2]);
-				normals.Add(_targetMesh.normals[p3]);
+				normals.Add(_targetMeshNormals[p1]);
+				normals.Add(_targetMeshNormals[p2]);
+				normals.Add(_targetMeshNormals[p3]);
 
-				uvs.Add(_targetMesh.uv[p1]);
-				uvs.Add(_targetMesh.uv[p2]);
-				uvs.Add(_targetMesh.uv[p3]);
+				uvs.Add(_targetMeshUVs[p1]);
+				uvs.Add(_targetMeshUVs[p2]);
+				uvs.Add(_targetMeshUVs[p3]);
 
 			}
 
@@ -73,8 +78,8 @@ namespace Futulabs
 				int p2 = 1;
 				int p3 = 2;
 
-				if(Vector3.Dot(calculated_normal, faceNormal) < 0){
-
+				if (Vector3.Dot(calculated_normal, faceNormal) < 0)
+                {
 					p1 = 2;
 					p2 = 1;
 					p3 = 0;
@@ -123,51 +128,61 @@ namespace Futulabs
 		/// <param name="copyRigidbody">Should both of the new pieces have colliders.</param>
 		public static IObservable<GameObject[]> Cut(GameObject target, Vector3 anchorPoint, Vector3 normalDirection, Material capMaterial, bool copyRigidbody =true, bool copyCollider =true)
 		{
-			return Observable.Start (() => {
-				// set the blade relative to victim
-				Plane blade = new Plane(target.transform.InverseTransformDirection(-normalDirection),
-					target.transform.InverseTransformPoint(anchorPoint));
+            // Set the blade relative to victim
+            Plane blade = new Plane(target.transform.InverseTransformDirection(-normalDirection),
+                target.transform.InverseTransformPoint(anchorPoint));
 
-				// get the victims mesh
-				Mesh targetMesh = target.GetComponent<MeshFilter>().mesh;
+            // Get the target mesh
+            Mesh targetMesh = target.GetComponent<MeshFilter>().mesh;
+            Vector3[] targetMeshVertices = targetMesh.vertices;
+            Vector3[] targetMeshNormals = targetMesh.normals;
+            Vector2[] targetMeshUVs = targetMesh.uv;
 
+            int subMeshCount = targetMesh.subMeshCount;
+            List<int[]> subMeshIndices = new List<int[]>();
+
+            for (int i = 0; i < subMeshCount; ++i)
+            {
+                subMeshIndices.Add(targetMesh.GetIndices(i));
+            }
+
+            // Material parameters
+            Material[] mats = target.GetComponent<MeshRenderer>().sharedMaterials;
+            string[] matsNames = mats.Select(m => m.name).ToArray();
+            string capMaterialName = capMaterial.name;
+
+            return Observable.Start (() =>
+            {
 				if (targetMesh == null)
 				{
 					Debug.LogError("MeshCut Cut: Target did not have a MeshFilter component");
 				}
 
 				// Left and right side mesh cuts
-				MeshCutSide leftSide = new MeshCutSide(targetMesh);
-				MeshCutSide rightSide = new MeshCutSide(targetMesh);
+				MeshCutSide leftSide = new MeshCutSide(targetMeshVertices, targetMeshNormals, targetMeshUVs);
+				MeshCutSide rightSide = new MeshCutSide(targetMeshVertices, targetMeshNormals, targetMeshUVs);
 
 				// New vertices for capping the cutting surface
 				List<Vector3> newVertices = new List<Vector3>();
 
 				bool[] sides = new bool[3];
-				int[] indices;
 				int   p1,p2,p3;
-
-				// go through the submeshes
-				int subMeshCount = targetMesh.subMeshCount;
 
 				for (int sub=0; sub < subMeshCount; ++sub)
 				{
-					indices = targetMesh.GetIndices(sub);
-
+                    int[] indices = subMeshIndices[sub];
 					leftSide.subIndices.Add(new List<int>());
 					rightSide.subIndices.Add(new List<int>());
 
-					for (int i=0; i<indices.Length; i+=3)
+					for (int i=0; i < indices.Length; i += 3)
 					{
-
 						p1 = indices[i];
 						p2 = indices[i+1];
 						p3 = indices[i+2];
 
-						sides[0] = blade.GetSide(targetMesh.vertices[p1]);
-						sides[1] = blade.GetSide(targetMesh.vertices[p2]);
-						sides[2] = blade.GetSide(targetMesh.vertices[p3]);
-
+						sides[0] = blade.GetSide(targetMeshVertices[p1]);
+						sides[1] = blade.GetSide(targetMeshVertices[p2]);
+						sides[2] = blade.GetSide(targetMeshVertices[p3]);
 
 						// whole triangle
 						if (sides[0] == sides[1] && sides[0] == sides[2]){
@@ -185,15 +200,26 @@ namespace Futulabs
 						}
 						else
 						{
-							// cut the triangle	
-							CutFace(blade, leftSide, rightSide, newVertices, targetMesh, sub, sides, p1, p2, p3);
+                            // Cut the triangle	
+                            CutFace(
+                                blade,
+                                leftSide,
+                                rightSide,
+                                newVertices,
+                                targetMeshVertices,
+                                targetMeshNormals,
+                                targetMeshUVs,
+                                sub,
+                                sides,
+                                p1,
+                                p2,
+                                p3
+                            );
 						}
 					}
 				}
 
-				Material[] mats = target.GetComponent<MeshRenderer>().sharedMaterials;
-
-				if (mats[mats.Length-1].name != capMaterial.name)
+				if (matsNames[mats.Length-1] != capMaterialName)
 				{
 					// Add cap indices
 					leftSide.subIndices.Add(new List<int>());
@@ -208,56 +234,55 @@ namespace Futulabs
 				// Cap the openings
 				Capping(blade, leftSide, rightSide, newVertices);
 
-				// Left Mesh
-				Mesh leftHalfMesh = new Mesh();
-				leftHalfMesh.name =  "Split Mesh Left";
-				leftHalfMesh.vertices  = leftSide.vertices.ToArray();
-				leftHalfMesh.triangles = leftSide.triangles.ToArray();
-				leftHalfMesh.normals   = leftSide.normals.ToArray();
-				leftHalfMesh.uv        = leftSide.uvs.ToArray();
-
-				leftHalfMesh.subMeshCount = leftSide.subIndices.Count;
-				int leftHalfMeshSubMeshCount = leftHalfMesh.subMeshCount;
-
-				for (int i=0; i < leftHalfMeshSubMeshCount; ++i)
-				{
-					leftHalfMesh.SetIndices(leftSide.subIndices[i].ToArray(), MeshTopology.Triangles, i);	
-				}
-
-				// Right Mesh
-				Mesh rightHalfMesh = new Mesh();
-				rightHalfMesh.name = "Split Mesh Right";
-				rightHalfMesh.vertices  = rightSide.vertices.ToArray();
-				rightHalfMesh.triangles = rightSide.triangles.ToArray();
-				rightHalfMesh.normals   = rightSide.normals.ToArray();
-				rightHalfMesh.uv        = rightSide.uvs.ToArray();
-
-				rightHalfMesh.subMeshCount = rightSide.subIndices.Count;
-				int rightHalfSubMeshCount = rightHalfMesh.subMeshCount;
-
-				for (int i=0; i < rightHalfSubMeshCount; ++i)
-				{
-					rightHalfMesh.SetIndices(rightSide.subIndices[i].ToArray(), MeshTopology.Triangles, i);
-				}
-
-				return new MeshCutResults {
-					leftHalfMesh = leftHalfMesh,
-					rightHalfMesh = rightHalfMesh,
-					mats = mats
-				};
+                return new MeshCutSide[] { leftSide, rightSide };
 			},
 			Scheduler.ThreadPool)
 			.ObserveOnMainThread()
 			.Select(results => {
-				// Assign the game objects
-				target.GetComponent<MeshFilter>().mesh = results.leftHalfMesh;
+                MeshCutSide leftSide = results[0];
+                MeshCutSide rightSide = results[1];
+
+                // Left Mesh
+                Mesh leftHalfMesh = new Mesh();
+                leftHalfMesh.name = "Split Mesh Left";
+                leftHalfMesh.vertices = leftSide.vertices.ToArray();
+                leftHalfMesh.triangles = leftSide.triangles.ToArray();
+                leftHalfMesh.normals = leftSide.normals.ToArray();
+                leftHalfMesh.uv = leftSide.uvs.ToArray();
+
+                leftHalfMesh.subMeshCount = leftSide.subIndices.Count;
+                int leftHalfMeshSubMeshCount = leftHalfMesh.subMeshCount;
+
+                for (int i = 0; i < leftHalfMeshSubMeshCount; ++i)
+                {
+                    leftHalfMesh.SetIndices(leftSide.subIndices[i].ToArray(), MeshTopology.Triangles, i);
+                }
+
+                // Right Mesh
+                Mesh rightHalfMesh = new Mesh();
+                rightHalfMesh.name = "Split Mesh Right";
+                rightHalfMesh.vertices = rightSide.vertices.ToArray();
+                rightHalfMesh.triangles = rightSide.triangles.ToArray();
+                rightHalfMesh.normals = rightSide.normals.ToArray();
+                rightHalfMesh.uv = rightSide.uvs.ToArray();
+
+                rightHalfMesh.subMeshCount = rightSide.subIndices.Count;
+                int rightHalfSubMeshCount = rightHalfMesh.subMeshCount;
+
+                for (int i = 0; i < rightHalfSubMeshCount; ++i)
+                {
+                    rightHalfMesh.SetIndices(rightSide.subIndices[i].ToArray(), MeshTopology.Triangles, i);
+                }
+
+                // Assign the game objects
+                target.GetComponent<MeshFilter>().mesh = leftHalfMesh;
 				GameObject leftSideObj = target;
 
 				GameObject rightSideObj = new GameObject(target.name, typeof(MeshFilter), typeof(MeshRenderer));
 				rightSideObj.transform.position = target.transform.position;
 				rightSideObj.transform.rotation = target.transform.rotation;
 				rightSideObj.transform.localScale = target.transform.localScale;
-				rightSideObj.GetComponent<MeshFilter>().mesh = results.rightHalfMesh;
+				rightSideObj.GetComponent<MeshFilter>().mesh = rightHalfMesh;
 
 				// Maintain colliders and rigidbodies on both pieces i.e. populate the right piece
 				Rigidbody leftSideRigidbody = leftSideObj.GetComponent<Rigidbody>();
@@ -276,14 +301,26 @@ namespace Futulabs
 				}
 
 				// Assign mats
-				leftSideObj.GetComponent<MeshRenderer>().materials = results.mats;
-				rightSideObj.GetComponent<MeshRenderer>().materials = results.mats;
+				leftSideObj.GetComponent<MeshRenderer>().materials = mats;
+				rightSideObj.GetComponent<MeshRenderer>().materials = mats;
 
 				return new GameObject[]{ leftSideObj, rightSideObj };	
 			});
 		}
 
-		private static void CutFace(Plane blade, MeshCutSide leftSide, MeshCutSide rightSide, List<Vector3> newVertices, Mesh targetMesh, int submesh, bool[] sides, int index1, int index2, int index3)
+		private static void CutFace(
+            Plane blade,
+            MeshCutSide leftSide,
+            MeshCutSide rightSide,
+            List<Vector3> newVertices,
+            Vector3[] targetMeshVertices,
+            Vector3[] targetMeshNormals,
+            Vector2[] targetMeshUVs,
+            int submesh,
+            bool[] sides,
+            int index1,
+            int index2,
+            int index3)
 		{
 			Vector3[] leftPoints = new Vector3[2];
 			Vector3[] leftNormals = new Vector3[2];
@@ -312,18 +349,18 @@ namespace Futulabs
 					{
 						didset_left = true;
 
-						leftPoints[0]   = targetMesh.vertices[p];
+						leftPoints[0]   = targetMeshVertices[p];
 						leftPoints[1]   = leftPoints[0];
-						leftUvs[0]     = targetMesh.uv[p];
+						leftUvs[0]     = targetMeshUVs[p];
 						leftUvs[1]     = leftUvs[0];
-						leftNormals[0] = targetMesh.normals[p];
+						leftNormals[0] = targetMeshNormals[p];
 						leftNormals[1] = leftNormals[0];
 					}
 					else
 					{
-						leftPoints[1]    = targetMesh.vertices[p];
-						leftUvs[1]      = targetMesh.uv[p];
-						leftNormals[1]  = targetMesh.normals[p];
+						leftPoints[1]    = targetMeshVertices[p];
+						leftUvs[1]      = targetMeshUVs[p];
+						leftNormals[1]  = targetMeshNormals[p];
 
 					}
 				}
@@ -333,18 +370,18 @@ namespace Futulabs
 					{
 						didset_right = true;
 
-						rightPoints[0]   = targetMesh.vertices[p];
+						rightPoints[0]   = targetMeshVertices[p];
 						rightPoints[1]   = rightPoints[0];
-						rightUvs[0]     = targetMesh.uv[p];
+						rightUvs[0]     = targetMeshUVs[p];
 						rightUvs[1]     = rightUvs[0];
-						rightNormals[0] = targetMesh.normals[p];
+						rightNormals[0] = targetMeshNormals[p];
 						rightNormals[1] = rightNormals[0];
 					}
 					else
 					{
-						rightPoints[1]   = targetMesh.vertices[p];
-						rightUvs[1]     = targetMesh.uv[p];
-						rightNormals[1] = targetMesh.normals[p];
+						rightPoints[1]   = targetMeshVertices[p];
+						rightUvs[1]     = targetMeshUVs[p];
+						rightNormals[1] = targetMeshNormals[p];
 
 					}
 				}
