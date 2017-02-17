@@ -1113,6 +1113,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4703974288261900}
   - component: {fileID: 114283419548624366}
+  - component: {fileID: 65374717553748778}
+  - component: {fileID: 114792344971368856}
   m_Layer: 0
   m_Name: RightPalm
   m_TagString: Untagged
@@ -1808,7 +1810,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1934916301451040
 GameObject:
   m_ObjectHideFlags: 1
@@ -2009,7 +2011,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1156316672356078}
   m_LocalRotation: {x: 0.07157406, y: 7.105427e-15, z: 7.105427e-15, w: 0.99743533}
-  m_LocalPosition: {x: -0, y: 0.017, z: -0.119}
+  m_LocalPosition: {x: -0, y: 0.017, z: 0.321}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4190577442328374}
@@ -2302,7 +2304,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1334423527090180}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.7, z: 0}
+  m_LocalPosition: {x: 0, y: 0.716, z: 0}
   m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_Children:
   - {fileID: 4703974288261900}
@@ -2812,7 +2814,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1474100029627426}
   m_LocalRotation: {x: 0.7071067, y: 0.00000014611093, z: 0.00000014611093, w: -0.7071068}
-  m_LocalPosition: {x: 0.7999998, y: 7, z: 1.2000002}
+  m_LocalPosition: {x: 0.7999998, y: 6.8399997, z: 1.2000002}
   m_LocalScale: {x: 1.2, y: 1.2, z: 1.2}
   m_Children:
   - {fileID: 4018087125007082}
@@ -3272,6 +3274,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.36, y: 0.7775229, z: 0.1661218}
   m_Center: {x: 0, y: 0.2187615, z: 0.058060907}
+--- !u!65 &65374717553748778
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1474100029627426}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.5, y: 0.1, z: 1.2}
+  m_Center: {x: 0, y: 0, z: 0.45}
 --- !u!114 &114013993529016356
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3882,13 +3896,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 664eb9c3d9da8164d85d70051c22bb61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  leftBlade: {fileID: 1587639746348576}
-  rightBlade: {fileID: 1578402393413320}
-  RotationX: 180
-  RotationY: 40
-  PositionZ_Deactivated: 0
-  PositionZ_Activated: 0
-  AnimateTime: 0.25
+  _leftBlade: {fileID: 1587639746348576}
+  _rightBlade: {fileID: 1578402393413320}
+  _rotationX: 180
+  _rotationY: 60
+  _positionZDeactivated: 0
+  _positionZActivated: 0
+  _animateTime: 0.25
+  _cutterMaterial: {fileID: 2100000, guid: 200f4b6545c5b9a45b61c9cf441dd6e5, type: 2}
+  _originalColor: {r: 0.043137256, g: 0.32941177, b: 1, a: 1}
+  _bladeScript: {fileID: 114792344971368856}
+  _bladeCollider: {fileID: 65374717553748778}
 --- !u!114 &114286654229601716
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4197,15 +4215,15 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
-  Period: 0.1
+  Period: 1
   HandModel: {fileID: 114079802875801908}
-  Thumb: 1
-  Index: 1
-  Middle: 1
-  Ring: 1
-  Pinky: 1
-  MinimumExtendedCount: 0
-  MaximumExtendedCount: 0
+  Thumb: 0
+  Index: 0
+  Middle: 0
+  Ring: 0
+  Pinky: 0
+  MinimumExtendedCount: 5
+  MaximumExtendedCount: 5
   ShowGizmos: 1
 --- !u!114 &114358288133550610
 MonoBehaviour:
@@ -5102,6 +5120,19 @@ MonoBehaviour:
   m_EffectColor: {r: 0.3602941, g: 0.7617648, b: 1, a: 1}
   m_EffectDistance: {x: 4, y: 4}
   m_UseGraphicAlpha: 1
+--- !u!114 &114792344971368856
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1474100029627426}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b04cee880c6f4c3698e8131d56f1b71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _capMaterial: {fileID: 2100000, guid: faa3a2c59ab499047b2ff3ac6c637963, type: 2}
+  _cutCooldown: 0.5
 --- !u!114 &114794245146652348
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -44,8 +44,8 @@ namespace Futulabs
             if (hit.collider.gameObject.tag.Equals("InteractableObject"))
             {
                 _pullingObject = true;
-                _pulledObject = hit.collider.GetComponent<InteractableObjectControllerBase>();
-                _pulledObjectRigidbody = _pulledObject.GetComponent<Rigidbody>();
+                _pulledObject = hit.collider.GetComponentInParent<InteractableObjectControllerBase>();
+                _pulledObjectRigidbody = _pulledObject.Rigidbody;
                 _pulledObjectRigidbody.useGravity = false;
             }
         }
@@ -61,8 +61,8 @@ namespace Futulabs
 
         private void PullObject()
         {
-            Vector3 velocity = (_originStart.position - _pulledObject.transform.position);
-            ChangePointer(_originStart.position, _pulledObject.transform.position);
+            Vector3 velocity = (_originStart.position - _pulledObject.Rigidbody.transform.position);
+            ChangePointer(_originStart.position, _pulledObject.Rigidbody.transform.position);
             _pulledObjectRigidbody.velocity = velocity;
         }
 

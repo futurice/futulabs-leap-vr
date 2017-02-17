@@ -8,29 +8,27 @@ using DG.Tweening;
 namespace Futulabs
 {
     [RequireComponent(typeof(AudioSource))]             // Required to play sound effects related to this object
-    [RequireComponent(typeof(Rigidbody))]               // Required by InteractionBehaviour
-    [RequireComponent(typeof(LeapRTS))]                 // Required to do transform manipulations with Leap Motion
-    [RequireComponent(typeof(InteractionBehaviour))]    // Required to for physics interactions with the Leap Motions hands
     public class InteractableObjectControllerBase : MonoBehaviour, IInteractableObjectController
     {
         [Header("Meshes")]
         [SerializeField]
-        [Tooltip("Meshes that should be enabled when the object is being created i.e. outlines")]
-        protected MeshRenderer[] _outlineMeshes;
+        [Tooltip("Mesh that should be enabled when the object is being created i.e. outlines")]
+        protected MeshRenderer _outlineMesh;
         [SerializeField]
-        [Tooltip("Meshes that should be enabled when the object has materialized")]
-        protected MeshRenderer[] _materializedMeshes;
+        [Tooltip("Mesh that should be enabled when the object has materialized")]
+        protected MeshRenderer _solidMesh;
 
         [Header("Scaling")]
         [SerializeField]
         [Tooltip("Does the script implement its own scaling or should it use the Leap RTS default uniform scaling")]
         protected bool _overrideLeapRTSScaling = false;
 
+        [SerializeField]
         protected LeapRTS _leapRTSComponent;
+        [SerializeField]
         protected InteractionBehaviour _leapInteractionBehaviour;
         protected AudioSource _effectAudioSource;
         protected Collider[] _colliders;
-        protected Rigidbody[] _rigidbodies;
 
         protected Vector3[] _velocityFrames;
         protected bool _creating = false;
@@ -45,15 +43,14 @@ namespace Futulabs
         protected Tweener _minDiffuseTween;
         protected Tweener _minGainTween;
 
+        [SerializeField]
+        protected Rigidbody _rigidbody;
+
+
         public LeapRTS LeapRTSComponent
         {
             get
             {
-                if (_leapRTSComponent == null)
-                {
-                    _leapRTSComponent = GetComponent<LeapRTS>();
-                }
-
                 return _leapRTSComponent;
             }
         }
@@ -62,11 +59,6 @@ namespace Futulabs
         {
             get
             {
-                if (_leapInteractionBehaviour == null)
-                {
-                    _leapInteractionBehaviour = GetComponent<InteractionBehaviour>();
-                }
-
                 return _leapInteractionBehaviour;
             }
         }
@@ -131,16 +123,11 @@ namespace Futulabs
             }
         }
 
-        protected Rigidbody[] Rigidbodies
+        public Rigidbody Rigidbody
         {
             get
             {
-                if (_rigidbodies == null)
-                {
-                    _rigidbodies = GetComponentsInChildren<Rigidbody>();
-                }
-
-                return _rigidbodies;
+                return _rigidbody;
             }
         }
 
@@ -148,7 +135,7 @@ namespace Futulabs
         {
             get
             {
-                return _outlineMeshes[0].material.GetColor("_EmissionColor");
+                return _outlineMesh.material.GetColor("_EmissionColor");
             }
         }
 
@@ -160,8 +147,29 @@ namespace Futulabs
             }
         }
 
+        virtual public GameObject SolidMeshGameObject
+        {
+            get
+            {
+                return _solidMesh.gameObject;
+            }
+        }
+
+        virtual public GameObject OutlineMeshGameObject
+        {
+            get
+            {
+                return _outlineMesh.gameObject;
+            }
+        }
+
         virtual protected void Start()
         {
+            if (_solidMesh == null)
+            {
+                return;
+            }
+
             EnableMaterializedMeshes(false);
             EnableOutlineMeshes(false);
             StartCoroutine(Activate());
@@ -173,14 +181,6 @@ namespace Futulabs
             EnableOutlineMeshes(true);
         }
 
-        virtual protected void Update()
-        {
-            if(_creating)
-            {
-
-            }
-        }
-
         virtual protected void FixedUpdate()
         {
             if (_creating)
@@ -189,6 +189,14 @@ namespace Futulabs
                 _currentRotationFrame = transform.rotation;
                 CaptureFrame();
             }
+        }
+
+        virtual public void RebuildReferences()
+        {
+            _solidMesh = transform.FindChild("Solid").GetComponent<MeshRenderer>();
+            _outlineMesh = transform.FindChild("Outline").GetComponent<MeshRenderer>();
+            _leapInteractionBehaviour = GetComponentInChildren<InteractionBehaviour>();
+            _rigidbody = GetComponentInChildren<Rigidbody>();
         }
 
         virtual protected void CaptureFrame()
@@ -248,13 +256,13 @@ namespace Futulabs
         virtual protected void AddCreationForce()
         {
             Vector3 velocity = CalculateCurrentVelocity();
-            Rigidbodies[0].velocity = velocity * ObjectManager.Instance.CreationForceScaleFactor;
+            Rigidbody.velocity = velocity * ObjectManager.Instance.CreationForceScaleFactor;
             Vector3 angularVel = ((_currentRotationFrame) * Quaternion.Inverse(_lastRotationFrame)).eulerAngles;
             angularVel = new Vector3(
                 Mathf.DeltaAngle(0, angularVel.x) * Mathf.Deg2Rad,
                 Mathf.DeltaAngle(0, angularVel.y) * Mathf.Deg2Rad,
                 Mathf.DeltaAngle(0, angularVel.z) * Mathf.Deg2Rad) / Time.fixedDeltaTime;
-            Rigidbodies[0].angularVelocity = angularVel;
+            Rigidbody.angularVelocity = angularVel;
         }
 
         virtual public void Materialize()
@@ -267,9 +275,6 @@ namespace Futulabs
 
             // Turn on Collider and Rigidbody components to enable physics
             EnableCollidersAndRigidbodies(true);
-
-            // Turn off the outline meshes
-            EnableOutlineMeshes(false);
 
             // Turn on materialized meshes
             EnableMaterializedMeshes(true);
@@ -288,22 +293,24 @@ namespace Futulabs
 
         virtual protected void EnableOutlineMeshes(bool enabled)
         {
-            int numOutlineMeshes = _outlineMeshes.Length;
-
-            for (int i = 0; i < numOutlineMeshes; ++i)
-            {
-                _outlineMeshes[i].enabled = enabled;
+            if (_outlineMesh == null)
+            { 
+                Debug.LogWarning("InteractableObjectControllerBase EnableOutlineMeshes: Outline mesh is null");
+                return;
             }
+
+            _outlineMesh.enabled = enabled;
         }
 
         virtual protected void EnableMaterializedMeshes(bool enabled)
         {
-            int numMaterializedMeshes = _materializedMeshes.Length;
-
-            for (int i = 0; i < numMaterializedMeshes; ++i)
+            if (_solidMesh == null)
             {
-                _materializedMeshes[i].enabled = enabled;
+                Debug.LogWarning("InteractableObjectControllerBase EnableMaterializedMeshes: Solid mesh is null");
+                return;
             }
+
+            _solidMesh.enabled = enabled;
         }
 
         virtual protected void EnableCollidersAndRigidbodies(bool enabled)
@@ -317,14 +324,7 @@ namespace Futulabs
             }
 
             LeapInteractionBehaviour.isKinematic = !enabled;
-
-            Rigidbody[] rigidbodies = Rigidbodies;
-            int numRigidbodies = rigidbodies.Length;
-
-            for (int i = 0; i < numRigidbodies; ++i)
-            {
-                rigidbodies[i].detectCollisions = enabled;
-            }
+            Rigidbody.detectCollisions = enabled;
         }
 
         virtual protected void OnCollisionEnter(Collision collision)
@@ -350,9 +350,9 @@ namespace Futulabs
             magnitude = Mathf.Max(SettingsManager.Instance.InteractableMaterialOutlineMinGlowTime, magnitude);
             magnitude = Mathf.Min(SettingsManager.Instance.InteractableMaterialOutlineMaxGlowTime, magnitude);
 
-            _minEmissionTween = _outlineMeshes[0].material.DOColor(SettingsManager.Instance.InteractableMaterialMinEmissionColor, "_EmissionColor", magnitude).SetEase(Ease.OutExpo);
-            _minDiffuseTween = _outlineMeshes[0].material.DOColor(SettingsManager.Instance.InteractableMaterialMinDiffuseColor, "_DiffuseColor", magnitude).SetEase(Ease.OutExpo);
-            _minGainTween = _outlineMeshes[0].material.DOFloat(SettingsManager.Instance.InteractableMaterialMinEmissionGain, "_EmissionGain", magnitude).SetEase(Ease.OutExpo);
+            _minEmissionTween = _outlineMesh.material.DOColor(SettingsManager.Instance.InteractableMaterialMinEmissionColor, "_EmissionColor", magnitude).SetEase(Ease.OutExpo);
+            _minDiffuseTween = _outlineMesh.material.DOColor(SettingsManager.Instance.InteractableMaterialMinDiffuseColor, "_DiffuseColor", magnitude).SetEase(Ease.OutExpo);
+            _minGainTween = _outlineMesh.material.DOFloat(SettingsManager.Instance.InteractableMaterialMinEmissionGain, "_EmissionGain", magnitude).SetEase(Ease.OutExpo);
         }
 
         virtual protected void IlluminateOutlineBloom(float amount = 1)
@@ -363,9 +363,9 @@ namespace Futulabs
             Color diffuse = Color.Lerp(SettingsManager.Instance.InteractableMaterialMinDiffuseColor, SettingsManager.Instance.InteractableMaterialMaxDiffuseColor, amount);
             float gain = Mathf.Lerp(SettingsManager.Instance.InteractableMaterialMinEmissionGain, SettingsManager.Instance.InteractableMaterialMaxEmissionGain, amount);
 
-            _outlineMeshes[0].material.SetColor("_EmissionColor", emission);
-            _outlineMeshes[0].material.SetColor("_DiffuseColor", diffuse);
-            _outlineMeshes[0].material.SetFloat("_EmissionGain", gain);
+            _outlineMesh.material.SetColor("_EmissionColor", emission);
+            _outlineMesh.material.SetColor("_DiffuseColor", diffuse);
+            _outlineMesh.material.SetFloat("_EmissionGain", gain);
         }
     }
 }

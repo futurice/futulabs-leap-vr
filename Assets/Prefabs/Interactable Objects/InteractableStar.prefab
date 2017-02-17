@@ -11,9 +11,29 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 1976312594605202}
   m_IsPrefabParent: 1
---- !u!1 &1886135334408824
+--- !u!1 &1269631852284320
 GameObject:
   m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4543540761707102}
+  - component: {fileID: 33675922248162838}
+  - component: {fileID: 23295421227235758}
+  - component: {fileID: 64508383990758702}
+  - component: {fileID: 54338661292723804}
+  - component: {fileID: 114821407198917190}
+  m_Layer: 0
+  m_Name: Solid
+  m_TagString: InteractableObject
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1886135334408824
+GameObject:
+  m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
@@ -36,13 +56,8 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4335021426267898}
-  - component: {fileID: 33459348552452760}
-  - component: {fileID: 23629814599257652}
-  - component: {fileID: 54452795151843362}
-  - component: {fileID: 64343866565368278}
   - component: {fileID: 82741848359910428}
   - component: {fileID: 114539245086516276}
-  - component: {fileID: 114423258116405372}
   - component: {fileID: 114794658771215636}
   m_Layer: 0
   m_Name: InteractableStar
@@ -61,8 +76,22 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 10, y: 10, z: 10}
   m_Children:
-  - {fileID: 4834519284075296}
+  - {fileID: 4543540761707102}
   m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4543540761707102
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1269631852284320}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 4834519284075296}
+  m_Father: {fileID: 4335021426267898}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4834519284075296
@@ -71,11 +100,11 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1886135334408824}
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 4335021426267898}
+  m_Father: {fileID: 4543540761707102}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &23283269628610960
@@ -109,12 +138,12 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
---- !u!23 &23629814599257652
+--- !u!23 &23295421227235758
 MeshRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1976312594605202}
+  m_GameObject: {fileID: 1269631852284320}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -147,34 +176,34 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1886135334408824}
   m_Mesh: {fileID: 4300002, guid: 82df91214e9490841a71407034a518bf, type: 3}
---- !u!33 &33459348552452760
+--- !u!33 &33675922248162838
 MeshFilter:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1976312594605202}
+  m_GameObject: {fileID: 1269631852284320}
   m_Mesh: {fileID: 4300000, guid: 82df91214e9490841a71407034a518bf, type: 3}
---- !u!54 &54452795151843362
+--- !u!54 &54338661292723804
 Rigidbody:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1976312594605202}
+  m_GameObject: {fileID: 1269631852284320}
   serializedVersion: 2
   m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 1
+  m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 1
---- !u!64 &64343866565368278
+  m_CollisionDetection: 0
+--- !u!64 &64508383990758702
 MeshCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1976312594605202}
+  m_GameObject: {fileID: 1269631852284320}
   m_Material: {fileID: 13400000, guid: 37b1f9135ed80e5438922256002328c6, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
@@ -263,19 +292,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
---- !u!114 &114423258116405372
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1976312594605202}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ffce1885e536aaf4696254f3d6911922, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _manager: {fileID: 0}
-  _material: {fileID: 11400000, guid: 2b36778cd97232c459902ea9b77fd3ec, type: 2}
 --- !u!114 &114539245086516276
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -307,9 +323,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 884e47158c596ce4a9c055616d8f6fdd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _outlineMeshes:
-  - {fileID: 23283269628610960}
-  _materializedMeshes:
-  - {fileID: 23283269628610960}
-  - {fileID: 23629814599257652}
+  _outlineMesh: {fileID: 23283269628610960}
+  _solidMesh: {fileID: 23295421227235758}
   _overrideLeapRTSScaling: 0
+  _leapRTSComponent: {fileID: 114539245086516276}
+  _leapInteractionBehaviour: {fileID: 114821407198917190}
+  _rigidbody: {fileID: 54338661292723804}
+--- !u!114 &114821407198917190
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1269631852284320}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffce1885e536aaf4696254f3d6911922, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _manager: {fileID: 0}
+  _material: {fileID: 11400000, guid: 2b36778cd97232c459902ea9b77fd3ec, type: 2}

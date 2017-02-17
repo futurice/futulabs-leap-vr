@@ -1,47 +1,74 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace Futulabs
 {
-	
-[RequireComponent (typeof(Rigidbody))]
-public class BladeCutter : MonoBehaviour
-{
-	[SerializeField]
-	protected Material 					_capMaterial;
-	[SerializeField]
-	protected AudioSource 				_audioSource;
-	[SerializeField]
-	protected AudioClip 				_cutAudioClip;
-	[SerializeField]
-	protected AudioClip 				_swordCollisionAudioClip;
-	[SerializeField]
-	public bool							_hapticFeedback;
+    public class BladeCutter : MonoBehaviour
+    {
+        [SerializeField]
+        private Material _capMaterial;
+        [SerializeField]
+        private float _cutCooldown = 0.5f;
 
-	private void OnCollisionEnter(Collision collision)
-	{
-		if (collision.gameObject.CompareTag ("Sword"))
-		{
-			_audioSource.clip = _swordCollisionAudioClip;
-			_audioSource.Play ();
-		}
-		else if (collision.gameObject.CompareTag ("Fruit"))
-		{
-			_audioSource.clip = _cutAudioClip;	
-			_audioSource.Play ();
+        private float _lastCutTime;
 
-			GameObject target = collision.collider.gameObject;
-			GameObject[] pieces = MeshCut.Cut(target, transform.position, transform.right, _capMaterial);
-			GameObject leftSideGameObject = pieces[(int)MeshCut.MeshCutPieces.LEFT_SIDE];
-			GameObject rightSideGameObject = pieces[(int)MeshCut.MeshCutPieces.RIGHT_SIDE];
+        private void OnCollisionEnter(Collision collision)
+        {
+            if (enabled && 
+                collision.gameObject.CompareTag("InteractableObject") &&
+                Time.time > _lastCutTime + _cutCooldown)
+            {
+                Vector3 anchorPoint = collision.contacts[0].point;
+                InteractableObjectControllerBase interactableObject = collision.gameObject.GetComponentInParent<InteractableObjectControllerBase>();               
+                GameObject rightHalf = new GameObject(interactableObject.transform.name);
+                InteractableObjectControllerBase rightHalfInteractableObject = rightHalf.AddComponent(interactableObject.GetType()) as InteractableObjectControllerBase;
+                rightHalf.transform.SetParent(ObjectManager.Instance.ObjectContainer);
+                rightHalf.transform.localScale = Vector3.Scale(interactableObject.transform.parent.localScale, interactableObject.transform.localScale);
+                rightHalf.tag = "InteractableObject";
 
-			leftSideGameObject.tag = target.tag;
-			rightSideGameObject.tag = target.tag;
+                GameObject[] solidPieces = CutMesh(
+                    interactableObject.SolidMeshGameObject,
+                    anchorPoint,
+                    interactableObject.transform,
+                    rightHalf.transform,
+                    _capMaterial);
 
-			leftSideGameObject.transform.SetParent(target.transform.parent, true);
-			rightSideGameObject.transform.SetParent(target.transform.parent, true);
-		}
-	}
-}
+                GameObject[] outlinePieces = CutMesh(
+                    interactableObject.OutlineMeshGameObject,
+                    anchorPoint,
+                    solidPieces[(int)MeshCut.MeshCutPieces.LEFT_SIDE].transform,
+                    solidPieces[(int)MeshCut.MeshCutPieces.RIGHT_SIDE].transform,
+                    _capMaterial);
+
+                // Rebuild the names
+                //solidPieces[(int)MeshCut.MeshCutPieces.LEFT_SIDE].transform.name = "Solid";
+                //outlinePieces[(int)MeshCut.MeshCutPieces.LEFT_SIDE].transform.name = "Outline";
+                //solidPieces[(int)MeshCut.MeshCutPieces.RIGHT_SIDE].transform.name = "Solid";
+                //outlinePieces[(int)MeshCut.MeshCutPieces.RIGHT_SIDE].transform.name = "Outline";
+
+                // Rebuild the references for the new InteractableObjectController
+                rightHalfInteractableObject.RebuildReferences();
+
+                _lastCutTime = Time.time;
+            }
+        }
+
+        private GameObject[] CutMesh(GameObject target, Vector3 anchorPoint, Transform leftParent, Transform rightParent, Material capMaterial)
+        {
+            GameObject[] pieces = MeshCut.Cut(target, anchorPoint, transform.up, capMaterial);
+            GameObject leftSideGameObject = pieces[(int)MeshCut.MeshCutPieces.LEFT_SIDE];
+            GameObject rightSideGameObject = pieces[(int)MeshCut.MeshCutPieces.RIGHT_SIDE];
+
+            leftSideGameObject.tag = target.tag;
+            rightSideGameObject.tag = target.tag;
+
+            leftSideGameObject.transform.SetParent(leftParent, true);
+            rightSideGameObject.transform.SetParent(rightParent, true);
+            rightSideGameObject.transform.localScale = leftSideGameObject.transform.localScale;
+
+            return pieces;
+        }
+    }
 
 }

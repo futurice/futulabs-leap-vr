@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Leap.Unity;
 using Leap.Unity.Interaction;
+using System.Linq;
 
 namespace Futulabs
 {
@@ -78,12 +79,15 @@ namespace Futulabs
         {
             get
             {
-                if (_createdObjects == null)
-                {
-                    _createdObjects = new List<IInteractableObjectController>();
-                }
+                return ObjectContainer.GetComponentsInChildren<IInteractableObjectController>().ToList();
+            }
+        }
 
-                return _createdObjects;
+        public Transform ObjectContainer
+        {
+            get
+            {
+                return _objectContainer;
             }
         }
 

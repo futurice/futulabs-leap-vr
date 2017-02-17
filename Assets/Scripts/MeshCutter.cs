@@ -116,7 +116,7 @@ namespace Futulabs
 		/// <param name="normalDirection">Normal direction of the blade plane.</param> 
 		/// <param name="capMaterial">Cap material - placed as material on the cutting surface of the two sides.</param>
 		/// <param name="copyRigidbody">Should the rigidbody be copied to both of the two new pieces.</param>
-		/// <param name="copyRigidbody">Should both of the new pieces have colliders.</param>
+		/// <param name="copyCollider">Should both of the new pieces have colliders.</param>
 		public static GameObject[] Cut(GameObject target, Vector3 anchorPoint, Vector3 normalDirection, Material capMaterial, bool copyRigidbody =true, bool copyCollider =true)
 		{
 			// set the blade relative to victim
@@ -234,12 +234,14 @@ namespace Futulabs
 				rightHalfMesh.SetIndices(rightSide.subIndices[i].ToArray(), MeshTopology.Triangles, i);
 			}
 
+            Debug.LogFormat("Right Mesh: {0} - Left Mesh: {1}", rightHalfMesh.vertexCount, leftHalfMesh.vertexCount);
+
 			// Assign the game objects
-			target.name = "left side";
+			//target.name = "left side";
 			target.GetComponent<MeshFilter>().mesh = leftHalfMesh;
 			GameObject leftSideObj = target;
 
-			GameObject rightSideObj = new GameObject("right side", typeof(MeshFilter), typeof(MeshRenderer));
+			GameObject rightSideObj = new GameObject(target.name, typeof(MeshFilter), typeof(MeshRenderer));
 			rightSideObj.transform.position = target.transform.position;
 			rightSideObj.transform.rotation = target.transform.rotation;
 			rightSideObj.transform.localScale = target.transform.localScale;

@@ -35,6 +35,12 @@ namespace Futulabs
         private Color _originalColor; //Original color for the cutter material
         private Color _invisibleColor;
 
+        [SerializeField]
+        private BladeCutter _bladeScript;
+
+        [SerializeField]
+        private Collider _bladeCollider;
+
         private void Start()
         {
             _leftBlade.transform.localRotation = Quaternion.Euler(_rotationX, -_rotationY, 0);
@@ -65,6 +71,8 @@ namespace Futulabs
             _leftBlade.transform.DOLocalMove(new Vector3(0, 0, _positionZActivated), _animateTime).SetEase(Ease.OutExpo);
             _rightBlade.transform.DOLocalMove(new Vector3(0, 0, _positionZActivated), _animateTime).SetEase(Ease.OutExpo);
             _cutterMaterial.DOColor(_originalColor, "_TintColor", _animateTime).SetEase(Ease.OutExpo);
+            _bladeScript.enabled = true;
+            _bladeCollider.enabled = true;
         }
 
         private void AnimateOut()
@@ -76,6 +84,8 @@ namespace Futulabs
             _leftBlade.transform.DOLocalMove(new Vector3(0, 0, _positionZDeactivated), _animateTime).SetEase(Ease.OutExpo);
             _rightBlade.transform.DOLocalMove(new Vector3(0, 0, _positionZDeactivated), _animateTime).SetEase(Ease.OutExpo);
             _cutterMaterial.DOColor(_invisibleColor, "_TintColor", _animateTime/2f).SetEase(Ease.OutExpo);
+            _bladeScript.enabled = false;
+            _bladeCollider.enabled = false;
         }
     }
 }

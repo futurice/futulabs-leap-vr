@@ -12,7 +12,7 @@ namespace Futulabs
         {
             Vector3 position = collision.transform.position;
             ImpactLightController light = Instantiate(LightPrefab, position, Quaternion.identity) as ImpactLightController;
-            InteractableObjectControllerBase icb = collision.gameObject.GetComponent<InteractableObjectControllerBase>();
+            InteractableObjectControllerBase icb = collision.gameObject.GetComponentInParent<InteractableObjectControllerBase>();
             Color lightcolor = icb.EmissionColor;
             float intensityMultiplier = icb.WallImpactLightIntensityMultiplier;
             light.Init(collision.relativeVelocity.magnitude * intensityMultiplier, lightcolor);
