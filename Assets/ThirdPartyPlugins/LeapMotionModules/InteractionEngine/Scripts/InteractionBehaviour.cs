@@ -115,6 +115,9 @@ namespace Leap.Unity.Interaction {
       get {
         return _rigidbody;
       }
+      set {
+        _rigidbody = value;
+      }
     }
 
     public RigidbodyWarper warper {

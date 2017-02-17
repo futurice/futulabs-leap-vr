@@ -292,6 +292,8 @@ namespace Futulabs
 				{
 					Rigidbody rigidbody = rightSideObj.AddComponent<Rigidbody>();
 					rigidbody.useGravity = leftSideRigidbody.useGravity;
+                    rigidbody.interpolation = leftSideRigidbody.interpolation;
+                    rigidbody.collisionDetectionMode = leftSideRigidbody.collisionDetectionMode;
 				}
 
 				if (copyCollider && leftSideCollider != null)
@@ -431,54 +433,58 @@ namespace Futulabs
 
 		private static void Capping(Plane blade, MeshCutSide leftSide, MeshCutSide rightSide, List<Vector3> newVertices)
 		{
-			List<Vector3> capVertTracker = new List<Vector3>();
-			List<Vector3> capVertpolygon = new List<Vector3>();
-			int numNewVertices = newVertices.Count;
+            try
+            { 
+			    List<Vector3> capVertTracker = new List<Vector3>();
+			    List<Vector3> capVertpolygon = new List<Vector3>();
+			    int numNewVertices = newVertices.Count;
 
-			for (int i=0; i < numNewVertices; i++)
-			{
-				if (!capVertTracker.Contains(newVertices[i]))
-				{
-					capVertpolygon.Clear();
-					capVertpolygon.Add(newVertices[i]);
-					capVertpolygon.Add(newVertices[i+1]);
+			    for (int i=0; i < numNewVertices; i++)
+			    {
+				    if (!capVertTracker.Contains(newVertices[i]))
+				    {
+					    capVertpolygon.Clear();
+					    capVertpolygon.Add(newVertices[i]);
+					    capVertpolygon.Add(newVertices[i+1]);
 
-					capVertTracker.Add(newVertices[i]);
-					capVertTracker.Add(newVertices[i+1]);
+					    capVertTracker.Add(newVertices[i]);
+					    capVertTracker.Add(newVertices[i+1]);
 
-					bool isDone = false;
+					    bool isDone = false;
 
-					while (!isDone)
-					{
-						isDone = true;
+					    while (!isDone)
+					    {
+						    isDone = true;
 
+						    for (int k=0; k < numNewVertices; k+=2)
+						    {
+                                // go through the pairs
+                                if (newVertices[k] == capVertpolygon[capVertpolygon.Count-1] && !capVertTracker.Contains(newVertices[k+1]))
+							    {
+								    // if so add the other
+								    isDone = false;
+								    capVertpolygon.Add(newVertices[k+1]);
+								    capVertTracker.Add(newVertices[k+1]);
+							    }
+							    else if (newVertices[k+1] == capVertpolygon[capVertpolygon.Count-1] && !capVertTracker.Contains(newVertices[k]))
+							    {
+								    // if so add the other
+								    isDone = false;
+								    capVertpolygon.Add(newVertices[k]);
+								    capVertTracker.Add(newVertices[k]);
+							    }
+						    }
+					    }
 
-						for (int k=0; k < numNewVertices; k+=2)
-						{ 
-							// go through the pairs
-							if (newVertices[k] == capVertpolygon[capVertpolygon.Count-1] && !capVertTracker.Contains(newVertices[k+1]))
-							{
-								// if so add the other
-								isDone = false;
-								capVertpolygon.Add(newVertices[k+1]);
-								capVertTracker.Add(newVertices[k+1]);
-
-							}
-							else if (newVertices[k+1] == capVertpolygon[capVertpolygon.Count-1] && !capVertTracker.Contains(newVertices[k]))
-							{
-								// if so add the other
-								isDone = false;
-								capVertpolygon.Add(newVertices[k]);
-								capVertTracker.Add(newVertices[k]);
-							}
-						}
-					}
-
-					FillCap(blade, leftSide, rightSide, capVertpolygon);
-				}
-			}
-
-		}
+					    FillCap (blade, leftSide, rightSide, capVertpolygon);
+				    }
+			    }
+            }
+            catch (System.Exception e)
+            {
+                Debug.LogErrorFormat("MeshCutter Capping: Caught exception: {0}", e.Message);
+            }
+        }
 
 		static void FillCap(Plane blade, MeshCutSide leftSide, MeshCutSide rightSide, List<Vector3> vertices)
 		{

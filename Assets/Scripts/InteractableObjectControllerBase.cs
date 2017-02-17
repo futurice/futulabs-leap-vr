@@ -195,8 +195,8 @@ namespace Futulabs
         {
             _solidMesh = transform.FindChild("Solid").GetComponent<MeshRenderer>();
             _outlineMesh = _solidMesh.transform.FindChild("Outline").GetComponent<MeshRenderer>();
-            _leapInteractionBehaviour = GetComponentInChildren<InteractionBehaviour>();
             _rigidbody = GetComponentInChildren<Rigidbody>();
+            _leapInteractionBehaviour = GetComponentInChildren<InteractionBehaviour>();
         }
 
         virtual protected void CaptureFrame()

@@ -2,6 +2,7 @@
 using System.Collections;
 using UniRx;
 using System.Collections.Generic;
+using Leap.Unity.Interaction;
 
 namespace Futulabs
 {
@@ -36,7 +37,10 @@ namespace Futulabs
                     _capMaterial
 				)
 				.SelectMany(solidPieces => {
-					return CutMesh(
+                    // Add interaction behaviour to the solid piece
+                    InteractionBehaviour rightSideInteractionBehaviour = solidPieces[(int)MeshCut.MeshCutPieces.RIGHT_SIDE].gameObject.AddComponent<InteractionBehaviour>();
+
+                    return CutMesh(
 	                    interactableObject.OutlineMeshGameObject,
 	                    anchorPoint,
 	                    solidPieces[(int)MeshCut.MeshCutPieces.LEFT_SIDE].transform,
