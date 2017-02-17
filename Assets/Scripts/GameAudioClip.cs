@@ -12,6 +12,7 @@ public enum GameAudioClipType
     UI_CLICK_DOWN = 3,
     UI_CLICK_UP = 4,
     BASKETBALL_SCORE = 5,
+    INTERACTABLE_OBJECT_STICK = 6
 }
 
 [System.Serializable]
