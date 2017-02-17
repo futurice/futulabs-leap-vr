@@ -6,7 +6,7 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: InteractableCubeEmissiveSticky
+  m_Name: ObjectCutMaterial
   m_Shader: {fileID: 4800000, guid: fb944acb6ea5b6b4e961e6f8feb2b64a, type: 3}
   m_ShaderKeywords: _EMISSION
   m_LightmapFlags: 1
@@ -90,7 +90,7 @@ Material:
       second: 0
     - first:
         name: _EmissionGain
-      second: 0.39982215
+      second: 0.33
     - first:
         name: _EmissionTextureContrast
       second: 1
@@ -99,13 +99,16 @@ Material:
       second: 1
     - first:
         name: _Glossiness
-      second: 0.5
+      second: 0
     - first:
         name: _GlossyReflections
       second: 1
     - first:
+        name: _InvFade
+      second: 0.056
+    - first:
         name: _Metallic
-      second: 0
+      second: 1
     - first:
         name: _Mode
       second: 0
@@ -133,10 +136,13 @@ Material:
     m_Colors:
     - first:
         name: _Color
-      second: {r: 1, g: 1, b: 1, a: 1}
+      second: {r: 0.20588237, g: 0.20588237, b: 0.20588237, a: 1}
     - first:
         name: _DiffuseColor
-      second: {r: 0.0054065795, g: 0.12476142, b: 0.18382353, a: 1}
+      second: {r: 0.1544117, g: 0, b: 0, a: 0}
     - first:
         name: _EmissionColor
-      second: {r: 0, g: 0.2647059, b: 0.2647059, a: 1}
+      second: {r: 1, g: 0.6882353, b: 0.2205882, a: 1}
+    - first:
+        name: _TintColor
+      second: {r: 0.043137252, g: 0.32941177, b: 1, a: 0.1507945}

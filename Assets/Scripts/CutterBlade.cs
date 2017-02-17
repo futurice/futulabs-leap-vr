@@ -8,32 +8,47 @@ namespace Futulabs
     {
 
         [SerializeField]
-        private GameObject leftBlade;
+        private GameObject _leftBlade;
         [SerializeField]
-        private GameObject rightBlade;
+        private GameObject _rightBlade;
         [SerializeField]
-        private float RotationX;
+        private float _rotationX;
         [SerializeField]
-        private float RotationY;
+        private float _rotationY;
 
         [SerializeField]
-        private float PositionZ_Deactivated;
+        private float _positionZDeactivated;
 
         [SerializeField]
-        private float PositionZ_Activated;
+        private float _positionZActivated;
 
-        private Tweener LeftTweener;
-        private Tweener RightTweener;
+        private Tweener _leftTweener;
+        private Tweener _rightTweener;
 
         [SerializeField]
-        private float AnimateTime = 0.25f;
+        private float _animateTime = 0.25f;
+
+        [SerializeField]
+        private Material _cutterMaterial;
+
+        [SerializeField]
+        private Color _originalColor; //Original color for the cutter material
+        private Color _invisibleColor;
+
+        [SerializeField]
+        private BladeCutter _bladeScript;
+
+        [SerializeField]
+        private Collider _bladeCollider;
 
         private void Start()
         {
-            leftBlade.transform.localRotation = Quaternion.Euler(RotationX, -RotationY, 0);
-            rightBlade.transform.localRotation = Quaternion.Euler(RotationX, RotationY, 0);
-            leftBlade.transform.localPosition = new Vector3(0, 0, PositionZ_Deactivated);
-            rightBlade.transform.localPosition = new Vector3(0, 0, PositionZ_Deactivated);
+            _leftBlade.transform.localRotation = Quaternion.Euler(_rotationX, -_rotationY, 0);
+            _rightBlade.transform.localRotation = Quaternion.Euler(_rotationX, _rotationY, 0);
+            _leftBlade.transform.localPosition = new Vector3(0, 0, _positionZDeactivated);
+            _rightBlade.transform.localPosition = new Vector3(0, 0, _positionZDeactivated);
+            _invisibleColor = new Color(_originalColor.r, _originalColor.g, _originalColor.b, 0);
+            _cutterMaterial.SetColor("_TintColor", _invisibleColor);
         }
 
 
@@ -49,22 +64,28 @@ namespace Futulabs
 
         private void AnimateIn()
         {
-            LeftTweener.Kill();
-            RightTweener.Kill();
-            leftBlade.transform.DOLocalRotateQuaternion(Quaternion.Euler(RotationX, 0, 0), AnimateTime).SetEase(Ease.OutExpo);
-            rightBlade.transform.DOLocalRotateQuaternion(Quaternion.Euler(RotationX, 0, 0), AnimateTime).SetEase(Ease.OutExpo);
-            leftBlade.transform.DOLocalMove(new Vector3(0, 0, PositionZ_Activated), AnimateTime).SetEase(Ease.OutExpo);
-            rightBlade.transform.DOLocalMove(new Vector3(0, 0, PositionZ_Activated), AnimateTime).SetEase(Ease.OutExpo);
+            _leftTweener.Kill();
+            _rightTweener.Kill();
+            _leftBlade.transform.DOLocalRotateQuaternion(Quaternion.Euler(_rotationX, 0, 0), _animateTime).SetEase(Ease.OutExpo);
+            _rightBlade.transform.DOLocalRotateQuaternion(Quaternion.Euler(_rotationX, 0, 0), _animateTime).SetEase(Ease.OutExpo);
+            _leftBlade.transform.DOLocalMove(new Vector3(0, 0, _positionZActivated), _animateTime).SetEase(Ease.OutExpo);
+            _rightBlade.transform.DOLocalMove(new Vector3(0, 0, _positionZActivated), _animateTime).SetEase(Ease.OutExpo);
+            _cutterMaterial.DOColor(_originalColor, "_TintColor", _animateTime).SetEase(Ease.OutExpo);
+            _bladeScript.enabled = true;
+            _bladeCollider.enabled = true;
         }
 
         private void AnimateOut()
         {
-            LeftTweener.Kill();
-            RightTweener.Kill();
-            leftBlade.transform.DOLocalRotateQuaternion(Quaternion.Euler(RotationX, -RotationY, 0), AnimateTime).SetEase(Ease.OutExpo);
-            rightBlade.transform.DOLocalRotateQuaternion(Quaternion.Euler(RotationX, RotationY, 0), AnimateTime).SetEase(Ease.OutExpo);
-            leftBlade.transform.DOLocalMove(new Vector3(0, 0, PositionZ_Deactivated), AnimateTime).SetEase(Ease.OutExpo);
-            rightBlade.transform.DOLocalMove(new Vector3(0, 0, PositionZ_Deactivated), AnimateTime).SetEase(Ease.OutExpo);
+            _leftTweener.Kill();
+            _rightTweener.Kill();
+            _leftBlade.transform.DOLocalRotateQuaternion(Quaternion.Euler(_rotationX, -_rotationY, 0), _animateTime).SetEase(Ease.OutExpo);
+            _rightBlade.transform.DOLocalRotateQuaternion(Quaternion.Euler(_rotationX, _rotationY, 0), _animateTime).SetEase(Ease.OutExpo);
+            _leftBlade.transform.DOLocalMove(new Vector3(0, 0, _positionZDeactivated), _animateTime).SetEase(Ease.OutExpo);
+            _rightBlade.transform.DOLocalMove(new Vector3(0, 0, _positionZDeactivated), _animateTime).SetEase(Ease.OutExpo);
+            _cutterMaterial.DOColor(_invisibleColor, "_TintColor", _animateTime/2f).SetEase(Ease.OutExpo);
+            _bladeScript.enabled = false;
+            _bladeCollider.enabled = false;
         }
     }
 }
