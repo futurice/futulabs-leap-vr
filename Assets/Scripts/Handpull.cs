@@ -14,15 +14,21 @@ namespace Futulabs
         [SerializeField]
         private LayerMask _ignoreRaycastLayers;
 
-        [Tooltip("Where the physgun should start")]
         [SerializeField]
-        private Transform _originStart;
-        [Tooltip("Where the physgun should point")]
+        private Transform _transformPalm;
         [SerializeField]
-        private Transform _originForward;
+        private Transform _transformFinger;
 
         private InteractableObjectControllerBase _pulledObject; //object currently being pulled
         private Rigidbody _pulledObjectRigidbody;
+
+        private Vector3 _oldForward;
+        [Tooltip("For the direction forward, how much should it use the palm versus the finger. 1 is finger only")]
+        [SerializeField]
+        private float _lerpFactorFingerPalm = 0.5f;
+        [Tooltip("Used for smoothing from frame to frame, how much should it use the old frame vs the new. 1 is 100% old")]
+        [SerializeField]
+        private float _lerpFactorOldNew = 0.8f;
 
         [SerializeField]
         private LineRenderer pointer;
@@ -40,9 +46,11 @@ namespace Futulabs
         private void FindObject()
         {
             RaycastHit hit;
-            Vector3 avgForward = Vector3.Lerp(_originStart.forward, _originForward.forward, 0.5f);
-            Physics.Raycast(_originStart.position, avgForward, out hit, Mathf.Infinity, _ignoreRaycastLayers);
-            ChangePointer(_originStart.position, hit.point);
+            Vector3 avgForward = Vector3.Lerp(_transformPalm.forward, _transformFinger.forward, _lerpFactorFingerPalm);
+            if (_oldForward != null)
+                avgForward = Vector3.Lerp(avgForward, _oldForward, _lerpFactorOldNew);
+            Physics.Raycast(_transformPalm.position, avgForward, out hit, Mathf.Infinity, _ignoreRaycastLayers);
+            ChangePointer(_transformPalm.position, hit.point);
             if (hit.collider.gameObject.tag.Equals("InteractableObject"))
             {
                 _pullingObject = true;
@@ -50,6 +58,7 @@ namespace Futulabs
                 _pulledObjectRigidbody = _pulledObject.Rigidbody;
                 _pulledObjectRigidbody.useGravity = false;
             }
+            _oldForward = avgForward;
         }
 
         private void ChangePointer(Vector3 start, Vector3 end)
@@ -63,8 +72,8 @@ namespace Futulabs
 
         private void PullObject()
         {
-            Vector3 velocity = (_originStart.position - _pulledObject.Rigidbody.transform.position);
-            ChangePointer(_originStart.position, _pulledObject.Rigidbody.transform.position);
+            Vector3 velocity = (_transformPalm.position - _pulledObject.Rigidbody.transform.position);
+            ChangePointer(_transformPalm.position, _pulledObject.Rigidbody.transform.position);
             _pulledObjectRigidbody.velocity = velocity;
         }
 

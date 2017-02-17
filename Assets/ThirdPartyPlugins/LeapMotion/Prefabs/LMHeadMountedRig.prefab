@@ -1115,7 +1115,7 @@ GameObject:
   - component: {fileID: 114283419548624366}
   - component: {fileID: 65374717553748778}
   - component: {fileID: 114792344971368856}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: RightPalm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1806,7 +1806,7 @@ GameObject:
   - component: {fileID: 114570841323830734}
   - component: {fileID: 114829310034678672}
   - component: {fileID: 120489878935861552}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Index Finger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4705,13 +4705,13 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
-  Period: 0.1
+  Period: 0.5
   HandModel: {fileID: 114327065045141928}
   PointingType: 1
   PointingDirection: {x: 0, y: 0, z: 1}
   TargetObject: {fileID: 0}
-  OnAngle: 77.1
-  OffAngle: 129.5
+  OnAngle: 45
+  OffAngle: 132
   ShowGizmos: 1
 --- !u!114 &114575035798734150
 MonoBehaviour:
@@ -4781,9 +4781,11 @@ MonoBehaviour:
   _physMaterial: {fileID: 2100000, guid: a4c5cc9a2f7c1934295abea649d2cb9c, type: 2}
   _ignoreRaycastLayers:
     serializedVersion: 2
-    m_Bits: 4294967294
-  _originStart: {fileID: 4971026748931604}
-  _originForward: {fileID: 4640504890881866}
+    m_Bits: 4294966783
+  _transformPalm: {fileID: 4971026748931604}
+  _transformFinger: {fileID: 4640504890881866}
+  _lerpFactorFingerPalm: 0.1
+  _lerpFactorOldNew: 0.8
   pointer: {fileID: 120489878935861552}
 --- !u!114 &114583869872766638
 MonoBehaviour:
@@ -5438,7 +5440,7 @@ MonoBehaviour:
   Pinky: 0
   MinimumExtendedCount: 5
   MaximumExtendedCount: 5
-  ShowGizmos: 1
+  ShowGizmos: 0
 --- !u!114 &114872401864362650
 MonoBehaviour:
   m_ObjectHideFlags: 1
