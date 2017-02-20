@@ -90,7 +90,7 @@ Material:
       second: 0
     - first:
         name: _EmissionGain
-      second: 0.33
+      second: 0.5
     - first:
         name: _EmissionTextureContrast
       second: 1
@@ -142,7 +142,7 @@ Material:
       second: {r: 0.1544117, g: 0, b: 0, a: 0}
     - first:
         name: _EmissionColor
-      second: {r: 1, g: 0.6882353, b: 0.2205882, a: 1}
+      second: {r: 1, g: 0.66176474, b: 0.1544118, a: 1}
     - first:
         name: _TintColor
       second: {r: 0.043137252, g: 0.32941177, b: 1, a: 0.1507945}
