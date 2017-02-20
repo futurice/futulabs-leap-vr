@@ -94,7 +94,7 @@ namespace Futulabs
             _swingDt = 0;
             float swingPitch = Random.Range(0.9f, 1.1f);
             _oneTimeAudio.pitch = swingPitch;
-            int randomSwing = Mathf.RoundToInt(Random.Range((int)GameAudioClipType.PLASMA_CUTTER_SWING0, (int)GameAudioClipType.PLASMA_CUTTER_SWING2));
+            int randomSwing = Mathf.RoundToInt(Random.Range((int)GameAudioClipType.PLASMA_CUTTER_SWING0, (int)GameAudioClipType.PLASMA_CUTTER_SWING3));
             _oneTimeAudio.PlayOneShot(AudioManager.Instance.GetAudioClip((GameAudioClipType)randomSwing));
         }
 

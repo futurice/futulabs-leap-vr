@@ -4066,7 +4066,7 @@ MonoBehaviour:
   _rotationY: 60
   _positionZDeactivated: 0
   _positionZActivated: 0
-  _animateTime: 0.25
+  _animateTime: 0.2
   _cutterMaterial: {fileID: 2100000, guid: 200f4b6545c5b9a45b61c9cf441dd6e5, type: 2}
   _originalColor: {r: 0.043137256, g: 0.32941177, b: 1, a: 1}
   _bladeScript: {fileID: 114792344971368856}
@@ -4074,7 +4074,7 @@ MonoBehaviour:
   _loopingAudio: {fileID: 82052102385480528}
   _oneTimeAudio: {fileID: 82226462977952272}
   _swingVelocitySoundActivation: 0.025
-  _swingCooldown: 0.5
+  _swingCooldown: 0.2
 --- !u!114 &114286654229601716
 MonoBehaviour:
   m_ObjectHideFlags: 1
