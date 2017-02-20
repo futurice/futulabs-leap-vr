@@ -32,6 +32,9 @@ namespace Futulabs
         private Material _cutterMaterial;
 
         [SerializeField]
+        private PlasmaCutEffect _plasmaCutPrefab;
+
+        [SerializeField]
         private Color _originalColor; //Original color for the cutter material
         private Color _invisibleColor;
         [SerializeField]
@@ -81,7 +84,6 @@ namespace Futulabs
             if (_lastPosition != null && _swingDt >= _swingCooldown && _bladeActivated)
             {
                 float diff = (currentPos - _lastPosition).magnitude;
-                Debug.Log(diff);
                 if (diff >= _swingVelocitySoundActivation)
                     PlaySwing();
             }
@@ -150,6 +152,11 @@ namespace Futulabs
             _cutterMaterial.DOColor(_invisibleColor, "_TintColor", _animateTime / 2f).SetEase(Ease.OutExpo);
             _bladeScript.enabled = false;
             _bladeCollider.enabled = false;
+        }
+
+        public void PlaceCutEffect(Vector3 pos)
+        {
+            var instance = Instantiate(_plasmaCutPrefab, pos, transform.rotation) as PlasmaCutEffect;
         }
     }
 }

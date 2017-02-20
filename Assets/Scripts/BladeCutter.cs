@@ -15,20 +15,22 @@ namespace Futulabs
 
         private float _lastCutTime;
 
-        private void OnCollisionEnter(Collision collision)
+        [SerializeField]
+        private BladeCutterEffects _effects;
+
+        private void OnTriggerEnter(Collider collision)
         {
             if (enabled && 
                 collision.gameObject.CompareTag("InteractableObject") &&
-                Time.time > _lastCutTime + _cutCooldown)
+                Time.time > (_lastCutTime + _cutCooldown))
             {
-                Vector3 anchorPoint = collision.contacts[0].point;
+                Vector3 anchorPoint = transform.position;
                 InteractableObjectControllerBase interactableObject = collision.gameObject.GetComponentInParent<InteractableObjectControllerBase>();               
                 GameObject rightHalf = new GameObject(interactableObject.transform.name);
                 InteractableObjectControllerBase rightHalfInteractableObject = rightHalf.AddComponent(interactableObject.GetType()) as InteractableObjectControllerBase;
                 rightHalf.transform.SetParent(ObjectManager.Instance.ObjectContainer, true);
                 rightHalf.transform.localScale = Vector3.Scale(interactableObject.transform.parent.localScale, interactableObject.transform.localScale);
                 rightHalf.tag = "InteractableObject";
-
 				CutMesh(
                     interactableObject.SolidMeshGameObject,
                     anchorPoint,
@@ -54,10 +56,17 @@ namespace Futulabs
                     outlinePieces[(int)MeshCut.MeshCutPieces.RIGHT_SIDE].transform.localRotation = Quaternion.identity;
                     rightHalfInteractableObject.RebuildReferences();
 				});
-
                 _lastCutTime = Time.time;
+                _effects.PlaceCutEffect(collision.transform.position);
+                float factor = 0.1f;
+                Debug.Break();
+                interactableObject.transform.position = interactableObject.transform.position + -1 * transform.forward * factor;
+                rightHalf.transform.position = rightHalf.transform.position + transform.forward * factor;
+                Debug.Break();
             }
         }
+
+
 
         private IObservable<GameObject[]> CutMesh(GameObject target, Vector3 anchorPoint, Transform leftParent, Transform rightParent, Material capMaterial)
         {
