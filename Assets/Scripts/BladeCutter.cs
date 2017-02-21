@@ -24,10 +24,16 @@ namespace Futulabs
                 collision.gameObject.CompareTag("InteractableObject") &&
                 Time.time > (_lastCutTime + _cutCooldown))
             {
+                //Debug.Break();
                 Vector3 anchorPoint = transform.position;
                 InteractableObjectControllerBase interactableObject = collision.gameObject.GetComponentInParent<InteractableObjectControllerBase>();               
                 GameObject rightHalf = new GameObject(interactableObject.transform.name);
                 InteractableObjectControllerBase rightHalfInteractableObject = rightHalf.AddComponent(interactableObject.GetType()) as InteractableObjectControllerBase;
+
+                Vector3 initialVelocity = interactableObject.Rigidbody.velocity;
+                Vector3 initialAngular = interactableObject.Rigidbody.angularVelocity;
+                interactableObject.Rigidbody.isKinematic = true;
+
                 rightHalf.transform.SetParent(ObjectManager.Instance.ObjectContainer, true);
                 rightHalf.transform.localScale = Vector3.Scale(interactableObject.transform.parent.localScale, interactableObject.transform.localScale);
                 rightHalf.tag = "InteractableObject";
@@ -55,17 +61,30 @@ namespace Futulabs
                     outlinePieces[(int)MeshCut.MeshCutPieces.RIGHT_SIDE].transform.localPosition = Vector3.zero;
                     outlinePieces[(int)MeshCut.MeshCutPieces.RIGHT_SIDE].transform.localRotation = Quaternion.identity;
                     rightHalfInteractableObject.RebuildReferences();
-				});
+                    UnSpazz(interactableObject, rightHalfInteractableObject, initialVelocity, initialAngular);
+                });
                 _lastCutTime = Time.time;
                 _effects.PlaceCutEffect(collision.transform.position);
-                float factor = 0.1f;
-                Debug.Break();
-                interactableObject.transform.position = interactableObject.transform.position + -1 * transform.forward * factor;
-                rightHalf.transform.position = rightHalf.transform.position + transform.forward * factor;
-                Debug.Break();
             }
         }
 
+        /// <summary>
+        /// Makes sure the left and right half don't "explode" when cutting through an object.
+        /// </summary>
+        private void UnSpazz(InteractableObjectControllerBase left, InteractableObjectControllerBase right, Vector3 initialVelocity, Vector3 initialAngular)
+        {
+            MeshCollider leftCollider = left.Colliders[0] as MeshCollider;
+            MeshCollider rightCollider = right.Colliders[0] as MeshCollider;
+            leftCollider.sharedMesh = left.SolidMeshGameObject.GetComponent<MeshFilter>().sharedMesh;
+            rightCollider.sharedMesh = right.SolidMeshGameObject.GetComponent<MeshFilter>().sharedMesh;
+            left.SolidMeshGameObject.transform.position += -transform.up * 0.01f;
+            right.SolidMeshGameObject.transform.position += transform.up * 0.01f;
+            left.Rigidbody.isKinematic = false;
+            left.Rigidbody.velocity = initialVelocity;
+            right.Rigidbody.velocity = initialVelocity;
+            left.Rigidbody.angularVelocity = initialAngular;
+            right.Rigidbody.angularVelocity = initialAngular;
+        }
 
 
         private IObservable<GameObject[]> CutMesh(GameObject target, Vector3 anchorPoint, Transform leftParent, Transform rightParent, Material capMaterial)

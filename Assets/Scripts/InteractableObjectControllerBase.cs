@@ -110,7 +110,7 @@ namespace Futulabs
             }
         }
 
-        protected Collider[] Colliders
+        public Collider[] Colliders
         {
             get
             {
