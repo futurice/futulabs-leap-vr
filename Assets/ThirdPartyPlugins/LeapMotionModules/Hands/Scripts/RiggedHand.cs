@@ -15,8 +15,9 @@ namespace Leap.Unity
     /** This version of IHandModel supports a hand respresentation based on a skinned and jointed 3D model asset.*/
     public class RiggedHand : HandModel
     {
+        [Tooltip("Only applies finger and palm rotations but ignores any hand/palm positions. Still sets local finger positions")]
         [SerializeField]
-        private bool _onlyFingerRotations;
+        private bool _ignoreHandPositions;
         public override ModelType HandModelType
         {
             get
@@ -80,15 +81,15 @@ namespace Leap.Unity
 
             if (palm != null)
             {
-                if (ModelPalmAtLeapWrist && !_onlyFingerRotations)
+                if (ModelPalmAtLeapWrist && !_ignoreHandPositions)
                 {
                     palm.position = GetWristPosition();
                 }
                 else
                 {
-                    if(!_onlyFingerRotations)
+                    if(!_ignoreHandPositions)
                         palm.position = GetPalmPosition();
-                    if (wristJoint && !_onlyFingerRotations)
+                    if (wristJoint && !_ignoreHandPositions)
                     {
                         wristJoint.position = GetWristPosition();
                     }
