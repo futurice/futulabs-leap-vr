@@ -135,8 +135,12 @@ namespace Futulabs
             _leftBlade.transform.DOLocalRotateQuaternion(Quaternion.Euler(_rotationX, 0, 0), _animateTime).SetEase(Ease.OutExpo);
             _rightBlade.transform.DOLocalRotateQuaternion(Quaternion.Euler(_rotationX, 0, 0), _animateTime).SetEase(Ease.OutExpo);
             _leftBlade.transform.DOLocalMove(new Vector3(0, 0, _positionZActivated), _animateTime).SetEase(Ease.OutExpo);
-            _rightBlade.transform.DOLocalMove(new Vector3(0, 0, _positionZActivated), _animateTime).SetEase(Ease.OutExpo);
+            _rightBlade.transform.DOLocalMove(new Vector3(0, 0, _positionZActivated), _animateTime).SetEase(Ease.OutExpo).OnComplete(EnableCutting);
             _cutterMaterial.DOColor(_originalColor, "_TintColor", _animateTime).SetEase(Ease.OutExpo);
+        }
+
+        private void EnableCutting()
+        {
             _bladeScript.enabled = true;
             _bladeCollider.enabled = true;
         }
