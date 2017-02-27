@@ -990,6 +990,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1222167950666812
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4429334377000514}
+  m_Layer: 0
+  m_Name: LeftHandTracker
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1226113293732792
 GameObject:
   m_ObjectHideFlags: 1
@@ -1713,6 +1728,21 @@ GameObject:
   - component: {fileID: 23375855529829148}
   m_Layer: 14
   m_Name: 08_Shoulder_Right
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1458375517248464
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4850572928099838}
+  m_Layer: 0
+  m_Name: RightHandTracker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3775,6 +3805,7 @@ Transform:
   m_Children:
   - {fileID: 4606236010172250}
   - {fileID: 4186183541225856}
+  - {fileID: 4850572928099838}
   m_Father: {fileID: 4251760522902146}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 8.5428, y: 90.419495, z: -8.6272}
@@ -4754,6 +4785,19 @@ Transform:
   m_Father: {fileID: 4171093029772908}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4429334377000514
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1222167950666812}
+  m_LocalRotation: {x: -0.00006948109, y: -0.061142653, z: -0.99653554, w: 0.05637929}
+  m_LocalPosition: {x: 0.075, y: -0.007, z: 0.002}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4660785597404522}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: -173, y: -180.39, z: 6.5}
 --- !u!4 &4431785361246986
 Transform:
   m_ObjectHideFlags: 1
@@ -5302,6 +5346,7 @@ Transform:
   m_Children:
   - {fileID: 4574874954874486}
   - {fileID: 4165721941885136}
+  - {fileID: 4429334377000514}
   m_Father: {fileID: 4239249738994582}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: -8.5428, y: 89.5805, z: 171.3728}
@@ -5662,6 +5707,19 @@ Transform:
   m_Father: {fileID: 4606236010172250}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 2.3681, y: -12.422199, z: 2.3711998}
+--- !u!4 &4850572928099838
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1458375517248464}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.059, y: -0.002, z: -0.011}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4078202111923902}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4857083806099464
 Transform:
   m_ObjectHideFlags: 1
@@ -7903,8 +7961,8 @@ MonoBehaviour:
       faceDirection: {x: 0, y: 0, z: 0}
     leftArm:
       bones: []
-      target: {fileID: 4791347205868528}
-      bendGoal: {fileID: 4892248903191184}
+      target: {fileID: 4429334377000514}
+      bendGoal: {fileID: 0}
       positionWeight: 1
       rotationWeight: 1
       shoulderRotationMode: 0
@@ -7919,8 +7977,8 @@ MonoBehaviour:
       handPositionOffset: {x: 0, y: 0, z: 0}
     rightArm:
       bones: []
-      target: {fileID: 4324801459550318}
-      bendGoal: {fileID: 4794651517133920}
+      target: {fileID: 4850572928099838}
+      bendGoal: {fileID: 0}
       positionWeight: 1
       rotationWeight: 1
       shoulderRotationMode: 0
