@@ -18,15 +18,22 @@ namespace Futulabs
         [SerializeField]
         private BladeCutterEffects _effects;
 
+        [Tooltip("Minimum object size for cutting")]
+        [SerializeField]
+        private float _minimumCutSize;
+
         private void OnTriggerEnter(Collider collision)
         {
             if (enabled && 
                 collision.gameObject.CompareTag("InteractableObject") &&
                 Time.time > (_lastCutTime + _cutCooldown))
             {
-                //Debug.Break();
                 Vector3 anchorPoint = transform.position;
-                InteractableObjectControllerBase interactableObject = collision.gameObject.GetComponentInParent<InteractableObjectControllerBase>();               
+                InteractableObjectControllerBase interactableObject = collision.gameObject.GetComponentInParent<InteractableObjectControllerBase>();
+                Vector3 size = interactableObject.Colliders[0].bounds.size;
+                if (!IsBigEnough(size))
+                    return;
+
                 GameObject rightHalf = new GameObject(interactableObject.transform.name);
                 InteractableObjectControllerBase rightHalfInteractableObject = rightHalf.AddComponent(interactableObject.GetType()) as InteractableObjectControllerBase;
 
@@ -66,6 +73,12 @@ namespace Futulabs
                 _lastCutTime = Time.time;
                 _effects.PlaceCutEffect(collision.transform.position);
             }
+        }
+
+        private bool IsBigEnough(Vector3 size)
+        {
+            Debug.Log(size.magnitude);
+            return size.magnitude >= _minimumCutSize;
         }
 
         /// <summary>
