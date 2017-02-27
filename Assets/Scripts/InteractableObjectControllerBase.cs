@@ -224,7 +224,7 @@ namespace Futulabs
             return average;
         }
 
-        virtual public void Create(InteractionManager interactionManager, PinchDetector leftPinchDetector, PinchDetector rightPinchDetector)
+        virtual public void Create(Leap.Unity.Interaction.InteractionManager interactionManager, PinchDetector leftPinchDetector, PinchDetector rightPinchDetector)
         {
             _velocityFrames = new Vector3[ObjectManager.Instance.CreationForceWindowSize];
             _creating = true;

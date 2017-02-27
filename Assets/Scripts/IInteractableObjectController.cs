@@ -49,7 +49,7 @@ namespace Futulabs
         /// The object must have an active Leap RTS component that controls the
         /// scaling and transform.
         /// </summary>
-        void Create(InteractionManager interactionManager, PinchDetector leftPinchDetector, PinchDetector rightPinchDetector);
+        void Create(Leap.Unity.Interaction.InteractionManager interactionManager, PinchDetector leftPinchDetector, PinchDetector rightPinchDetector);
 
         /// <summary>
         /// This function materializes the object i.e. enables the Collider and

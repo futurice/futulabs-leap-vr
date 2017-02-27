@@ -38,7 +38,7 @@ namespace Futulabs
         [Header("ObjectManager")]
         [Header("Interactions")]
         [SerializeField]
-        InteractionManager _interactionManager;
+        Leap.Unity.Interaction.InteractionManager _interactionManager;
 
         [Header("Pinch")]
         [SerializeField]
