@@ -92,7 +92,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 167028}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -1.1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4088450264309450}
@@ -257,6 +257,16 @@ MonoBehaviour:
     LeftModel: {fileID: 114327065045141928}
     IsLeftToBeSpawned: 0
     RightModel: {fileID: 114079802875801908}
+    IsRightToBeSpawned: 0
+    modelList: []
+    modelsCheckedOut: []
+    IsEnabled: 1
+    CanDuplicate: 0
+  - GroupName: OtherGraphicalHands
+    _handPool: {fileID: 0}
+    LeftModel: {fileID: 114279423454886178}
+    IsLeftToBeSpawned: 0
+    RightModel: {fileID: 114421110192615538}
     IsRightToBeSpawned: 0
     modelList: []
     modelsCheckedOut: []
@@ -588,6 +598,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4689194232804294}
+  - component: {fileID: 114248324717810124}
   m_Layer: 0
   m_Name: BipDummy R Finger2
   m_TagString: Untagged
@@ -936,6 +947,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4675942766493074}
+  - component: {fileID: 114343761669739832}
   m_Layer: 0
   m_Name: BipDummy R Finger1
   m_TagString: Untagged
@@ -1059,6 +1071,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4132609867996756}
+  - component: {fileID: 114831468275528056}
   m_Layer: 0
   m_Name: BipDummy L Finger4
   m_TagString: Untagged
@@ -1280,6 +1293,7 @@ GameObject:
   - component: {fileID: 4167507054776808}
   - component: {fileID: 95945152832508796}
   - component: {fileID: 114185491178194208}
+  - component: {fileID: 114558151477521856}
   m_Layer: 0
   m_Name: Dummy
   m_TagString: Untagged
@@ -1469,6 +1483,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4864011127123888}
+  - component: {fileID: 114869727202499284}
   m_Layer: 0
   m_Name: BipDummy L Finger2
   m_TagString: Untagged
@@ -1612,6 +1627,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4150719753208106}
+  - component: {fileID: 114066636741691658}
   m_Layer: 0
   m_Name: BipDummy L Finger3
   m_TagString: Untagged
@@ -1881,6 +1897,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4974930606960984}
+  - component: {fileID: 114320883998221144}
   m_Layer: 0
   m_Name: Bip002 R Finger0
   m_TagString: Untagged
@@ -2116,6 +2133,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4763028424399132}
+  - component: {fileID: 114008504241464500}
   m_Layer: 0
   m_Name: Bip002 L Finger0
   m_TagString: Untagged
@@ -2322,6 +2340,8 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4650417816369032}
+  - component: {fileID: 114649393960269362}
+  - component: {fileID: 114279423454886178}
   m_Layer: 0
   m_Name: Bip002 L Hand
   m_TagString: Untagged
@@ -2405,6 +2425,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4492557129777856}
+  - component: {fileID: 114286883229164676}
   m_Layer: 0
   m_Name: BipDummy L Finger1
   m_TagString: Untagged
@@ -2707,6 +2728,8 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4062511092345080}
+  - component: {fileID: 114421110192615538}
+  - component: {fileID: 114628032694627234}
   m_Layer: 0
   m_Name: Bip002 R Hand
   m_TagString: Untagged
@@ -3222,6 +3245,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4734053296466690}
+  - component: {fileID: 114954149610731612}
   m_Layer: 0
   m_Name: BipDummy R Finger3
   m_TagString: Untagged
@@ -3304,6 +3328,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4362771070052028}
+  - component: {fileID: 114458034835789846}
   m_Layer: 0
   m_Name: BipDummy R Finger4
   m_TagString: Untagged
@@ -4062,7 +4087,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1319043021930656}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.451, z: 0}
+  m_LocalPosition: {x: 0, y: 0.64, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4532455448692042}
@@ -4791,13 +4816,13 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1222167950666812}
-  m_LocalRotation: {x: -0.00006948109, y: -0.061142653, z: -0.99653554, w: 0.05637929}
-  m_LocalPosition: {x: 0.075, y: -0.007, z: 0.002}
+  m_LocalRotation: {x: 0.0033964228, y: -0.06366114, z: -0.9979658, w: -0.00021666086}
+  m_LocalPosition: {x: 0.081, y: -0.009, z: -0.005}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4660785597404522}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: -173, y: -180.39, z: 6.5}
+  m_LocalEulerAnglesHint: {x: -172.7, y: -180.39, z: 0}
 --- !u!4 &4431785361246986
 Transform:
   m_ObjectHideFlags: 1
@@ -5714,7 +5739,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1458375517248464}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.059, y: -0.002, z: -0.011}
+  m_LocalPosition: {x: 0.083, y: -0.007, z: -0.005}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4078202111923902}
@@ -7434,6 +7459,30 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114008504241464500
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1556480787879964}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26ef1796ac5a44944bd1f1345855a535, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fingerType: 0
+  bones:
+  - {fileID: 0}
+  - {fileID: 4763028424399132}
+  - {fileID: 4393438523611046}
+  - {fileID: 4037433345092780}
+  joints:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  deformPosition: 0
+  modelFingerPointing: {x: -1, y: 0, z: 0}
+  modelPalmFacing: {x: 0, y: 1, z: 0}
 --- !u!114 &114013993529016356
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -7623,6 +7672,30 @@ MonoBehaviour:
   AddAllSiblingDetectorsOnAwake: 0
   GateType: 0
   Negate: 0
+--- !u!114 &114066636741691658
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1400677217057122}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26ef1796ac5a44944bd1f1345855a535, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fingerType: 3
+  bones:
+  - {fileID: 0}
+  - {fileID: 4150719753208106}
+  - {fileID: 4080041237109590}
+  - {fileID: 4626507727531408}
+  joints:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  deformPosition: 0
+  modelFingerPointing: {x: -1, y: 0, z: 0}
+  modelPalmFacing: {x: 0, y: 1, z: 0}
 --- !u!114 &114079802875801908
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8217,6 +8290,115 @@ MonoBehaviour:
   lensDirtTexture: {fileID: 0}
   lensDirtIntensity: 0.05
   inputIsHDR: 1
+--- !u!114 &114248324717810124
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1125588984097012}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26ef1796ac5a44944bd1f1345855a535, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fingerType: 2
+  bones:
+  - {fileID: 0}
+  - {fileID: 4689194232804294}
+  - {fileID: 4604769840956346}
+  - {fileID: 4248177786371022}
+  joints:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  deformPosition: 0
+  modelFingerPointing: {x: -1, y: 0, z: 0}
+  modelPalmFacing: {x: 0, y: 1, z: 0}
+--- !u!114 &114279423454886178
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1613954014229450}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e0ed5922e911b343b8400997c95409c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  handedness: 0
+  handModelPalmWidth: 0.085
+  fingers:
+  - {fileID: 114008504241464500}
+  - {fileID: 114286883229164676}
+  - {fileID: 114869727202499284}
+  - {fileID: 114066636741691658}
+  - {fileID: 114831468275528056}
+  palm: {fileID: 4650417816369032}
+  forearm: {fileID: 0}
+  wristJoint: {fileID: 0}
+  elbowJoint: {fileID: 0}
+  _onlyFingerRotations: 1
+  setEditorLeapPose: 0
+  DeformPositionsInFingers: 0
+  deformPositionsState: 0
+  ModelPalmAtLeapWrist: 1
+  UseMetaCarpals: 0
+  modelFingerPointing: {x: -1, y: -0, z: -0}
+  modelPalmFacing: {x: 0, y: 1, z: 0}
+  jointList:
+  - {fileID: 4998130139389800}
+  - {fileID: 4650417816369032}
+  - {fileID: 4763028424399132}
+  - {fileID: 4393438523611046}
+  - {fileID: 4037433345092780}
+  - {fileID: 4492557129777856}
+  - {fileID: 4558706690462908}
+  - {fileID: 4128702774538328}
+  - {fileID: 4864011127123888}
+  - {fileID: 4521579356692230}
+  - {fileID: 4788757955921510}
+  - {fileID: 4150719753208106}
+  - {fileID: 4080041237109590}
+  - {fileID: 4626507727531408}
+  - {fileID: 4132609867996756}
+  - {fileID: 4700155028480222}
+  - {fileID: 4324842238024786}
+  localRotations:
+  - {x: -0.000000030864356, y: 0.000000021855683, z: 0.28733003, w: 0.9578316}
+  - {x: -0.7212754, y: -0.08105717, z: 0.07682164, w: 0.6835861}
+  - {x: 0.40023914, y: -0.27571434, z: 0.056018174, w: 0.87215376}
+  - {x: 0, y: 0, z: -0.24637195, w: 0.9691754}
+  - {x: 0.032045208, y: 0.123279884, z: -0.24952908, w: 0.95995337}
+  - {x: -0.00039683317, y: -0.00003227424, z: -0.081061095, w: 0.99670905}
+  - {x: -0.00000004303571, y: 0.000000014207038, z: -0.15310442, w: 0.98821}
+  - {x: 0.000000039817607, y: -0.000000012218085, z: -0.117604196, w: 0.9930606}
+  - {x: -0.001918456, y: 0.023514757, z: -0.14601779, w: 0.9890006}
+  - {x: 0.000000026105285, y: 0.000000005454415, z: -0.22450191, w: 0.97447366}
+  - {x: -8.062054e-10, y: -0.000000037430024, z: -0.120907776, w: 0.99266374}
+  - {x: -0.002835928, y: 0.013507943, z: -0.17714134, w: 0.98408866}
+  - {x: 0.0000000026053375, y: -0.0000000045790607, z: -0.26490858, w: 0.9642736}
+  - {x: -0.000000023906223, y: -0.000000025557926, z: -0.30713028, w: 0.9516675}
+  - {x: -0.002490904, y: 0.009521965, z: -0.21373138, w: 0.9768429}
+  - {x: -0.000000027031515, y: 0.0000000021954984, z: -0.35165805, w: 0.93612856}
+  - {x: 0.00000001644754, y: 0.00000001808565, z: -0.41532043, w: 0.90967524}
+  localPositions:
+  - {x: -0.2430326, y: 0.00000006103516, z: 0}
+  - {x: -0.2430326, y: -0.00000003051758, z: 0}
+  - {x: -0.042638857, y: 0.010434205, z: -0.028118744}
+  - {x: -0.028966127, y: 0, z: -0.00000003051758}
+  - {x: -0.032908816, y: -0.000000007629395, z: 0.00000003051758}
+  - {x: -0.1003982, y: -0.003286377, z: -0.022277009}
+  - {x: -0.047266666, y: 0, z: 0.00000003051758}
+  - {x: -0.01876288, y: 0.00000003051758, z: 0}
+  - {x: -0.10838886, y: -0.005206055, z: -0.00035929872}
+  - {x: -0.044976626, y: 0, z: 0}
+  - {x: -0.02357837, y: 0, z: -0.00000001525879}
+  - {x: -0.10328601, y: 0.0010223389, z: 0.020135194}
+  - {x: -0.040773623, y: 0.00000003051758, z: 0.00000001525879}
+  - {x: -0.02278595, y: -0.00000001525879, z: 0}
+  - {x: -0.09384656, y: 0.00909961, z: 0.03997948}
+  - {x: -0.03212024, y: -0.00000003051758, z: -0.000000045776368}
+  - {x: -0.01889612, y: 0, z: 0.000000045776368}
 --- !u!114 &114286654229601716
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8244,6 +8426,30 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114286883229164676
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1644128675293588}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26ef1796ac5a44944bd1f1345855a535, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fingerType: 1
+  bones:
+  - {fileID: 0}
+  - {fileID: 4492557129777856}
+  - {fileID: 4558706690462908}
+  - {fileID: 4128702774538328}
+  joints:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  deformPosition: 0
+  modelFingerPointing: {x: -1, y: 0, z: 0}
+  modelPalmFacing: {x: 0, y: 1, z: 0}
 --- !u!114 &114290556743764136
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8319,6 +8525,30 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 0.7
+--- !u!114 &114320883998221144
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1492528939909536}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26ef1796ac5a44944bd1f1345855a535, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fingerType: 0
+  bones:
+  - {fileID: 0}
+  - {fileID: 4974930606960984}
+  - {fileID: 4160966594896350}
+  - {fileID: 4950062568773248}
+  joints:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  deformPosition: 0
+  modelFingerPointing: {x: -1, y: 0, z: 0}
+  modelPalmFacing: {x: 0, y: 1, z: 0}
 --- !u!114 &114327065045141928
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8434,6 +8664,30 @@ MonoBehaviour:
       m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
         Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   delegates: []
+--- !u!114 &114343761669739832
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1208500198949748}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26ef1796ac5a44944bd1f1345855a535, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fingerType: 1
+  bones:
+  - {fileID: 0}
+  - {fileID: 4675942766493074}
+  - {fileID: 4179244204652790}
+  - {fileID: 4970351979979186}
+  joints:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  deformPosition: 0
+  modelFingerPointing: {x: -1, y: 0, z: 0}
+  modelPalmFacing: {x: 0, y: 1, z: 0}
 --- !u!114 &114354162469651638
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8681,6 +8935,115 @@ MonoBehaviour:
       m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
         Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   delegates: []
+--- !u!114 &114421110192615538
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1721613702116188}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e0ed5922e911b343b8400997c95409c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  handedness: 1
+  handModelPalmWidth: 0.085
+  fingers:
+  - {fileID: 114320883998221144}
+  - {fileID: 114343761669739832}
+  - {fileID: 114248324717810124}
+  - {fileID: 114954149610731612}
+  - {fileID: 114458034835789846}
+  palm: {fileID: 4062511092345080}
+  forearm: {fileID: 0}
+  wristJoint: {fileID: 0}
+  elbowJoint: {fileID: 0}
+  _onlyFingerRotations: 1
+  setEditorLeapPose: 0
+  DeformPositionsInFingers: 0
+  deformPositionsState: 0
+  ModelPalmAtLeapWrist: 1
+  UseMetaCarpals: 0
+  modelFingerPointing: {x: -1, y: -0, z: -0}
+  modelPalmFacing: {x: 0, y: 1, z: 0}
+  jointList:
+  - {fileID: 4133879922637988}
+  - {fileID: 4062511092345080}
+  - {fileID: 4974930606960984}
+  - {fileID: 4160966594896350}
+  - {fileID: 4950062568773248}
+  - {fileID: 4675942766493074}
+  - {fileID: 4179244204652790}
+  - {fileID: 4970351979979186}
+  - {fileID: 4689194232804294}
+  - {fileID: 4604769840956346}
+  - {fileID: 4248177786371022}
+  - {fileID: 4734053296466690}
+  - {fileID: 4471460177861706}
+  - {fileID: 4024862473057266}
+  - {fileID: 4362771070052028}
+  - {fileID: 4178351495049624}
+  - {fileID: 4667552286363316}
+  localRotations:
+  - {x: -0.000000024085356, y: -0.0000000072251183, z: 0.28733006, w: 0.9578316}
+  - {x: 0.72127545, y: 0.08105711, z: 0.07682161, w: 0.68358606}
+  - {x: -0.4061612, y: 0.2668805, z: 0.03686745, w: 0.8731831}
+  - {x: -0.0000000054362164, y: 0.0000000012932826, z: -0.23144192, w: 0.9728487}
+  - {x: -0.0051727896, y: -0.14755645, z: -0.23301202, w: 0.9612002}
+  - {x: 0.00039008295, y: 0.000079733094, z: -0.20024739, w: 0.97974527}
+  - {x: 0.000000001861105, y: -7.57366e-11, z: -0.040660772, w: 0.99917305}
+  - {x: 0.0000000045875606, y: 0.000000021875893, z: -0.20524399, w: 0.97871083}
+  - {x: 0.0046662716, y: -0.023126798, z: -0.2611372, w: 0.9650134}
+  - {x: 0.000000035312798, y: 0.0000000014167345, z: -0.2779434, w: 0.96059746}
+  - {x: -3.7377737e-10, y: -0.0000000037064913, z: -0.100335106, w: 0.99495375}
+  - {x: 0.0022173636, y: -0.0136231445, z: -0.13210824, w: 0.99113923}
+  - {x: -0.000000009311458, y: 1.813486e-10, z: -0.615464, w: 0.78816503}
+  - {x: 0.000000014849564, y: -0.0000000022370685, z: -0.27046826, w: 0.9627289}
+  - {x: 0.0007130304, y: -0.0098164985, z: -0.032043967, w: 0.99943805}
+  - {x: 0.0000000024180136, y: 0.0000000028339022, z: -0.6490805, w: 0.7607197}
+  - {x: 0.00000002317485, y: -0.000000022827779, z: -0.35736334, w: 0.93396544}
+  localPositions:
+  - {x: -0.24303266, y: 0, z: 0}
+  - {x: -0.2430326, y: 0.00000003051758, z: -0.00000006103516}
+  - {x: -0.04263898, y: 0.010434327, z: 0.0281187}
+  - {x: -0.028966065, y: 0.00000003051758, z: 0}
+  - {x: -0.032908753, y: -0.000000007629395, z: -0.00000003051758}
+  - {x: -0.1003982, y: -0.003286316, z: 0.022276932}
+  - {x: -0.047266603, y: 0.00000001525879, z: -0.00000001525879}
+  - {x: -0.01876288, y: -0.000000045776368, z: 0.00000001525879}
+  - {x: -0.10838886, y: -0.005205994, z: 0.00035925294}
+  - {x: -0.044976626, y: -0.00000001525879, z: 0}
+  - {x: -0.023578431, y: 0, z: 0.00000003051758}
+  - {x: -0.10328601, y: 0.0010224, z: -0.020135256}
+  - {x: -0.040773623, y: 0.00000003051758, z: 0.00000001525879}
+  - {x: -0.02278583, y: 0, z: -0.00000001525879}
+  - {x: -0.09384656, y: 0.009099671, z: -0.039979525}
+  - {x: -0.032120302, y: 0.00000006103516, z: 0.00000006103516}
+  - {x: -0.018896058, y: 0, z: -0.00000001525879}
+--- !u!114 &114458034835789846
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1949798232087980}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26ef1796ac5a44944bd1f1345855a535, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fingerType: 4
+  bones:
+  - {fileID: 0}
+  - {fileID: 4362771070052028}
+  - {fileID: 4178351495049624}
+  - {fileID: 4667552286363316}
+  joints:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  deformPosition: 0
+  modelFingerPointing: {x: -1, y: 0, z: 0}
+  modelPalmFacing: {x: 0, y: 1, z: 0}
 --- !u!114 &114459248640539474
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8982,6 +9345,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bcd03e00992e084c8be61565d44b8bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114558151477521856
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1319043021930656}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8bc61337410671543a3c8b9c0578bf97, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AnimatorForMapping: {fileID: 95945152832508796}
+  ModelGroupName: 
+  UseMetaCarpals: 0
+  RiggedHand_L: {fileID: 114279423454886178}
+  RiggedHand_R: {fileID: 114421110192615538}
+  HandTransitionBehavior_L: {fileID: 114649393960269362}
+  HandTransitionBehavior_R: {fileID: 114628032694627234}
+  RiggedFinger_L_Thumb: {fileID: 114008504241464500}
+  RiggedFinger_L_Index: {fileID: 114286883229164676}
+  RiggedFinger_L_Mid: {fileID: 114869727202499284}
+  RiggedFinger_L_Ring: {fileID: 114066636741691658}
+  RiggedFinger_L_Pinky: {fileID: 114831468275528056}
+  RiggedFinger_R_Thumb: {fileID: 114320883998221144}
+  RiggedFinger_R_Index: {fileID: 114343761669739832}
+  RiggedFinger_R_Mid: {fileID: 114248324717810124}
+  RiggedFinger_R_Ring: {fileID: 114954149610731612}
+  RiggedFinger_R_Pinky: {fileID: 114458034835789846}
+  modelFingerPointing_L: {x: -1, y: -0, z: -0}
+  modelPalmFacing_L: {x: 0, y: 1, z: 0}
+  modelFingerPointing_R: {x: -1, y: -0, z: -0}
+  modelPalmFacing_R: {x: 0, y: 1, z: 0}
+  FlipPalms: 0
+  flippedPalmsState: 0
 --- !u!114 &114569770844321168
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -9260,6 +9657,28 @@ MonoBehaviour:
   _cutCooldown: 0.5
   _effects: {fileID: 114675097285997978}
   _minimumCutSize: 0.1
+--- !u!114 &114628032694627234
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1721613702116188}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0287fc6380d8c34bae60e803862ff48, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114649393960269362
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1613954014229450}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0287fc6380d8c34bae60e803862ff48, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114654394172138178
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -9505,6 +9924,7 @@ MonoBehaviour:
   forearm: {fileID: 4165721941885136}
   wristJoint: {fileID: 0}
   elbowJoint: {fileID: 0}
+  _onlyFingerRotations: 0
   setEditorLeapPose: 1
   DeformPositionsInFingers: 0
   deformPositionsState: 0
@@ -9579,6 +9999,7 @@ MonoBehaviour:
   forearm: {fileID: 4186183541225856}
   wristJoint: {fileID: 0}
   elbowJoint: {fileID: 0}
+  _onlyFingerRotations: 0
   setEditorLeapPose: 1
   DeformPositionsInFingers: 0
   deformPositionsState: 0
@@ -9717,6 +10138,30 @@ MonoBehaviour:
   AddAllSiblingDetectorsOnAwake: 1
   GateType: 0
   Negate: 0
+--- !u!114 &114831468275528056
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1237362489633348}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26ef1796ac5a44944bd1f1345855a535, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fingerType: 4
+  bones:
+  - {fileID: 0}
+  - {fileID: 4132609867996756}
+  - {fileID: 4700155028480222}
+  - {fileID: 4324842238024786}
+  joints:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  deformPosition: 0
+  modelFingerPointing: {x: -1, y: 0, z: 0}
+  modelPalmFacing: {x: 0, y: 1, z: 0}
 --- !u!114 &114835964915523682
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -9823,6 +10268,30 @@ MonoBehaviour:
   MinimumExtendedCount: 5
   MaximumExtendedCount: 5
   ShowGizmos: 0
+--- !u!114 &114869727202499284
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1372505479709734}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26ef1796ac5a44944bd1f1345855a535, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fingerType: 2
+  bones:
+  - {fileID: 0}
+  - {fileID: 4864011127123888}
+  - {fileID: 4521579356692230}
+  - {fileID: 4788757955921510}
+  joints:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  deformPosition: 0
+  modelFingerPointing: {x: -1, y: 0, z: 0}
+  modelPalmFacing: {x: 0, y: 1, z: 0}
 --- !u!114 &114872401864362650
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -10253,6 +10722,30 @@ MonoBehaviour:
   m_Script: {fileID: -146154839, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114954149610731612
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1922473614490580}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26ef1796ac5a44944bd1f1345855a535, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fingerType: 3
+  bones:
+  - {fileID: 0}
+  - {fileID: 4734053296466690}
+  - {fileID: 4471460177861706}
+  - {fileID: 4024862473057266}
+  joints:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  deformPosition: 0
+  modelFingerPointing: {x: -1, y: 0, z: 0}
+  modelPalmFacing: {x: 0, y: 1, z: 0}
 --- !u!114 &114954280836651218
 MonoBehaviour:
   m_ObjectHideFlags: 1
