@@ -39,11 +39,12 @@ namespace Futulabs
         {
             _calibrated = true;
             float adjustment = _accumulation / _samples;
+            Debug.Log(adjustment);
             float diff = _preCalibrationHeight - adjustment;
             var aPos = _avatar.localPosition;
             var rigPos = _headMountedRig.localPosition;
-            _avatar.localPosition = new Vector3(aPos.x, aPos.y - diff, aPos.z);
-            _headMountedRig.localPosition = new Vector3(rigPos.x, rigPos.y + diff, rigPos.z);
+            _avatar.localPosition = new Vector3(aPos.x, aPos.y + diff, aPos.z);
+            _headMountedRig.localPosition = new Vector3(rigPos.x, rigPos.y - diff, rigPos.z);
         }
     }
 }

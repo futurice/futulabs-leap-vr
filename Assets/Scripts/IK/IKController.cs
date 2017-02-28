@@ -25,8 +25,6 @@ namespace Futulabs
             {
                 case DataSource.LEAP_MOTION:
                     return IsLeapMotionTrackingBone(bone);
-                case DataSource.KINECT:
-                    return IsKinectTrackingBone(bone);
                 default:
                     return true;
             }
@@ -102,13 +100,6 @@ namespace Futulabs
                     Debug.LogWarningFormat("IKTarget IsLeapMotionTrackingBone: Invalid bone for Leap Motion: {0} - returning false", bone);
                     return false;
             }
-        }
-
-        private bool IsKinectTrackingBone(HumanBodyBones bone)
-        {
-            // TODO: Specialize for individual joints
-            KinectManager km = IKDataSourceManager.Instance.KinectManager;
-            return km.IsUserTracked(km.GetPrimaryUserID());
         }
     }
 
