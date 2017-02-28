@@ -4,6 +4,9 @@ using UnityEngine;
 using Leap.Unity;
 using Leap.Unity.Interaction;
 using DG.Tweening;
+using UniRx;
+using UniRx.Triggers;
+
 
 namespace Futulabs
 {
@@ -170,6 +173,11 @@ namespace Futulabs
                 return;
             }
 
+            _solidMesh.OnCollisionEnterAsObservable().Subscribe(collision =>
+            {
+                PlayCollisionSound(collision);
+            });
+
             EnableMaterializedMeshes(false);
             EnableOutlineMeshes(false);
             StartCoroutine(Activate());
@@ -327,7 +335,7 @@ namespace Futulabs
             Rigidbody.detectCollisions = enabled;
         }
 
-        virtual protected void OnCollisionEnter(Collision collision)
+        virtual protected void PlayCollisionSound(Collision collision)
         {
             var velocityMag = collision.relativeVelocity.magnitude;
             DimOutlineBloom(velocityMag);

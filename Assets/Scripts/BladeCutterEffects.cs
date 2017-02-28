@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+
 namespace Futulabs
 {
     public class BladeCutterEffects : MonoBehaviour
@@ -55,9 +56,8 @@ namespace Futulabs
         private float _swingDt = 0;
         private Vector3 _lastPosition;
         private bool _bladeActivated = false;
-
-        
-
+        private bool _swinged = false;
+        private bool _handExtended = false;
 
 
         private void Start()
@@ -71,27 +71,38 @@ namespace Futulabs
             _loopingAudio.clip = AudioManager.Instance.GetAudioClip(GameAudioClipType.PLASMA_CUTTER_LOOP);
             _loopingAudio.loop = true;
             _oneTimeAudio.loop = false;
+            DisableCutting();
         }
-        #region Audio
+
         private void FixedUpdate()
         {
             CheckForSwing();
         }
 
+
         private void CheckForSwing()
         {
+            _swinged = false;
             Vector3 currentPos = transform.position;
-            if (_lastPosition != null && _swingDt >= _swingCooldown && _bladeActivated)
+            if (_lastPosition != null && _swingDt >= _swingCooldown)
             {
                 float diff = (currentPos - _lastPosition).magnitude;
-                if (diff >= _swingVelocitySoundActivation)
-                    PlaySwing();
+                if (diff >= _swingVelocitySoundActivation && _bladeActivated)
+                {
+                    PlaySwingAudio();
+                }
+                else if (diff >= _swingVelocitySoundActivation && !_bladeActivated && _handExtended)
+                {
+                    ActivateScripts();
+                }
             }
             _swingDt += Time.deltaTime;
             _lastPosition = currentPos;
         }
 
-        private void PlaySwing()
+        #region Audio
+
+        private void PlaySwingAudio()
         {
             _swingDt = 0;
             float swingPitch = Random.Range(0.9f, 1.1f);
@@ -112,16 +123,37 @@ namespace Futulabs
             _loopingAudio.Stop();
             _oneTimeAudio.PlayOneShot(AudioManager.Instance.GetAudioClip(GameAudioClipType.PLASMA_CUTTER_DEACTIVATE));
         }
-        #endregion 
+        #endregion
 
-        public void Activate()
+        /// <summary>
+        /// This is called when the user's hand is open. 
+        /// The user still has to move his hand fast to activate the script.
+        /// </summary>
+        public void ExtendHand()
+        {
+            _handExtended = true;
+        }
+
+        /// <summary>
+        /// This is called when the user's hand is closed. It will stop the script immediately.
+        /// </summary>
+        public void UnextendHand()
+        {
+            _handExtended = false;
+            if (_bladeActivated)
+            {
+                DeactivateScripts();
+            }
+        }
+
+        private void ActivateScripts()
         {
             AnimateIn();
             ActivateSound();
             _bladeActivated = true;
         }
 
-        public void Deactivate()
+        private void DeactivateScripts()
         {
             AnimateOut();
             DeactivateSound();
@@ -139,12 +171,6 @@ namespace Futulabs
             _cutterMaterial.DOColor(_originalColor, "_TintColor", _animateTime).SetEase(Ease.OutExpo);
         }
 
-        private void EnableCutting()
-        {
-            _bladeScript.enabled = true;
-            _bladeCollider.enabled = true;
-        }
-
         private void AnimateOut()
         {
             _leftTweener.Kill();
@@ -154,6 +180,17 @@ namespace Futulabs
             _leftBlade.transform.DOLocalMove(new Vector3(0, 0, _positionZDeactivated), _animateTime).SetEase(Ease.OutExpo);
             _rightBlade.transform.DOLocalMove(new Vector3(0, 0, _positionZDeactivated), _animateTime).SetEase(Ease.OutExpo);
             _cutterMaterial.DOColor(_invisibleColor, "_TintColor", _animateTime / 2f).SetEase(Ease.OutExpo);
+            DisableCutting();
+        }
+
+        private void EnableCutting()
+        {
+            _bladeScript.enabled = true;
+            _bladeCollider.enabled = true;
+        }
+
+        private void DisableCutting()
+        {
             _bladeScript.enabled = false;
             _bladeCollider.enabled = false;
         }

@@ -30,6 +30,8 @@ namespace Futulabs
             {
                 Vector3 anchorPoint = transform.position;
                 InteractableObjectControllerBase interactableObject = collision.gameObject.GetComponentInParent<InteractableObjectControllerBase>();
+                if (interactableObject.Colliders[0] == null)
+                    return;
                 Vector3 size = interactableObject.Colliders[0].bounds.size;
                 if (!IsBigEnough(size))
                     return;
@@ -69,6 +71,8 @@ namespace Futulabs
                     outlinePieces[(int)MeshCut.MeshCutPieces.RIGHT_SIDE].transform.localRotation = Quaternion.identity;
                     rightHalfInteractableObject.RebuildReferences();
                     UnSpazz(interactableObject, rightHalfInteractableObject, initialVelocity, initialAngular);
+                    CheckIfGib(interactableObject);
+                    CheckIfGib(rightHalfInteractableObject);
                 });
                 _lastCutTime = Time.time;
                 _effects.PlaceCutEffect(collision.transform.position);
@@ -77,7 +81,6 @@ namespace Futulabs
 
         private bool IsBigEnough(Vector3 size)
         {
-            Debug.Log(size.magnitude);
             return size.magnitude >= _minimumCutSize;
         }
 
@@ -97,6 +100,19 @@ namespace Futulabs
             right.Rigidbody.velocity = initialVelocity;
             left.Rigidbody.angularVelocity = initialAngular;
             right.Rigidbody.angularVelocity = initialAngular;
+        }
+
+        /// <summary>
+        /// Check if the object is so small that we would want it to disappear after some time
+        /// </summary>
+        private void CheckIfGib(InteractableObjectControllerBase side)
+        {
+            Vector3 size = side.Colliders[0].bounds.size;
+            if(size.magnitude <= _minimumCutSize)
+            {
+                var gib = side.gameObject.AddComponent<Gib>() as Gib;
+                gib.disappearanceTime = 5f;
+            }
         }
 
 
