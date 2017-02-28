@@ -362,7 +362,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4363744687242638}
   - component: {fileID: 65275471984046026}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: CollisionBound
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1522,7 +1522,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!1 &1643141903557044
 GameObject:
@@ -2398,13 +2398,13 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1116672429568604}
-  m_LocalRotation: {x: 0.14863029, y: -0, z: -0, w: 0.98889285}
-  m_LocalPosition: {x: 1.38875, y: 4.593, z: 2.207}
+  m_LocalRotation: {x: 0.10509681, y: -0.69925296, z: 0.10509681, w: 0.69925296}
+  m_LocalPosition: {x: -1.5, y: 4.56, z: -0.889}
   m_LocalScale: {x: 1.25, y: 1.25, z: 1.25}
   m_Children: []
   m_Father: {fileID: 4052576447792406}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 17.095001, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 17.095001, y: -90, z: 0}
 --- !u!4 &4108572037538526
 Transform:
   m_ObjectHideFlags: 1
@@ -2412,7 +2412,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1365170045482654}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -4.626, y: 4.042, z: -0.174}
+  m_LocalPosition: {x: -4.626, y: 4.042, z: -4.631}
   m_LocalScale: {x: 35, y: 35, z: 35}
   m_Children:
   - {fileID: 4155519448434858}
@@ -2453,8 +2453,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1611997376053056}
-  m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: -0.7071068}
-  m_LocalPosition: {x: -9.384, y: 1.991, z: -2.644}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalPosition: {x: -1.82, y: 0.45, z: -9.417}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4805814623161578}
@@ -2462,7 +2462,7 @@ Transform:
   - {fileID: 4488960830450870}
   m_Father: {fileID: 4014788668104386}
   m_RootOrder: 9
-  m_LocalEulerAnglesHint: {x: 0, y: 270, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!4 &4140965334862442
 Transform:
   m_ObjectHideFlags: 1
@@ -8854,7 +8854,7 @@ Light:
   m_Enabled: 1
   serializedVersion: 7
   m_Type: 0
-  m_Color: {r: 0.51211077, g: 0.728123, b: 0.9411765, a: 1}
+  m_Color: {r: 0.81660897, g: 0.842304, b: 0.86764705, a: 1}
   m_Intensity: 1.92
   m_Range: 11.1
   m_SpotAngle: 48.8
