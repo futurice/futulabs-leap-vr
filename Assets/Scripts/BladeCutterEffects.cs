@@ -46,8 +46,7 @@ namespace Futulabs
         [Header("Audio")]
         [SerializeField]
         private AudioSource _loopingAudio;
-        [SerializeField]
-        private AudioSource _oneTimeAudio;
+        public AudioSource oneTimeAudio;
         [SerializeField]
         private float _swingVelocitySoundActivation = 2f;
         [SerializeField]
@@ -70,7 +69,7 @@ namespace Futulabs
             _cutterMaterial.SetColor("_TintColor", _invisibleColor);
             _loopingAudio.clip = AudioManager.Instance.GetAudioClip(GameAudioClipType.PLASMA_CUTTER_LOOP);
             _loopingAudio.loop = true;
-            _oneTimeAudio.loop = false;
+            oneTimeAudio.loop = false;
             DisableCutting();
         }
 
@@ -106,22 +105,22 @@ namespace Futulabs
         {
             _swingDt = 0;
             float swingPitch = Random.Range(0.9f, 1.1f);
-            _oneTimeAudio.pitch = swingPitch;
+            oneTimeAudio.pitch = swingPitch;
             int randomSwing = Mathf.RoundToInt(Random.Range((int)GameAudioClipType.PLASMA_CUTTER_SWING0, (int)GameAudioClipType.PLASMA_CUTTER_SWING3));
-            _oneTimeAudio.PlayOneShot(AudioManager.Instance.GetAudioClip((GameAudioClipType)randomSwing));
+            oneTimeAudio.PlayOneShot(AudioManager.Instance.GetAudioClip((GameAudioClipType)randomSwing));
         }
 
 
         private void ActivateSound()
         {
             _loopingAudio.Play();
-            _oneTimeAudio.PlayOneShot(AudioManager.Instance.GetAudioClip(GameAudioClipType.PLASMA_CUTTER_ACTIVATE));
+            oneTimeAudio.PlayOneShot(AudioManager.Instance.GetAudioClip(GameAudioClipType.PLASMA_CUTTER_ACTIVATE));
         }
 
         private void DeactivateSound()
         {
             _loopingAudio.Stop();
-            _oneTimeAudio.PlayOneShot(AudioManager.Instance.GetAudioClip(GameAudioClipType.PLASMA_CUTTER_DEACTIVATE));
+            oneTimeAudio.PlayOneShot(AudioManager.Instance.GetAudioClip(GameAudioClipType.PLASMA_CUTTER_DEACTIVATE));
         }
         #endregion
 
