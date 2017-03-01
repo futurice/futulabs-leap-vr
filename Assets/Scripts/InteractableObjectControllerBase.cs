@@ -43,7 +43,7 @@ namespace Futulabs
         protected Quaternion _lastRotationFrame;
         protected Quaternion _currentRotationFrame;
         protected float _angularVelocityThreshold = 350f; //Any angular velocity below this value will not be applied to the object
-        protected float _velocityThreshold = 0.006f;//Any velocity below this value will not be applied to the object
+        protected float _velocityThreshold = 0.004f;//Any velocity below this value will not be applied to the object
         #endregion
 
         protected Tweener _minEmissionTween;
