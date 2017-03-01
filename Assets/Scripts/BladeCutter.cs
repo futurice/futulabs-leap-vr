@@ -76,6 +76,7 @@ namespace Futulabs
                 });
                 _lastCutTime = Time.time;
                 _effects.PlaceCutEffect(collision.transform.position);
+                _effects.oneTimeAudio.PlayOneShot(AudioManager.Instance.GetAudioClip(GameAudioClipType.PLASMA_CUTTER_CUT0));
             }
         }
 
