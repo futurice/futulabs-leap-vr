@@ -33,14 +33,18 @@ namespace Futulabs
         protected AudioSource _effectAudioSource;
         protected Collider[] _colliders;
 
-        protected Vector3[] _velocityFrames;
         protected bool _creating = false;
-        protected int _velocityIndex = 0;
 
+        #region VelocityStuff
+        protected Vector3[] _velocityFrames;
+        protected int _velocityIndex = 0;
         protected Vector3 _currentFramePos;
         protected Vector3 _lastFramePos;
         protected Quaternion _lastRotationFrame;
         protected Quaternion _currentRotationFrame;
+        protected float _angularVelocityThreshold = 350f; //Any angular velocity below this value will not be applied to the object
+        protected float _velocityThreshold = 0.006f;//Any velocity below this value will not be applied to the object
+        #endregion
 
         protected Tweener _minEmissionTween;
         protected Tweener _minDiffuseTween;
@@ -264,13 +268,21 @@ namespace Futulabs
         virtual protected void AddCreationForce()
         {
             Vector3 velocity = CalculateCurrentVelocity();
-            Rigidbody.velocity = velocity * ObjectManager.Instance.CreationForceScaleFactor;
+            Debug.Log(velocity.magnitude);
+            if (velocity.magnitude >= _velocityThreshold)
+            {
+                Rigidbody.velocity = velocity * ObjectManager.Instance.CreationForceScaleFactor;
+            }
             Vector3 angularVel = ((_currentRotationFrame) * Quaternion.Inverse(_lastRotationFrame)).eulerAngles;
-            angularVel = new Vector3(
-                Mathf.DeltaAngle(0, angularVel.x) * Mathf.Deg2Rad,
-                Mathf.DeltaAngle(0, angularVel.y) * Mathf.Deg2Rad,
-                Mathf.DeltaAngle(0, angularVel.z) * Mathf.Deg2Rad) / Time.fixedDeltaTime;
-            Rigidbody.angularVelocity = angularVel;
+            Debug.Log(angularVel.magnitude);
+            if (angularVel.magnitude >= _angularVelocityThreshold)
+            {
+                angularVel = new Vector3(
+                    Mathf.DeltaAngle(0, angularVel.x) * Mathf.Deg2Rad,
+                    Mathf.DeltaAngle(0, angularVel.y) * Mathf.Deg2Rad,
+                    Mathf.DeltaAngle(0, angularVel.z) * Mathf.Deg2Rad) / Time.fixedDeltaTime;
+                Rigidbody.angularVelocity = angularVel;
+            }
         }
 
         virtual public void Materialize()
@@ -302,7 +314,7 @@ namespace Futulabs
         virtual protected void EnableOutlineMeshes(bool enabled)
         {
             if (_outlineMesh == null)
-            { 
+            {
                 Debug.LogWarning("InteractableObjectControllerBase EnableOutlineMeshes: Outline mesh is null");
                 return;
             }

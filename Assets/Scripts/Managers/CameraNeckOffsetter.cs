@@ -25,21 +25,21 @@ public class CameraNeckOffsetter : MonoBehaviour
 
     protected void RecordOriginalPositions()
     {
-        _originalHeadTrackerPos = _headtracker.position.y;
-        _originalCameraTargetPos = _cameraTarget.position.y;
+        _originalHeadTrackerPos = _headtracker.localPosition.y;
+        _originalCameraTargetPos = _cameraTarget.localPosition.y;
     }
 
     protected void Update()
     {
         if(_yOffset != _previousYOffset)
         {
-            var oldPos = _cameraTarget.transform.position;
+            var oldPos = _cameraTarget.transform.localPosition;
             oldPos.y = _originalCameraTargetPos + _yOffset;
-            _cameraTarget.transform.position = oldPos;
+            _cameraTarget.transform.localPosition = oldPos;
 
-            var oldHeadPos = _headtracker.transform.position;
+            var oldHeadPos = _headtracker.transform.localPosition;
             oldHeadPos.y = _originalHeadTrackerPos - _yOffset;
-            _headtracker.transform.position = oldHeadPos;
+            _headtracker.transform.localPosition = oldHeadPos;
 
             _previousYOffset = _yOffset;
         }
