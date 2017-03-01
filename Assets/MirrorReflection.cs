@@ -170,16 +170,6 @@ namespace Futulabs
                 reflectionCamera.transform.rotation = transform.rotation;
                 reflectionCamera.gameObject.AddComponent<FlareLayer>();
 
-
-                // Bloom and dirty lends effects
-                reflectionCamera.hdr = Camera.main.hdr;
-
-                SENaturalBloomAndDirtyLens mainCameraBloom = Camera.main.GetComponent<SENaturalBloomAndDirtyLens>();
-                SENaturalBloomAndDirtyLens reflectionCameraBloom = reflectionCamera.gameObject.AddComponent<SENaturalBloomAndDirtyLens>();
-                reflectionCameraBloom.bloomIntensity = mainCameraBloom.bloomIntensity;
-                reflectionCameraBloom.lensDirtIntensity = mainCameraBloom.lensDirtIntensity;
-                reflectionCameraBloom.lensDirtTexture = mainCameraBloom.lensDirtTexture;
-
                 go.hideFlags = HideFlags.HideAndDontSave;
                 m_ReflectionCameras[currentCamera] = reflectionCamera;
             }
