@@ -22,10 +22,14 @@ namespace Futulabs
         public Color InteractableMaterialMaxEmissionColor;
         public float InteractableMaterialMinEmissionGain = 0f;
         public float InteractableMaterialMaxEmissionGain = 0.4f;
-
+        [Header("Sticky Material Outline Colors")]
+        public Color StickyMaterialMinDiffuseColor;
+        public Color StickyMaterialMaxDiffuseColor;
+        public Color StickyMaterialMinEmissionColor;
+        public Color StickyMaterialMaxEmissionColor;
         public Material StickyOutlineMaterial;
-        public float StickyMaterialGainMax;
-        public float StickyMaterialGainMin;
+        public float StickyMaterialMaxEmissionGain;
+        public float StickyMaterialMinEmissionGain;
 
         public float InteractableMaterialOutlineTransitionFactor = 3f;
         public float InteractableMaterialOutlineMinGlowTime = 0.5f;

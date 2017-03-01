@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Leap.Unity;
 using Leap.Unity.Interaction;
-
+using DG.Tweening;
 namespace Futulabs
 {
 
@@ -34,16 +34,66 @@ namespace Futulabs
         {
             base.FixedUpdate();
         }
+        protected override void DimOutlineBloom(float magnitude)
+        {
+            if (!_isSticky)
+                base.DimOutlineBloom(magnitude);
+            else
+            {
+                magnitude *= SettingsManager.Instance.InteractableMaterialOutlineTransitionFactor;
+                IlluminateOutlineBloom(magnitude);
+                _minEmissionTween.Kill();
+                _minDiffuseTween.Kill();
+                _minGainTween.Kill();
+
+                magnitude = Mathf.Max(SettingsManager.Instance.InteractableMaterialOutlineMinGlowTime, magnitude);
+                magnitude = Mathf.Min(SettingsManager.Instance.InteractableMaterialOutlineMaxGlowTime, magnitude);
+
+                _minEmissionTween = _outlineMesh.material.DOColor(SettingsManager.Instance.StickyMaterialMinEmissionColor, "_EmissionColor", magnitude).SetEase(Ease.OutExpo);
+                _minDiffuseTween = _outlineMesh.material.DOColor(SettingsManager.Instance.StickyMaterialMinDiffuseColor, "_DiffuseColor", magnitude).SetEase(Ease.OutExpo);
+                _minGainTween = _outlineMesh.material.DOFloat(SettingsManager.Instance.StickyMaterialMinEmissionGain, "_EmissionGain", magnitude).SetEase(Ease.OutExpo);
+            }
+        }
+
+        public override void Create(InteractionManager interactionManager, PinchDetector leftPinchDetector, PinchDetector rightPinchDetector)
+        {
+            base.Create(interactionManager, leftPinchDetector, rightPinchDetector);
+            _isSticky = GameManager.Instance.StickyCubes;
+            if (_isSticky)
+            {
+                _outlineMesh.material = SettingsManager.Instance.StickyOutlineMaterial;
+                IlluminateOutlineBloom();
+                DimOutlineBloom(1);
+            }
+        }
+
+        protected override void IlluminateOutlineBloom(float amount = 1)
+        {
+            if (!_isSticky)
+                base.IlluminateOutlineBloom(amount);
+            else
+            {
+                amount = Mathf.Clamp01(amount);
+
+                Color emission = Color.Lerp(SettingsManager.Instance.StickyMaterialMinEmissionColor, SettingsManager.Instance.StickyMaterialMaxEmissionColor, amount);
+                Color diffuse = Color.Lerp(SettingsManager.Instance.StickyMaterialMinDiffuseColor, SettingsManager.Instance.StickyMaterialMaxDiffuseColor, amount);
+                float gain = Mathf.Lerp(SettingsManager.Instance.StickyMaterialMinEmissionGain, SettingsManager.Instance.InteractableMaterialMaxEmissionGain, amount);
+
+                _outlineMesh.material.SetColor("_EmissionColor", emission);
+                _outlineMesh.material.SetColor("_DiffuseColor", diffuse);
+                _outlineMesh.material.SetFloat("_EmissionGain", gain);
+            }
+        }
 
         public override void Materialize()
         {
             base.Materialize();
-            _isSticky = GameManager.Instance.StickyCubes;
             if (_isSticky)
             {
-                _outlineMesh.sharedMaterial = SettingsManager.Instance.StickyOutlineMaterial;
                 var stickyComponent = SolidMeshGameObject.AddComponent<Stickyness>();
                 stickyComponent.Init(this);
+                IlluminateOutlineBloom();
+                DimOutlineBloom(1);
             }
         }
 

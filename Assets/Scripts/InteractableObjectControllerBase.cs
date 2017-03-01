@@ -179,7 +179,7 @@ namespace Futulabs
 
             _solidMesh.OnCollisionEnterAsObservable().Subscribe(collision =>
             {
-                PlayCollisionSound(collision);
+                HandleCollisionActions(collision);
             });
 
             EnableMaterializedMeshes(false);
@@ -268,7 +268,7 @@ namespace Futulabs
         virtual protected void AddCreationForce()
         {
             Vector3 velocity = CalculateCurrentVelocity();
-            Debug.Log(velocity.magnitude);
+
             if (velocity.magnitude >= _velocityThreshold)
             {
                 Rigidbody.velocity = velocity * ObjectManager.Instance.CreationForceScaleFactor;
@@ -347,7 +347,7 @@ namespace Futulabs
             Rigidbody.detectCollisions = enabled;
         }
 
-        virtual protected void PlayCollisionSound(Collision collision)
+        virtual protected void HandleCollisionActions(Collision collision)
         {
             var velocityMag = collision.relativeVelocity.magnitude;
             DimOutlineBloom(velocityMag);

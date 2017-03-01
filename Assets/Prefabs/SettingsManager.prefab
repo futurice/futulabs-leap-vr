@@ -34,7 +34,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1548164974836072}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.83666784, y: 0.26478183, z: 0.9555669}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -51,7 +51,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8999e80fbb4974cc088a0121ba4046e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _singletonDontDestroyOnLoad: 0
+  _singletonDontDestroyOnLoad: 1
   InstructionChangeInterval: 10
   InstructionTexts:
   - Pinch your thumb and index finger with both hands close together to create objects
@@ -60,16 +60,20 @@ MonoBehaviour:
   - 'You can change the created object and toggle gravity in the menu '
   WallCubeOutlineOffEmissionColor: {r: 0, g: 0, b: 0, a: 0}
   WallCubeOutlineOnEmissionColor: {r: 0, g: 0.88235295, b: 1, a: 1}
-  InteractableMaterialMinDiffuseColor: {r: 1, g: 0.39310342, b: 0, a: 0}
-  InteractableMaterialMaxDiffuseColor: {r: 1, g: 0.47586203, b: 0, a: 0}
-  InteractableMaterialMinEmissionColor: {r: 1, g: 0.22718051, b: 0, a: 0}
-  InteractableMaterialMaxEmissionColor: {r: 1, g: 0.7241379, b: 0, a: 0}
+  InteractableMaterialMinDiffuseColor: {r: 1, g: 0.39310342, b: 0, a: 1}
+  InteractableMaterialMaxDiffuseColor: {r: 1, g: 0.47586203, b: 0, a: 1}
+  InteractableMaterialMinEmissionColor: {r: 1, g: 0.22718051, b: 0, a: 1}
+  InteractableMaterialMaxEmissionColor: {r: 1, g: 0.7241379, b: 0, a: 1}
   InteractableMaterialMinEmissionGain: 0.42
   InteractableMaterialMaxEmissionGain: 0.48
+  StickyMaterialMinDiffuseColor: {r: 0, g: 0.73961926, b: 0.83823526, a: 1}
+  StickyMaterialMaxDiffuseColor: {r: 0.077962786, g: 0.6774246, b: 0.75735295, a: 0}
+  StickyMaterialMinEmissionColor: {r: 0.15257353, g: 0.3451318, b: 0.6102941, a: 0}
+  StickyMaterialMaxEmissionColor: {r: 0, g: 0.7794118, b: 0.7149087, a: 0}
   StickyOutlineMaterial: {fileID: 2100000, guid: 94b7a6397489abe438acda6a2abc06ff,
     type: 2}
-  StickyMaterialGainMax: 0.45
-  StickyMaterialGainMin: 0.3
+  StickyMaterialMaxEmissionGain: 0.7
+  StickyMaterialMinEmissionGain: 0.6
   InteractableMaterialOutlineTransitionFactor: 1
   InteractableMaterialOutlineMinGlowTime: 1
   InteractableMaterialOutlineMaxGlowTime: 2
