@@ -16,6 +16,8 @@ namespace Futulabs
         private float _rotationX;
         [SerializeField]
         private float _rotationY;
+        [SerializeField]
+        private float _rotationYSlowly;
 
         [SerializeField]
         private float _positionZDeactivated;
@@ -23,11 +25,13 @@ namespace Futulabs
         [SerializeField]
         private float _positionZActivated;
 
-        private Tweener _leftTweener;
-        private Tweener _rightTweener;
+        private Tweener _deactivationTweener;
+        private Tweener _deactivationOtherTweener;
 
         [SerializeField]
-        private float _animateTime = 0.25f;
+        private float _animateInTime = 0.25f;
+        [SerializeField]
+        private float _animateOutTime;
 
         [SerializeField]
         private Material _cutterMaterial;
@@ -131,6 +135,8 @@ namespace Futulabs
         public void ExtendHand()
         {
             _handExtended = true;
+            _deactivationTweener.Kill();
+            _deactivationOtherTweener.Kill();
         }
 
         /// <summary>
@@ -141,9 +147,10 @@ namespace Futulabs
             _handExtended = false;
             if (_bladeActivated)
             {
-                DeactivateScripts();
+                SlowlyAnimateOut();
             }
         }
+
 
         private void ActivateScripts()
         {
@@ -161,25 +168,34 @@ namespace Futulabs
 
         private void AnimateIn()
         {
-            _leftTweener.Kill();
-            _rightTweener.Kill();
-            _leftBlade.transform.DOLocalRotateQuaternion(Quaternion.Euler(_rotationX, 0, 0), _animateTime).SetEase(Ease.OutExpo);
-            _rightBlade.transform.DOLocalRotateQuaternion(Quaternion.Euler(_rotationX, 0, 0), _animateTime).SetEase(Ease.OutExpo);
-            _leftBlade.transform.DOLocalMove(new Vector3(0, 0, _positionZActivated), _animateTime).SetEase(Ease.OutExpo);
-            _rightBlade.transform.DOLocalMove(new Vector3(0, 0, _positionZActivated), _animateTime).SetEase(Ease.OutExpo).OnComplete(EnableCutting);
-            _cutterMaterial.DOColor(_originalColor, "_TintColor", _animateTime).SetEase(Ease.OutExpo);
+            _deactivationTweener.Kill();
+            _deactivationOtherTweener.Kill();
+            _leftBlade.transform.DOLocalRotateQuaternion(Quaternion.Euler(_rotationX, 0, 0), _animateInTime).SetEase(Ease.OutExpo);
+            _rightBlade.transform.DOLocalRotateQuaternion(Quaternion.Euler(_rotationX, 0, 0), _animateInTime).SetEase(Ease.OutExpo);
+            _leftBlade.transform.DOLocalMove(new Vector3(0, 0, _positionZActivated), _animateInTime).SetEase(Ease.OutExpo);
+            _rightBlade.transform.DOLocalMove(new Vector3(0, 0, _positionZActivated), _animateInTime).SetEase(Ease.OutExpo).OnComplete(EnableCutting);
+            _cutterMaterial.DOColor(_originalColor, "_TintColor", _animateInTime).SetEase(Ease.OutExpo);
         }
 
         private void AnimateOut()
         {
-            _leftTweener.Kill();
-            _rightTweener.Kill();
-            _leftBlade.transform.DOLocalRotateQuaternion(Quaternion.Euler(_rotationX, -_rotationY, 0), _animateTime).SetEase(Ease.OutExpo);
-            _rightBlade.transform.DOLocalRotateQuaternion(Quaternion.Euler(_rotationX, _rotationY, 0), _animateTime).SetEase(Ease.OutExpo);
-            _leftBlade.transform.DOLocalMove(new Vector3(0, 0, _positionZDeactivated), _animateTime).SetEase(Ease.OutExpo);
-            _rightBlade.transform.DOLocalMove(new Vector3(0, 0, _positionZDeactivated), _animateTime).SetEase(Ease.OutExpo);
-            _cutterMaterial.DOColor(_invisibleColor, "_TintColor", _animateTime / 2f).SetEase(Ease.OutExpo);
+            _deactivationTweener.Kill();
+            _deactivationOtherTweener.Kill();
+            _cutterMaterial.DOColor(_invisibleColor, "_TintColor", _animateInTime / 2f).SetEase(Ease.OutExpo);
             DisableCutting();
+        }
+
+        private void SlowlyAnimateOut()
+        {
+            _deactivationOtherTweener = _leftBlade.transform.DOLocalRotateQuaternion(Quaternion.Euler(_rotationX, -_rotationYSlowly, 0), _animateOutTime).SetEase(Ease.OutSine);
+            _deactivationTweener = _rightBlade.transform.DOLocalRotateQuaternion(Quaternion.Euler(_rotationX, _rotationYSlowly, 0), _animateOutTime).SetEase(Ease.OutSine).OnComplete(DeactivateScripts);
+            _deactivationTweener.OnKill(QuicklyAnimateIn);
+        }
+
+        private void QuicklyAnimateIn()
+        {
+            _leftBlade.transform.DOLocalRotateQuaternion(Quaternion.Euler(_rotationX, 0, 0), 0.25f).SetEase(Ease.OutExpo);
+            _rightBlade.transform.DOLocalRotateQuaternion(Quaternion.Euler(_rotationX, 0, 0), 0.25f).SetEase(Ease.OutExpo);
         }
 
         private void EnableCutting()

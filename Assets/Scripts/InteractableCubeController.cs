@@ -26,7 +26,7 @@ namespace Futulabs
         {
             get
             {
-                return _isSticky ? 12.0f : 1.0f;
+                return _isSticky ? 1.0f : 1.0f;
             }
         }
 
