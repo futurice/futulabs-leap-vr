@@ -31,18 +31,46 @@ namespace Futulabs
 		public Transform ikTargetTransform;
 		public float positionWeight = 1.0f;
 		public float rotationWeight = 1.0f;
+		public float trackingLostThresholdTime = 0.5f; // Threshold time to report that tracking is lost
+		[HideInInspector]
+		public float lastTrackingInformationReceivedTime = -1.0f;
 
 		public bool IsDataSourceTrackingBone(HumanBodyBones bone)
 		{
+			bool isTracking = false;
+
 			switch (dataSource)
 			{
 				case DataSource.LEAP_MOTION:
-					return IsLeapMotionTrackingBone(bone);
+				{
+					isTracking = IsLeapMotionTrackingBone(bone);
+					break;
+				}
 				case DataSource.OCULUS_TOUCH:
-					return IsOculusTouchTrackingBone(bone);
+				{
+					isTracking = IsOculusTouchTrackingBone(bone);
+					break;
+				}
 				default:
-					return true;
+				{
+					isTracking = true;
+					break;
+				}
 			}
+
+			// If we are tracking log the tracking information received time
+			if (isTracking)
+			{
+				lastTrackingInformationReceivedTime = Time.time;
+			}
+
+			// If we are not tracking but we are within the tracking lost threshold time return true
+			if (!isTracking && Time.time - lastTrackingInformationReceivedTime > trackingLostThresholdTime)
+			{
+				return true;
+			}
+
+			return isTracking;
 		}
 
 		private bool IsLeapMotionTrackingBone(HumanBodyBones bone)
