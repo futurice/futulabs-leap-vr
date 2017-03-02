@@ -13,27 +13,40 @@ namespace Futulabs
         public GameManager game;
         public Image RadialImage;
         private bool isDown;
+
         public void ButtonDown()
         {
             isDown = true;
+			AudioManager.Instance.PlayAudioClip(GameAudioClipType.BUTTON_LOAD);
         }
 
         public void ButtonUp()
         {
             isDown = false;
             RadialImage.DOFillAmount(0, 0.5f).SetEase(Ease.OutExpo);
+			AudioManager.Instance.StopAudioClip();
         }
 
         private void Update()
         {
             if (isDown)
+			{
                 dt += Time.deltaTime;
-            else
+			}
+			else
+			{
                 dt = 0;
-            if (dt == 0)
+			}
+
+			if (dt == 0)
+			{
                 return;
+			}
+
             float percentage = dt / TimeToActivate;
-            RadialImage.fillAmount = percentage;
+            
+			RadialImage.fillAmount = percentage;
+
             if (dt >= TimeToActivate)
             {
                 Activate();

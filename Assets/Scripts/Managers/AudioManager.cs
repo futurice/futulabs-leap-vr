@@ -63,6 +63,11 @@ namespace Futulabs
             _effectAudioSource.PlayOneShot(GetAudioClip(type));
             _effectAudioSource.pitch = 1;
         }
+
+		public void StopAudioClip()
+		{
+			_effectAudioSource.Stop();
+		}
     }
 
 }

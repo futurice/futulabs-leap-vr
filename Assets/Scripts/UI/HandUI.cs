@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+
 namespace Futulabs
 {
     public class HandUI : MonoBehaviour
@@ -44,7 +45,13 @@ namespace Futulabs
 
             _menuShown = true;
             _moveTween = Menu.transform.DOLocalMove(EndPos, FadeTime).SetEase(Ease.OutExpo);
-            _alphaTween = canvasGroup.DOFade(1, FadeTime).SetEase(Ease.OutExpo);
+
+			_alphaTween = canvasGroup
+				.DOFade(1, FadeTime).SetEase(Ease.OutExpo)
+				.OnComplete(() => {
+					AudioManager.Instance.PlayAudioClip(GameAudioClipType.MENU_APPEAR);
+				});
+			
             canvasGroup.interactable = true;
         }
 

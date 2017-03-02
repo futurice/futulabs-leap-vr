@@ -21,7 +21,10 @@ public enum GameAudioClipType
     PLASMA_CUTTER_SWING2 = 12,
     PLASMA_CUTTER_SWING3 = 13,
     PLASMA_CUTTER_CUT0 = 14,
-    PLASMA_CUTTER_CUT1 = 15
+    PLASMA_CUTTER_CUT1 = 15,
+	MENU_APPEAR = 16,
+	BUTTON_LOAD = 17,
+	PINCH_CONFIRM = 18
 }
 
 [System.Serializable]
