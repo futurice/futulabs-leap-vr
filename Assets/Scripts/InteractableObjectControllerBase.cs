@@ -10,7 +10,6 @@ using UniRx.Triggers;
 
 namespace Futulabs
 {
-    [RequireComponent(typeof(AudioSource))]             // Required to play sound effects related to this object
     public class InteractableObjectControllerBase : MonoBehaviour, IInteractableObjectController
     {
         [Header("Meshes")]
@@ -21,17 +20,22 @@ namespace Futulabs
         [Tooltip("Mesh that should be enabled when the object has materialized")]
         protected MeshRenderer _solidMesh;
 
+		[Header("Audio")]
+		[SerializeField]
+		protected AudioSource _effectAudioSource;
+
         [Header("Scaling")]
         [SerializeField]
         [Tooltip("Does the script implement its own scaling or should it use the Leap RTS default uniform scaling")]
         protected bool _overrideLeapRTSScaling = false;
 
+		[Header("Leap Motion")]
         [SerializeField]
         protected LeapRTS _leapRTSComponent;
         [SerializeField]
         protected InteractionBehaviour _leapInteractionBehaviour;
-        protected AudioSource _effectAudioSource;
-        protected Collider[] _colliders;
+
+		protected Collider[] _colliders;
 
         protected bool _creating = false;
 
