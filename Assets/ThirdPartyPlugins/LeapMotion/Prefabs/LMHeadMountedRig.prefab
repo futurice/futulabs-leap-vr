@@ -712,7 +712,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1219241560651128
 GameObject:
   m_ObjectHideFlags: 1
@@ -3941,7 +3941,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   StartsOn: 0
-  On: {r: 0.48862746, g: 1, b: 0.3607843, a: 1}
+  On: {r: 0.36078432, g: 0.7607843, b: 1, a: 1}
   Off: {r: 0, g: 0, b: 0, a: 0}
   Outline: {fileID: 114928851823746926}
 --- !u!114 &114057271758909438
@@ -4774,12 +4774,12 @@ MonoBehaviour:
   Period: 0.5
   HandModel: {fileID: 114079802875801908}
   Thumb: 0
-  Index: 0
-  Middle: 0
-  Ring: 0
-  Pinky: 0
-  MinimumExtendedCount: 5
-  MaximumExtendedCount: 5
+  Index: 1
+  Middle: 1
+  Ring: 1
+  Pinky: 1
+  MinimumExtendedCount: 1
+  MaximumExtendedCount: 1
   ShowGizmos: 1
 --- !u!114 &114358288133550610
 MonoBehaviour:
@@ -6032,7 +6032,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 78caaf8f35a64cf488d1850a286463df, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 1ef084d4e4ad3e149bd821a02db5e77d, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -6375,7 +6375,7 @@ MonoBehaviour:
   m_Script: {fileID: -900027084, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_EffectColor: {r: 0.49019608, g: 1, b: 0.36078432, a: 1}
+  m_EffectColor: {r: 0.36078432, g: 0.7607843, b: 1, a: 1}
   m_EffectDistance: {x: 4, y: 4}
   m_UseGraphicAlpha: 1
 --- !u!114 &114932693170017776
@@ -7357,7 +7357,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -0.0001739752, y: 0}
-  m_SizeDelta: {x: 64, y: 64}
+  m_SizeDelta: {x: 68, y: 68}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224429734844182034
 RectTransform:
