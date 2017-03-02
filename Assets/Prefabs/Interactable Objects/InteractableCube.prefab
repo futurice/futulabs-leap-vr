@@ -19,7 +19,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4449339446465012}
-  - component: {fileID: 82660772921522194}
   - component: {fileID: 114053081215995544}
   - component: {fileID: 114695983437559746}
   m_Layer: 0
@@ -42,6 +41,7 @@ GameObject:
   - component: {fileID: 54129533736261042}
   - component: {fileID: 114107191389595458}
   - component: {fileID: 64417484721049188}
+  - component: {fileID: 82124286390973830}
   m_Layer: 0
   m_Name: Solid
   m_TagString: InteractableObject
@@ -212,16 +212,16 @@ MeshCollider:
   m_InflateMesh: 0
   m_SkinWidth: 0.01
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!82 &82660772921522194
+--- !u!82 &82124286390973830
 AudioSource:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1224634370874764}
+  m_GameObject: {fileID: 1364874201844318}
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 6bb05e7cf4b8da4448205587abc6e49f, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.5
   m_Pitch: 1
@@ -338,6 +338,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _outlineMesh: {fileID: 23647209704383970}
   _solidMesh: {fileID: 23753124370551744}
+  _effectAudioSource: {fileID: 82124286390973830}
   _overrideLeapRTSScaling: 0
   _leapRTSComponent: {fileID: 114053081215995544}
   _leapInteractionBehaviour: {fileID: 114107191389595458}
