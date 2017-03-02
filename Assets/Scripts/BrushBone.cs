@@ -13,6 +13,10 @@ namespace Futulabs
 
 		protected Rigidbody _boneRigidbody;  // Rigidbody of the bone
         protected Vector3 _lastPosition; // Last position of the target transform
+        protected Quaternion _lastRotation;
+
+        protected float maxDeltaPosition = 0.1f;
+        protected float maxDeltaAngle = 10f;
 
 		protected Rigidbody BoneRigidbody
 		{
@@ -41,6 +45,17 @@ namespace Futulabs
 
         protected void FixedUpdate()
         {
+            // TODO: FIXME - I am sorry. This had to be done to make the video awesome.
+            // This is counting on the fact that the IK will recover within one frame
+            // it will start stuttering if not
+            if (Vector3.Magnitude(_target.position - _lastPosition) > maxDeltaPosition ||
+                Quaternion.Angle(_lastRotation, _target.rotation) > maxDeltaAngle)
+            {
+                _lastPosition = _target.position;
+                _lastRotation = _target.rotation;
+                return;
+            }
+
             // Match the position and rotation of the target
 			BoneRigidbody.MovePosition(_target.position);
 			BoneRigidbody.MoveRotation(_target.rotation);
@@ -53,8 +68,8 @@ namespace Futulabs
 			BoneRigidbody.velocity = (_target.position - _lastPosition).normalized * velocity;
 
 			// TODO: Match angular velocity
-
             _lastPosition = _target.position;
+            _lastRotation = _target.rotation;
         }
 
     }
