@@ -29,7 +29,7 @@ namespace Futulabs
             }
             if (lowerTrigger == trig && bBall == objectOfInterest && dt <= MaxTime)
             {
-                game.BasketScore();
+                game.AddToBasketScore();
                 UpperOK = false;
                 objectOfInterest = null;
                 dt = 0;

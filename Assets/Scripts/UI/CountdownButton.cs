@@ -57,6 +57,11 @@ namespace Futulabs
 					RadialImage.fillAmount = 1 - percentage;
 				}
             });
+
+			Observable.Timer(TimeSpan.FromSeconds(_countDownTime)).Subscribe(_ =>
+			{
+				HighscoreManager.TryAddHighscore(new Highscore(game.CurrentBasketScore));
+			});
 		}
     }
 }
