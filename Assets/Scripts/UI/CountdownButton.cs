@@ -18,14 +18,15 @@ namespace Futulabs
 
         public void TimerStart()
         {
-			AudioManager.Instance.PlayAudioClip(GameAudioClipType.BUTTON_LOAD);
 			EmptyTimer();
         }
 
 		private void EmptyTimer() 
 		{
+			
 			RadialImage.fillAmount = 1;
 			Func<long, bool> f = (x) => RadialImage.fillAmount > 0;
+			var dtMaxSec = -1;
             Observable.EveryUpdate().TakeWhile(f).Subscribe(_ =>
             {
                 dt += Time.deltaTime;
@@ -33,6 +34,20 @@ namespace Futulabs
 				if (RadialImage.fillAmount > 0) 
 				{
 					var timeLeft = Mathf.RoundToInt(_countDownTime - dt);
+					var dtInt = Mathf.RoundToInt(dt);
+					Debug.Log(dtInt + " - " + dtMaxSec);
+					if(dtInt > dtMaxSec)
+					{
+						dtMaxSec = dtInt;
+						if (dtInt % 2 == 0) 
+						{
+							AudioManager.Instance.PlayAudioClip(GameAudioClipType.CLOCK_TICK);
+						}
+						else
+						{
+							AudioManager.Instance.PlayAudioClip(GameAudioClipType.CLOCK_TOCK);
+						}
+					}
 					game.SetTimer(timeLeft);
 					RadialImage.fillAmount = 1 - percentage;
 				}

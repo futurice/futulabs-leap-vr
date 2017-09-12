@@ -194,7 +194,6 @@ namespace Futulabs
         {
             int ones = time % 10;
             int tens = time / 10;
-
             _timerTextOnes.text = ones.ToString();
             _timerTextTens.text = tens.ToString();
         }

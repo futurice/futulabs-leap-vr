@@ -24,7 +24,9 @@ public enum GameAudioClipType
     PLASMA_CUTTER_CUT1 = 15,
 	MENU_APPEAR = 16,
 	BUTTON_LOAD = 17,
-	PINCH_CONFIRM = 18
+	PINCH_CONFIRM = 18,
+    CLOCK_TICK = 19,
+    CLOCK_TOCK = 20
 }
 
 [System.Serializable]
