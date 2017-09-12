@@ -11,10 +11,12 @@ namespace Futulabs
     public class CountdownButton : MonoBehaviour
     {
         private const float _countDownTime = 10f;
-        private float dt = 0;
+        private float dt;
 
         public GameManager game;
         public Image RadialImage;
+
+		private IDisposable _countDownDisposable;
 
         public void TimerStart()
         {
@@ -23,11 +25,15 @@ namespace Futulabs
 
 		private void EmptyTimer() 
 		{
-			
 			RadialImage.fillAmount = 1;
 			Func<long, bool> f = (x) => RadialImage.fillAmount > 0;
 			var dtMaxSec = -1;
-            Observable.EveryUpdate().TakeWhile(f).Subscribe(_ =>
+			dt = 0;
+			if(_countDownDisposable != null)
+			{
+				_countDownDisposable.Dispose();
+			}
+           	_countDownDisposable = Observable.EveryUpdate().TakeWhile(f).Subscribe(_ =>
             {
                 dt += Time.deltaTime;
 				var percentage = dt/_countDownTime;
@@ -35,7 +41,6 @@ namespace Futulabs
 				{
 					var timeLeft = Mathf.RoundToInt(_countDownTime - dt);
 					var dtInt = Mathf.RoundToInt(dt);
-					Debug.Log(dtInt + " - " + dtMaxSec);
 					if(dtInt > dtMaxSec)
 					{
 						dtMaxSec = dtInt;
