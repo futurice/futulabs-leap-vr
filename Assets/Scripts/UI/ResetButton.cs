@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using DG.Tweening;
 namespace Futulabs
 {
-    public class TimeButton : MonoBehaviour
+    public class ResetButton : MonoBehaviour
     {
         public float TimeToActivate = 3f;
         private float dt = 0;

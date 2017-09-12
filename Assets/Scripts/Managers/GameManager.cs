@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using DG.Tweening;
+using UniRx;
+using System;
 
 namespace Futulabs
 {
@@ -80,6 +82,22 @@ namespace Futulabs
             SettingsManager.Instance.StickyOutlineMaterial.SetFloat("_EmissionGain", SettingsManager.Instance.StickyMaterialMaxEmissionGain);
             SettingsManager.Instance.StickyOutlineMaterial.DOFloat(SettingsManager.Instance.StickyMaterialMinEmissionGain, "_EmissionGain", 2f).SetLoops(-1, LoopType.Yoyo).SetEase(Ease.InOutSine);
         }
+
+        /*public void StartTimer()
+        {
+            bool timesUp = false;
+            Observable.Timer(TimeSpan.FromSeconds(2)).Subscribe(_ =>
+            {
+               timesUp = true; 
+            });
+            Func<long, bool> f = (x) => !timesUp;
+            float dt = 0;
+            Observable.EveryUpdate().TakeWhile(f).Subscribe(_ =>
+            {
+                dt += Time.deltaTime;
+                //Debug.Log(dt);
+            });
+        }*/
 
         private void Update()
         {
