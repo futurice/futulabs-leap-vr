@@ -29,6 +29,12 @@ namespace Futulabs
         [SerializeField]
         private Text _scoreboardTextTens;
 
+        [Header("Timer")]
+        [SerializeField]
+        private Text _timerTextOnes;
+        [SerializeField]
+        private Text _timerTextTens;
+
         private int _currentInstructionIndex = 0;
         private float _lastInstructionChangeTime = 0.0f;
         private bool _isGravityOn = true;
@@ -82,22 +88,6 @@ namespace Futulabs
             SettingsManager.Instance.StickyOutlineMaterial.SetFloat("_EmissionGain", SettingsManager.Instance.StickyMaterialMaxEmissionGain);
             SettingsManager.Instance.StickyOutlineMaterial.DOFloat(SettingsManager.Instance.StickyMaterialMinEmissionGain, "_EmissionGain", 2f).SetLoops(-1, LoopType.Yoyo).SetEase(Ease.InOutSine);
         }
-
-        /*public void StartTimer()
-        {
-            bool timesUp = false;
-            Observable.Timer(TimeSpan.FromSeconds(2)).Subscribe(_ =>
-            {
-               timesUp = true; 
-            });
-            Func<long, bool> f = (x) => !timesUp;
-            float dt = 0;
-            Observable.EveryUpdate().TakeWhile(f).Subscribe(_ =>
-            {
-                dt += Time.deltaTime;
-                //Debug.Log(dt);
-            });
-        }*/
 
         private void Update()
         {
@@ -198,6 +188,15 @@ namespace Futulabs
             _scoreboardTextTens.text = tens.ToString();
 
             AudioManager.Instance.PlayAudioClip(GameAudioClipType.BASKETBALL_SCORE);
+        }
+
+        public void SetTimer(int time)
+        {
+            int ones = time % 10;
+            int tens = time / 10;
+
+            _timerTextOnes.text = ones.ToString();
+            _timerTextTens.text = tens.ToString();
         }
 
         public void ToggleStickyCubes()

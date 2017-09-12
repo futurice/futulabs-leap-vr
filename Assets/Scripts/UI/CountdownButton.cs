@@ -32,6 +32,8 @@ namespace Futulabs
 				var percentage = dt/_countDownTime;
 				if (RadialImage.fillAmount > 0) 
 				{
+					var timeLeft = Mathf.RoundToInt(_countDownTime - dt);
+					game.SetTimer(timeLeft);
 					RadialImage.fillAmount = 1 - percentage;
 				}
             });
