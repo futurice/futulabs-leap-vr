@@ -190,6 +190,13 @@ namespace Futulabs
             AudioManager.Instance.PlayAudioClip(GameAudioClipType.BASKETBALL_SCORE);
         }
 
+        public void ResetBasketScore() 
+        {
+            _basketballScore = 0;
+            _scoreboardTextOnes.text = "0";
+            _scoreboardTextTens.text = "0";
+        }
+
         public void SetTimer(int time)
         {
             int ones = time % 10;

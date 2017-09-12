@@ -10,7 +10,7 @@ namespace Futulabs
 {
     public class CountdownButton : MonoBehaviour
     {
-        private const float _countDownTime = 10f;
+        private const float _countDownTime = 15f;
         private float dt;
 
         public GameManager game;
@@ -21,14 +21,15 @@ namespace Futulabs
         public void TimerStart()
         {
 			EmptyTimer();
+			game.ResetBasketScore();
         }
 
 		private void EmptyTimer() 
 		{
 			RadialImage.fillAmount = 1;
-			Func<long, bool> f = (x) => RadialImage.fillAmount > 0;
 			var dtMaxSec = -1;
 			dt = 0;
+			Func<long, bool> f = (x) => _countDownTime - dt > 0;
 			if(_countDownDisposable != null)
 			{
 				_countDownDisposable.Dispose();
@@ -36,26 +37,16 @@ namespace Futulabs
            	_countDownDisposable = Observable.EveryUpdate().TakeWhile(f).Subscribe(_ =>
             {
                 dt += Time.deltaTime;
-				var percentage = dt/_countDownTime;
-				if (RadialImage.fillAmount > 0) 
+				var timeLeft = Mathf.RoundToInt(_countDownTime - dt);
+				var dtInt = Mathf.RoundToInt(dt);
+				if(dtInt > dtMaxSec)
 				{
-					var timeLeft = Mathf.RoundToInt(_countDownTime - dt);
-					var dtInt = Mathf.RoundToInt(dt);
-					if(dtInt > dtMaxSec)
-					{
-						dtMaxSec = dtInt;
-						if (dtInt % 2 == 0) 
-						{
-							AudioManager.Instance.PlayAudioClip(GameAudioClipType.CLOCK_TICK);
-						}
-						else
-						{
-							AudioManager.Instance.PlayAudioClip(GameAudioClipType.CLOCK_TOCK);
-						}
-					}
-					game.SetTimer(timeLeft);
-					RadialImage.fillAmount = 1 - percentage;
+					dtMaxSec = dtInt;
+					AudioManager.Instance.PlayAudioClip(dtInt % 2 == 0 ? GameAudioClipType.CLOCK_TICK : GameAudioClipType.CLOCK_TOCK);
 				}
+				game.SetTimer(timeLeft);
+				var percentage = dt/_countDownTime;
+				RadialImage.fillAmount = Mathf.Max(0, 1 - percentage);
             });
 		}
     }
