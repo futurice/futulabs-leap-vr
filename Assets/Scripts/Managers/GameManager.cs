@@ -39,6 +39,13 @@ namespace Futulabs
         private float _lastInstructionChangeTime = 0.0f;
         private bool _isGravityOn = true;
         private int _basketballScore = 0;
+        public int CurrentBasketScore 
+        {
+            get 
+            {
+                return _basketballScore;
+            }
+        }
 
         private bool _stickyCubes = false;
         public bool StickyCubes { get { return _stickyCubes; } }
@@ -177,7 +184,7 @@ namespace Futulabs
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
 
-        public void BasketScore()
+        public void AddToBasketScore()
         {
             _basketballScore = (_basketballScore + 1) % 100;
 

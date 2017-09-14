@@ -48,6 +48,11 @@ namespace Futulabs
 				var percentage = dt/_countDownTime;
 				RadialImage.fillAmount = Mathf.Max(0, 1 - percentage);
             });
+
+			Observable.Timer(TimeSpan.FromSeconds(_countDownTime)).Subscribe(_ =>
+			{
+				HighscoreManager.TryAddHighscore(new Highscore(game.CurrentBasketScore));
+			});
 		}
     }
 }
