@@ -26,7 +26,10 @@ public enum GameAudioClipType
 	BUTTON_LOAD = 17,
 	PINCH_CONFIRM = 18,
     CLOCK_TICK = 19,
-    CLOCK_TOCK = 20
+    CLOCK_TOCK = 20,
+    CLAP_TRACK = 21,
+    CHEERING = 22,
+    HAHA_LAUGH = 23
 }
 
 [System.Serializable]
