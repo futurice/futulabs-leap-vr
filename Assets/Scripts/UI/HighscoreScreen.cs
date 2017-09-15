@@ -31,8 +31,12 @@ namespace Futulabs
 				Destroy(h.gameObject);
 			}
 
-			scores.OrderBy(x => x.Score);
-			scores.Reverse();
+			_instances.Clear();
+
+			scores = scores
+				.OrderBy(x => x.Score)
+				.Reverse()
+				.ToList();
 			
 			for(int i = 0; i < scores.Count; i++)
 			{
