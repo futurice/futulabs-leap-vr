@@ -29,6 +29,7 @@ namespace Futulabs
 
 		public static void LoadHighscores()
 		{
+			HighScores.Value.Clear();
 			for(int i = 0; i < _maxScores; i++)
 			{
 				var highscore = new Highscore();
