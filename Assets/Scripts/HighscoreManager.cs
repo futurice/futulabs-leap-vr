@@ -48,15 +48,7 @@ namespace Futulabs
 				PlayerPrefs.SetInt(string.Format("{0}_{1}", _highScoreKey, i), HighScores.Value[i].Score);
 			}
 		}
-
-		public static void AddFakeHighScores()
-		{
-			Enumerable
-				.Range(0, _maxScores)
-				.ToList()
-				.ForEach(x => HighScores.Value.Add(new Highscore(x)));
-		}
-
+		
 		public static void TryAddHighscore(Highscore highscore)
 		{
 			if (highscore.Score == 0)
@@ -83,7 +75,6 @@ namespace Futulabs
 					HighScores.Value.Remove(HighScores.Value.Find(x => x.Score == maxScore));				
 					HighScores.Value.Add(highscore);					
 				}
-
 			}
 			else
 			{
@@ -95,7 +86,6 @@ namespace Futulabs
 				{
 					AudioManager.Instance.PlayAudioClip(GameAudioClipType.CLAP_TRACK);									
 				}
-
 				HighScores.Value.Add(highscore);
 			}
 
