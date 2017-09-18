@@ -1559,7 +1559,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 1afefe95455a51b4aa5f2f242de01169, type: 2}
+  - {fileID: 2100000, guid: b2cc32795e4e63244877b1b6ed000c3c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2243,6 +2243,59 @@ Prefab:
     - target: {fileID: 1140950043746972, guid: 873116f98eab1d64ab74c5fd3c22f540, type: 2}
       propertyPath: m_Layer
       value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 4102024647773250, guid: 873116f98eab1d64ab74c5fd3c22f540, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0.975
+      objectReference: {fileID: 0}
+    - target: {fileID: 4102024647773250, guid: 873116f98eab1d64ab74c5fd3c22f540, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0.12585486
+      objectReference: {fileID: 0}
+    - target: {fileID: 4102024647773250, guid: 873116f98eab1d64ab74c5fd3c22f540, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0.050159387
+      objectReference: {fileID: 0}
+    - target: {fileID: 4102024647773250, guid: 873116f98eab1d64ab74c5fd3c22f540, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: -0.0063855127
+      objectReference: {fileID: 0}
+    - target: {fileID: 4102024647773250, guid: 873116f98eab1d64ab74c5fd3c22f540, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 0.99075925
+      objectReference: {fileID: 0}
+    - target: {fileID: 4102024647773250, guid: 873116f98eab1d64ab74c5fd3c22f540, type: 2}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 5.7960005
+      objectReference: {fileID: 0}
+    - target: {fileID: 4102024647773250, guid: 873116f98eab1d64ab74c5fd3c22f540, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 1.443
+      objectReference: {fileID: 0}
+    - target: {fileID: 4102024647773250, guid: 873116f98eab1d64ab74c5fd3c22f540, type: 2}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 14.479001
+      objectReference: {fileID: 0}
+    - target: {fileID: 4102024647773250, guid: 873116f98eab1d64ab74c5fd3c22f540, type: 2}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: -0.002
+      objectReference: {fileID: 0}
+    - target: {fileID: 4102024647773250, guid: 873116f98eab1d64ab74c5fd3c22f540, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 4.583
+      objectReference: {fileID: 0}
+    - target: {fileID: 108964865914084488, guid: 873116f98eab1d64ab74c5fd3c22f540,
+        type: 2}
+      propertyPath: m_Intensity
+      value: 1.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1527295675246862, guid: 873116f98eab1d64ab74c5fd3c22f540, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1136972857978032, guid: 873116f98eab1d64ab74c5fd3c22f540, type: 2}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 873116f98eab1d64ab74c5fd3c22f540, type: 2}
@@ -5391,7 +5444,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 1afefe95455a51b4aa5f2f242de01169, type: 2}
+  - {fileID: 2100000, guid: b2cc32795e4e63244877b1b6ed000c3c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -6320,7 +6373,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 1afefe95455a51b4aa5f2f242de01169, type: 2}
+  - {fileID: 2100000, guid: b2cc32795e4e63244877b1b6ed000c3c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
