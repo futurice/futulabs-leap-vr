@@ -57,6 +57,14 @@ namespace Futulabs
         [SerializeField]
         protected Rigidbody _rigidbody;
 
+        public Rigidbody RigidBody
+        {
+            get
+            {
+                return _rigidbody;
+            }
+        }
+
 
         public LeapRTS LeapRTSComponent
         {
