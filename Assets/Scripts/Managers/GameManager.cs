@@ -182,6 +182,12 @@ namespace Futulabs
         {
             Debug.Log("GameManager ResetGame: Resetting the game");
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            HighscoreManager.SaveHighscores();
+        }
+
+        void OnApplicationQuit()
+        {
+            HighscoreManager.SaveHighscores();
         }
 
         public void AddToBasketScore()
