@@ -10,7 +10,7 @@ namespace Futulabs
 {
     public class CountdownButton : MonoBehaviour
     {
-        private const float _countDownTime = 15f;
+        private const float _countDownTime = 20f;
         private float dt;
 
         public GameManager game;

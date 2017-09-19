@@ -28,7 +28,7 @@ namespace Futulabs
         private Vector3 _oldForward;
         private bool _activated = false;
         private bool _pullingObjects = false;
-        private float _pullRadius = 2.5f;
+        private float _pullRadius = 3f;
         private float _pushMultiplier = 2f;
 
         private const int _frameCount = 30;

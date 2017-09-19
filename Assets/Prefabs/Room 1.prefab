@@ -1607,7 +1607,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!1 &1643141903557044
 GameObject:
@@ -2534,13 +2534,13 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1116672429568604}
-  m_LocalRotation: {x: 0.10509681, y: -0.69925296, z: 0.10509681, w: 0.69925296}
-  m_LocalPosition: {x: -1.5, y: 4.56, z: -0.889}
+  m_LocalRotation: {x: 0.13052616, y: 0, z: 0, w: 0.9914449}
+  m_LocalPosition: {x: 0, y: 4.5, z: 1}
   m_LocalScale: {x: 1.25, y: 1.25, z: 1.25}
   m_Children: []
   m_Father: {fileID: 4052576447792406}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 17.095001, y: -90, z: 0}
+  m_LocalEulerAnglesHint: {x: 15, y: 0, z: 0}
 --- !u!4 &4108572037538526
 Transform:
   m_ObjectHideFlags: 1
@@ -9233,7 +9233,7 @@ Light:
   serializedVersion: 7
   m_Type: 1
   m_Color: {r: 0.58823526, g: 0.88073033, b: 1, a: 1}
-  m_Intensity: 1.27
+  m_Intensity: 1.47
   m_Range: 10
   m_SpotAngle: 30
   m_CookieSize: 10
@@ -9254,7 +9254,7 @@ Light:
     m_Bits: 4294967295
   m_Lightmapping: 4
   m_AreaSize: {x: 1, y: 1}
-  m_BounceIntensity: 1
+  m_BounceIntensity: 0.8
   m_ShadowRadius: 0
   m_ShadowAngle: 0
 --- !u!114 &114082782150588350

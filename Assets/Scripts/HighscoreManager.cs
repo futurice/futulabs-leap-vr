@@ -10,6 +10,7 @@ namespace Futulabs
 	public class Highscore
 	{
 		public int Score;
+		public Texture2D Selfie;
 		public Highscore(int score)
 		{
 			Score = score;
@@ -26,6 +27,7 @@ namespace Futulabs
 		private const int _maxScores = 10;
 		public static readonly BehaviorSubject<List<Highscore>> HighScores = new BehaviorSubject<List<Highscore>>(new List<Highscore>());
 		private const string _highScoreKey = "futuVrHighscore";
+		private static WebCamTexture wct;
 
 		public static void LoadHighscores()
 		{
@@ -42,6 +44,18 @@ namespace Futulabs
 			}
 		}
 
+		public static void TakeSelfie()
+		{
+			WebCamDevice[] devices = WebCamTexture.devices;
+			var deviceName = devices[1].name;
+			wct = new WebCamTexture(deviceName, 400, 300, 12);
+			wct.Play();
+			Texture2D snap = new Texture2D(wct.width, wct.height);
+			snap.SetPixels(wct.GetPixels());
+			snap.Apply();
+       		System.IO.File.WriteAllBytes(@"D:\Selfie.png", snap.EncodeToPNG());
+		}
+
 		public static void SaveHighscores()
 		{
 			for(int i = 0; i < HighScores.Value.Count; i++)
@@ -52,6 +66,7 @@ namespace Futulabs
 		
 		public static void TryAddHighscore(Highscore highscore)
 		{
+			//TakeSelfie();
 			if (highscore.Score == 0)
 			{
 				AudioManager.Instance.PlayAudioClip(GameAudioClipType.HAHA_LAUGH);

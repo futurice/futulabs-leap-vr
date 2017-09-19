@@ -2332,14 +2332,14 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1587639746348576}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0.5, z: 0, w: 0.8660254}
   m_LocalPosition: {x: 0, y: 0, z: 1.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4302600698116522}
   m_Father: {fileID: 4018087125007082}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 60, z: 0}
 --- !u!4 &4194468327164428
 Transform:
   m_ObjectHideFlags: 1
@@ -2628,14 +2628,14 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1578402393413320}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: -0.5, z: 0, w: 0.8660254}
   m_LocalPosition: {x: 0, y: 0, z: 1.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4433183776115612}
   m_Father: {fileID: 4018087125007082}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -60, z: 0}
 --- !u!4 &4384814549364854
 Transform:
   m_ObjectHideFlags: 1
@@ -5313,7 +5313,7 @@ MonoBehaviour:
   _capMaterial: {fileID: 2100000, guid: faa3a2c59ab499047b2ff3ac6c637963, type: 2}
   _cutCooldown: 0.5
   _effects: {fileID: 114675097285997978}
-  _minimumCutSize: 0
+  _minimumCutSize: 0.01
 --- !u!114 &114654394172138178
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5421,11 +5421,11 @@ MonoBehaviour:
   _rightBlade: {fileID: 1578402393413320}
   _rotationX: 0
   _rotationY: -60
-  _rotationYSlowly: 0
+  _rotationYSlowly: -60
   _positionZDeactivated: 1.2
   _positionZActivated: 1.2
   _animateInTime: 0.25
-  _animateOutTime: 0
+  _animateOutTime: 0.75
   _cutterMaterial: {fileID: 2100000, guid: 200f4b6545c5b9a45b61c9cf441dd6e5, type: 2}
   _plasmaCutPrefab: {fileID: 114221259606407148, guid: b55da387f7f22b3489e099c10f29c347,
     type: 2}

@@ -187,9 +187,14 @@ namespace Futulabs
 
         private void SlowlyAnimateOut()
         {
-            _deactivationOtherTweener = _leftBlade.transform.DOLocalRotateQuaternion(Quaternion.Euler(_rotationX, -_rotationYSlowly, 0), _animateOutTime).SetEase(Ease.OutSine);
-            _deactivationTweener = _rightBlade.transform.DOLocalRotateQuaternion(Quaternion.Euler(_rotationX, _rotationYSlowly, 0), _animateOutTime).SetEase(Ease.OutSine).OnComplete(DeactivateScripts);
-            _deactivationTweener.OnKill(QuicklyAnimateIn);
+            _deactivationOtherTweener = _leftBlade.transform
+                .DOLocalRotateQuaternion(Quaternion.Euler(_rotationX, -_rotationYSlowly, 0), _animateOutTime)
+                .SetEase(Ease.InExpo);
+            _deactivationTweener = _rightBlade.transform
+                .DOLocalRotateQuaternion(Quaternion.Euler(_rotationX, _rotationYSlowly, 0), _animateOutTime)
+                .SetEase(Ease.InExpo)
+                .OnComplete(DeactivateScripts);
+            
         }
 
         private void QuicklyAnimateIn()
