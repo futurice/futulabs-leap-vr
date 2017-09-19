@@ -3547,7 +3547,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.773
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -4609,7 +4609,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 114675097285997978}
-        m_MethodName: Activate
+        m_MethodName: ExtendHand
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4625,7 +4625,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 114675097285997978}
-        m_MethodName: Deactivate
+        m_MethodName: UnextendHand
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4640,12 +4640,12 @@ MonoBehaviour:
   Period: 1.4
   HandModel: {fileID: 114079802875801908}
   Thumb: 0
-  Index: 0
-  Middle: 0
-  Ring: 0
-  Pinky: 0
-  MinimumExtendedCount: 5
-  MaximumExtendedCount: 5
+  Index: 1
+  Middle: 1
+  Ring: 1
+  Pinky: 1
+  MinimumExtendedCount: 1
+  MaximumExtendedCount: 1
   ShowGizmos: 1
 --- !u!114 &114358288133550610
 MonoBehaviour:
