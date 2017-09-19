@@ -6,7 +6,7 @@ using Leap.Unity.Interaction;
 using DG.Tweening;
 using UniRx;
 using UniRx.Triggers;
-
+using System;
 
 namespace Futulabs
 {
@@ -38,6 +38,8 @@ namespace Futulabs
 		protected Collider[] _colliders;
 
         protected bool _creating = false;
+
+        public IDisposable SimulatedGravitySubscription; // used in handpull 
 
         #region VelocityStuff
         protected Vector3[] _velocityFrames;
@@ -286,7 +288,6 @@ namespace Futulabs
                 Rigidbody.velocity = velocity * ObjectManager.Instance.CreationForceScaleFactor;
             }
             Vector3 angularVel = ((_currentRotationFrame) * Quaternion.Inverse(_lastRotationFrame)).eulerAngles;
-            Debug.Log(angularVel.magnitude);
             if (angularVel.magnitude >= _angularVelocityThreshold)
             {
                 angularVel = new Vector3(

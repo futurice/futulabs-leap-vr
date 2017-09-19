@@ -6229,7 +6229,7 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
-  Period: 0.5
+  Period: 1
   HandModel: {fileID: 114327065045141928}
   Thumb: 2
   Index: 0
