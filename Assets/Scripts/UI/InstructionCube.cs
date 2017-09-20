@@ -4,42 +4,77 @@ using UnityEngine;
 using UniRx;
 using System;
 using DG.Tweening;
-
-public class InstructionCube : MonoBehaviour 
+namespace Futulabs
 {
-	[SerializeField] private Animator _instructionAnimator;
-	[SerializeField] private float _animationMaxSpeed;
-	private float _animSpeed;
-	private Tweener _currentAnimSpeedTween;
-
-	private void Start()
+	public class InstructionCube : MonoBehaviour 
 	{
-		ShowInstruction();
-	}
+		private float _hiddenPosition = 0f;
+		private float _shownPosition = 0.125f;
 
-	private void KillTweens()
-	{
-		if(_currentAnimSpeedTween != null)
+		[SerializeField] private List<MeshRenderer> _sideCubes = new List<MeshRenderer>();
+		private float _minEmission = 0.15f;
+		private float _maxEmission = 0.4f;
+
+		[SerializeField] private CanvasGroup _canvasGroup;
+		[SerializeField] private float _minAlpha = 0.25f;
+
+		[SerializeField] private Animator _instructionAnimator;
+		[SerializeField] private float _animationMaxSpeed;
+		private float _animSpeed;
+		private Tweener _currentAnimSpeedTween;
+
+		private const float _animationTime = 0.3f;
+
+		private void Start()
 		{
-			_currentAnimSpeedTween.Kill();
+			HideInstruction(true);
 		}
-	}
 
-	public void ShowInstruction()
-	{
-		KillTweens();
-		_currentAnimSpeedTween = DOTween.To(x=> _animSpeed = x, 0, _animationMaxSpeed, 0.3f).OnUpdate(() =>
+		private void KillTweens()
 		{
-			_instructionAnimator.SetFloat("speed", _animSpeed);
-		});
-	}
+			if(_currentAnimSpeedTween != null)
+			{
+				_currentAnimSpeedTween.Kill();
+			}
+			_canvasGroup.DOKill();
+			transform.DOKill();
+			foreach(var c in _sideCubes)
+			{
+				c.material.DOKill();
+			}
+		}
 
-	public void HideInstruction()
-	{
-		KillTweens();
-		DOTween.To(x=> _animSpeed = x, _animSpeed, 0, 0.3f).OnUpdate(() =>
+		public void ShowInstruction(bool instant = false)
 		{
-			_instructionAnimator.SetFloat("speed", _animSpeed);
-		});
+			KillTweens();
+			FireTweens(_animationMaxSpeed, 1, _shownPosition, _maxEmission, instant);
+		}
+
+		public void HideInstruction(bool instant = false)
+		{
+			KillTweens();
+			FireTweens(0, _minAlpha, _hiddenPosition, _minEmission, instant);
+		}
+
+		private void FireTweens(float animSpeed, float alpha, float cubePosition, float emission, bool instant = false)
+		{
+			DOTween.To(x=> _animSpeed = x, _animSpeed, animSpeed, instant? 0 : _animationTime).OnUpdate(() =>
+			{
+				_instructionAnimator.SetFloat("speed", _animSpeed);
+			});
+			_canvasGroup.DOFade(alpha, instant? 0 :_animationTime);
+			transform.DOLocalMoveX(cubePosition, instant? 0 : _animationTime);
+			foreach(var c in _sideCubes)
+			{
+				if(instant)
+				{
+					c.material.SetFloat("_EmissionGain", emission);
+				}
+				else
+				{
+					c.material.DOFloat(emission, "_EmissionGain", _animationTime);
+				}
+			}
+		}
 	}
 }
