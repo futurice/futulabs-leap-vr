@@ -14,6 +14,7 @@ namespace Futulabs
 		[SerializeField] private List<MeshRenderer> _sideCubes = new List<MeshRenderer>();
 		private float _minEmission = 0.15f;
 		private float _maxEmission = 0.4f;
+		[SerializeField] private Color _emissionColor = Color.white;
 
 		[SerializeField] private CanvasGroup _canvasGroup;
 		[SerializeField] private float _minAlpha = 0.25f;
@@ -66,6 +67,7 @@ namespace Futulabs
 			transform.DOLocalMoveX(cubePosition, instant? 0 : _animationTime);
 			foreach(var c in _sideCubes)
 			{
+				c.material.SetColor("_EmissionColor", _emissionColor);
 				if(instant)
 				{
 					c.material.SetFloat("_EmissionGain", emission);
