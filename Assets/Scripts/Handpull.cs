@@ -38,7 +38,21 @@ namespace Futulabs
         private float[] _timeElapsedFrames = new float[_frameCount];
         private int _velocityIndex = 0;
 
+        private HandUI _handUI;
+
         private bool _activated = false;
+
+        private void Start()
+        {
+            _handUI = FindObjectOfType<HandUI>();
+            _handUI.MenuShown.Subscribe(isShown =>
+            {
+                if(isShown)
+                {
+                    DeactivePulling();
+                }
+            });
+        }
 
         private void FixedUpdate()
         {
@@ -122,7 +136,7 @@ namespace Futulabs
             }
             _activationTimer = Observable.Timer(TimeSpan.FromSeconds(1)).Subscribe(_ =>
             {
-                _activated = _handExtended;
+                _activated = _handExtended && !_handUI.MenuShown.Value;
             });
         }
 

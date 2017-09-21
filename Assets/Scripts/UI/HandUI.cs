@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using UnityEngine.UI;
+using UniRx;
+
 namespace Futulabs
 {
     public class HandUI : MonoBehaviour
@@ -15,7 +17,7 @@ namespace Futulabs
         public Vector3 EndPos;
         public float FadeTime = 0.25f;
 
-        private bool _menuShown = false;
+        public readonly ReactiveProperty<bool> MenuShown = new ReactiveProperty<bool>(false);
         private float _timeDT = 0;
         private Tweener _moveTween;
         private Tweener _alphaTween;
@@ -73,7 +75,7 @@ namespace Futulabs
         {
             KillMenuTweens();
 
-            _menuShown = true;
+            MenuShown.Value = true;
             _moveTween = Menu.transform.DOLocalMove(EndPos, FadeTime).SetEase(Ease.OutExpo);
 
 			_alphaTween = canvasGroup
@@ -89,7 +91,7 @@ namespace Futulabs
         {
             KillMenuTweens();
 
-            _menuShown = false;
+            MenuShown.Value = false;
             _moveTween = Menu.transform.DOLocalMove(StartPos, FadeTime / 2).SetEase(Ease.OutExpo);
             canvasGroup.interactable = false;
             _alphaTween = canvasGroup.DOFade(0, FadeTime / 2).SetEase(Ease.OutExpo);
