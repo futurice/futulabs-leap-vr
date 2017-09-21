@@ -10,6 +10,7 @@ namespace Futulabs
 	{
 		private Transform _user;
 		private InstructionCube _currentCube;
+		[SerializeField] private LayerMask _mask;
 
 		private void Awake()
 		{
@@ -19,21 +20,18 @@ namespace Futulabs
 		void Update()
 		{
 			RaycastHit hit;
-			if (Physics.Raycast(_user.position, _user.forward, out hit))
+			if (Physics.Raycast(_user.position, _user.forward, out hit, Mathf.Infinity, _mask))
 			{
-				if(hit.collider.gameObject.tag == "InstructionCube")
+				if(_currentCube != null && hit.collider.gameObject != _currentCube.gameObject)
 				{
-					if(_currentCube != null && hit.collider.gameObject != _currentCube.gameObject)
-					{
-						_currentCube.HideInstruction();
-						_currentCube = hit.collider.gameObject.GetComponent<InstructionCube>();
-						_currentCube.ShowInstruction();
-					}
-					else if(_currentCube == null)
-					{
-						_currentCube = hit.collider.gameObject.GetComponent<InstructionCube>();
-						_currentCube.ShowInstruction();
-					}
+					_currentCube.HideInstruction();
+					_currentCube = hit.collider.transform.parent.GetComponent<InstructionCube>();
+					_currentCube.ShowInstruction();
+				}
+				else if(_currentCube == null)
+				{
+					_currentCube = hit.collider.transform.parent.GetComponent<InstructionCube>();
+					_currentCube.ShowInstruction();
 				}
 			}
 		}

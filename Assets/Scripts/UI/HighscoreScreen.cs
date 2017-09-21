@@ -13,6 +13,7 @@ namespace Futulabs
 		private List<HighscoreInstance> _instances = new List<HighscoreInstance>();
 		void Start()
 		{
+			//PlayerPrefs.DeleteAll();
 			HighscoreManager.LoadHighscores();
 			HighscoreManager.HighScores.Subscribe(scores =>
 			{
@@ -43,8 +44,9 @@ namespace Futulabs
 				var instance = Instantiate(_highscoreInstancePrefab) as HighscoreInstance;
 				instance.gameObject.transform.SetParent(_highscoresRoot);
 				instance.transform.localScale = Vector3.one;
+				instance.transform.localRotation = Quaternion.identity;
 				instance.GetComponent<RectTransform>().anchoredPosition3D = new Vector3(0,0,-1f);
-				instance.SetText(i+1, scores[i].Score);
+				instance.Init(scores[i], i+1);
 				_instances.Add(instance);
 			}
 		}

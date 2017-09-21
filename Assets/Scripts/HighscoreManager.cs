@@ -4,18 +4,14 @@ using UnityEngine;
 using System;
 using UniRx;
 using System.Linq;
+using System.IO;
 
 namespace Futulabs
 {
 	public class Highscore
 	{
 		public int Score;
-		public Texture2D Selfie;
-		public Highscore(int score, Texture2D selfie)
-		{
-			Score = score;
-			Selfie = selfie;
-		}
+		public ReactiveProperty<string> Selfie = new ReactiveProperty<string>();
 
 		public Highscore(int score)
 		{
@@ -30,11 +26,30 @@ namespace Futulabs
 
 	public static class HighscoreManager 
 	{
-		private const int _maxScores = 10;
+		private const int _maxScores = 5;
 		public static readonly BehaviorSubject<List<Highscore>> HighScores = new BehaviorSubject<List<Highscore>>(new List<Highscore>());
 		private const string _highScoreKey = "futuVrHighscore";
+		private const string _highScoreImagePath = @"D:\FutuVRSelfies\";
 		private static WebCamTexture wct;
-		private static Texture2D a;
+
+		public static void TakeSelfie(Highscore score)
+		{
+			WebCamDevice[] devices = WebCamTexture.devices;
+			var deviceName = devices[1].name; // Device 0 is the Oculus
+			wct = new WebCamTexture(deviceName, 512, 512, 60);
+			wct.Play();
+			Observable.TimerFrame(60, FrameCountType.EndOfFrame).Subscribe(_ => 
+			{
+				var snap = new Texture2D(wct.width, wct.height);
+				snap.SetPixels(wct.GetPixels());
+				snap.Apply();
+				var randomName = Path.GetRandomFileName();
+				var filePath = $"{_highScoreImagePath}{randomName}.png"; 
+				File.WriteAllBytes(filePath, snap.EncodeToPNG());
+				wct.Stop();
+				score.Selfie.Value = filePath;
+			});
+		}
 
 		public static void LoadHighscores()
 		{
@@ -42,36 +57,34 @@ namespace Futulabs
 			for(int i = 0; i < _maxScores; i++)
 			{
 				var highscore = new Highscore();
-				var score = PlayerPrefs.GetInt(string.Format("{0}_{1}", _highScoreKey, i), -1);
+				var score = PlayerPrefs.GetInt($"{_highScoreKey}_{i}", -1);
+				var selfiePath = PlayerPrefs.GetString($"{_highScoreKey}_{i}_selfiePath", string.Empty);
 				if(score != -1)
 				{
 					highscore.Score = score;
+					highscore.Selfie.Value = selfiePath;
 					HighScores.Value.Add(highscore);
 				}
 			}
-		}
-
-		public static void TakeSelfie()
-		{
-			WebCamDevice[] devices = WebCamTexture.devices;
-			var deviceName = devices[1].name; // Baaaad!!!
-			wct = new WebCamTexture(deviceName, 400, 300, 12);
-			wct.Play();
-			Observable.TimerFrame(1, FrameCountType.EndOfFrame).Subscribe(_ => 
-			{
-				Texture2D snap = new Texture2D(wct.width, wct.height);
-				snap.SetPixels(wct.GetPixels());
-				snap.Apply();
-				System.IO.File.WriteAllBytes(@"D:\Selfie.png", snap.EncodeToPNG());
-			});
 		}
 
 		public static void SaveHighscores()
 		{
 			for(int i = 0; i < HighScores.Value.Count; i++)
 			{
-				PlayerPrefs.SetInt(string.Format("{0}_{1}", _highScoreKey, i), HighScores.Value[i].Score);
+				PlayerPrefs.SetInt($"{_highScoreKey}_{i}", HighScores.Value[i].Score);
+				if(!string.IsNullOrEmpty(HighScores.Value[i].Selfie.Value))
+				{
+					PlayerPrefs.SetString($"{_highScoreKey}_{i}_selfiePath", HighScores.Value[i].Selfie.Value);
+				}	
 			}
+		}
+
+		private static void AddScore(Highscore score, bool beatMax)
+		{
+			AudioManager.Instance.PlayAudioClip(beatMax? GameAudioClipType.CHEERING : GameAudioClipType.CLAP_TRACK);
+			HighScores.Value.Add(score);
+			TakeSelfie(score);		
 		}
 		
 		public static void TryAddHighscore(Highscore highscore)
@@ -84,36 +97,23 @@ namespace Futulabs
 
 			var maxScore = HighScores.Value.Count > 0 ? HighScores.Value.Max(x => x.Score) : 0;
 			var scoreToBeat = HighScores.Value.Count > 0 ? HighScores.Value.Min(x => x.Score) : 0;
-
 			if (HighScores.Value.Count >= _maxScores)
 			{
 				if (highscore.Score > scoreToBeat && highscore.Score <= maxScore)
-				{
-					AudioManager.Instance.PlayAudioClip(GameAudioClipType.CLAP_TRACK);														
+				{												
 					HighScores.Value.Remove(HighScores.Value.FirstOrDefault(x => x.Score == highscore.Score));
-					HighScores.Value.Add(highscore);										
+					AddScore(highscore, false);									
 				}
-
 				if (highscore.Score > maxScore)
-				{
-					AudioManager.Instance.PlayAudioClip(GameAudioClipType.CHEERING);					
+				{					
 					HighScores.Value.Remove(HighScores.Value.Find(x => x.Score == maxScore));				
-					HighScores.Value.Add(highscore);					
+					AddScore(highscore, true);				
 				}
 			}
 			else
 			{
-				if (highscore.Score > maxScore)
-				{
-					AudioManager.Instance.PlayAudioClip(GameAudioClipType.CHEERING);
-				}
-				else 
-				{
-					AudioManager.Instance.PlayAudioClip(GameAudioClipType.CLAP_TRACK);									
-				}
-				HighScores.Value.Add(highscore);
+				AddScore(highscore, highscore.Score > maxScore);
 			}
-
 			HighScores.OnNext(HighScores.Value);
 
 		}
