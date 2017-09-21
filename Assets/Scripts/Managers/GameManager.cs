@@ -12,11 +12,6 @@ namespace Futulabs
 
     public class GameManager : Singleton<GameManager>
     {
-        [Header("GameManager")]
-        [Header("Instructions")]
-        [SerializeField]
-        private Text _instructionsText = null;
-
         [Header("Wall Cube Outline Colors")]
         [SerializeField]
         private LeverController _wallCubeLightsLever;
@@ -82,7 +77,6 @@ namespace Futulabs
         {
             //  _wallCubeEmissiveOutlineMaterial = cubeMeshR.sharedMaterial;
             // Change to first instruction
-            ChangeToInstruction(0, true);
 
             // Set the lights off at start
             SetCubeLightsOff(true);
@@ -95,50 +89,7 @@ namespace Futulabs
             SettingsManager.Instance.StickyOutlineMaterial.SetFloat("_EmissionGain", SettingsManager.Instance.StickyMaterialMaxEmissionGain);
             SettingsManager.Instance.StickyOutlineMaterial.DOFloat(SettingsManager.Instance.StickyMaterialMinEmissionGain, "_EmissionGain", 2f).SetLoops(-1, LoopType.Yoyo).SetEase(Ease.InOutSine);
         }
-
-        private void Update()
-        {
-            if (Time.time - _lastInstructionChangeTime > SettingsManager.Instance.InstructionChangeInterval)
-            {
-                ChangeToNextInstruction();
-            }
-        }
-
-        private void ChangeToNextInstruction()
-        {
-            int newInstructionIndex = (_currentInstructionIndex + 1) % SettingsManager.Instance.InstructionTexts.Count;
-            ChangeToInstruction(newInstructionIndex);
-        }
-
-        private void ChangeToInstruction(int newInstructionIndex, bool immediate = false)
-        {
-            if (SettingsManager.Instance == null || SettingsManager.Instance.InstructionTexts == null || SettingsManager.Instance.InstructionTexts.Count == 0 || _instructionsText == null)
-            {
-                Debug.LogError("GameManager ChangeToInstruction: Instructions not setup");
-                return;
-            }
-
-            _currentInstructionIndex = newInstructionIndex;
-            _lastInstructionChangeTime = Time.time;
-
-            if (!immediate)
-            {
-                // Do a fade-in - fade-out sequence when changing
-                Sequence changeSequence = DOTween.Sequence();
-
-                changeSequence.Append(_instructionsText.DOFade(0.0f, 0.5f));
-                changeSequence.AppendCallback(() =>
-                {
-                    _instructionsText.text = SettingsManager.Instance.InstructionTexts[_currentInstructionIndex];
-                });
-                changeSequence.Append(_instructionsText.DOFade(1.0f, 0.5f));
-                changeSequence.Play();
-            }
-            else
-            {
-                _instructionsText.text = SettingsManager.Instance.InstructionTexts[_currentInstructionIndex];
-            }
-        }
+        
 
         private void SetCubeLightsOn(bool immediate = false)
         {
