@@ -6,6 +6,7 @@ TagManager:
   tags:
   - InteractableObject
   - Wall
+  - InstructionCube
   layers:
   - Default
   - TransparentFX

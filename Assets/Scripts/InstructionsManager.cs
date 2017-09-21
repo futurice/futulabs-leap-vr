@@ -13,9 +13,38 @@ namespace Futulabs
 		private float _timeToShow = 5f;
 		private bool _startTimer = true;
 		private int _lastCubeIndex = -1;
+		private Transform _user;
+		private InstructionCube _currentCube;
+
+		private void Awake()
+		{
+			_user = GameObject.FindGameObjectWithTag("MainCamera").transform;	
+		}
+
+		
 
 		void Update()
 		{
+			RaycastHit hit;
+			if (Physics.Raycast(_user.position, _user.forward, out hit))
+			{
+				if(hit.collider.gameObject.tag == "InstructionCube")
+				{
+					if(_currentCube != null && hit.collider.gameObject != _currentCube.gameObject)
+					{
+						_currentCube.HideInstruction();
+						_currentCube = hit.collider.gameObject.GetComponent<InstructionCube>();
+						_currentCube.ShowInstruction();
+					}
+					else if(_currentCube == null)
+					{
+						_currentCube = hit.collider.gameObject.GetComponent<InstructionCube>();
+						_currentCube.ShowInstruction();
+					}
+				}
+			}
+			// timer based:
+			/* 
 			if(_startTimer)
 			{
 				_startTimer = false;
@@ -28,7 +57,7 @@ namespace Futulabs
 				{
 					_startTimer = true;
 				});
-			}
+			}*/
 		}
 	}
 }

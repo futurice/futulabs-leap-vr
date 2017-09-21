@@ -11,6 +11,12 @@ namespace Futulabs
 	{
 		public int Score;
 		public Texture2D Selfie;
+		public Highscore(int score, Texture2D selfie)
+		{
+			Score = score;
+			Selfie = selfie;
+		}
+
 		public Highscore(int score)
 		{
 			Score = score;
@@ -28,6 +34,7 @@ namespace Futulabs
 		public static readonly BehaviorSubject<List<Highscore>> HighScores = new BehaviorSubject<List<Highscore>>(new List<Highscore>());
 		private const string _highScoreKey = "futuVrHighscore";
 		private static WebCamTexture wct;
+		private static Texture2D a;
 
 		public static void LoadHighscores()
 		{
@@ -47,13 +54,16 @@ namespace Futulabs
 		public static void TakeSelfie()
 		{
 			WebCamDevice[] devices = WebCamTexture.devices;
-			var deviceName = devices[1].name;
+			var deviceName = devices[1].name; // Baaaad!!!
 			wct = new WebCamTexture(deviceName, 400, 300, 12);
 			wct.Play();
-			Texture2D snap = new Texture2D(wct.width, wct.height);
-			snap.SetPixels(wct.GetPixels());
-			snap.Apply();
-       		System.IO.File.WriteAllBytes(@"D:\Selfie.png", snap.EncodeToPNG());
+			Observable.TimerFrame(1, FrameCountType.EndOfFrame).Subscribe(_ => 
+			{
+				Texture2D snap = new Texture2D(wct.width, wct.height);
+				snap.SetPixels(wct.GetPixels());
+				snap.Apply();
+				System.IO.File.WriteAllBytes(@"D:\Selfie.png", snap.EncodeToPNG());
+			});
 		}
 
 		public static void SaveHighscores()
@@ -66,7 +76,6 @@ namespace Futulabs
 		
 		public static void TryAddHighscore(Highscore highscore)
 		{
-			//TakeSelfie();
 			if (highscore.Score == 0)
 			{
 				AudioManager.Instance.PlayAudioClip(GameAudioClipType.HAHA_LAUGH);
