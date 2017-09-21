@@ -26,7 +26,7 @@ namespace Futulabs
 
         private HashSet<InteractableObjectControllerBase> _pulledObjects = new HashSet<InteractableObjectControllerBase>();
         private Vector3 _oldForward;
-        private bool _activated = false;
+        private bool _handExtended = false;
         private bool _pullingObjects = false;
         private float _pullRadius = 3f;
         private float _pushMultiplier = 2f;
@@ -37,6 +37,8 @@ namespace Futulabs
         private Vector3[] _velocityFrames = new Vector3[_frameCount];
         private float[] _timeElapsedFrames = new float[_frameCount];
         private int _velocityIndex = 0;
+
+        private bool _activated = false;
 
         private void FixedUpdate()
         {
@@ -109,22 +111,37 @@ namespace Futulabs
             }
         }
 
+        private IDisposable _activationTimer;
+
         public void ActivatePulling()
         {
-            _activated = true;
+            _handExtended = true;
+            if(_activationTimer != null)
+            {
+                _activationTimer.Dispose();
+            }
+            _activationTimer = Observable.Timer(TimeSpan.FromSeconds(1)).Subscribe(_ =>
+            {
+                _activated = _handExtended;
+            });
         }
 
         public void DeactivePulling()
         {
             _activated = false;
+            _handExtended = false;
             _pullingObjects = false;
             var velocityToApply = CalculateCurrentVelocity();
             foreach(var obj in _pulledObjects)
             {
+                obj.UseGravity = GameManager.Instance.IsGravityOn;
+                /* Interesting but laggy 
                 if(GameManager.Instance.IsGravityOn)
                 {
                     FadeInGravity(obj);
                 }
+
+                */
                 obj.RigidBody.velocity = velocityToApply * _pushMultiplier;
             }
             _pulledObjects.Clear();
