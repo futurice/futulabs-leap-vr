@@ -30,6 +30,8 @@ namespace Futulabs
         [SerializeField]
         private Text _timerTextTens;
 
+		private IDisposable _countDownDisposable;
+        public readonly ReactiveProperty<float> CountDownPercentage = new ReactiveProperty<float>();
         private int _currentInstructionIndex = 0;
         private float _lastInstructionChangeTime = 0.0f;
         private bool _isGravityOn = true;
@@ -89,7 +91,31 @@ namespace Futulabs
             SettingsManager.Instance.StickyOutlineMaterial.SetFloat("_EmissionGain", SettingsManager.Instance.StickyMaterialMaxEmissionGain);
             SettingsManager.Instance.StickyOutlineMaterial.DOFloat(SettingsManager.Instance.StickyMaterialMinEmissionGain, "_EmissionGain", 2f).SetLoops(-1, LoopType.Yoyo).SetEase(Ease.InOutSine);
         }
-        
+
+        public void Countdown(int countDownTime)
+		{
+			var dt = 0f;
+			var dtMaxSec = -1;
+			Func<long, bool> f = (x) => countDownTime - dt > 0;
+			if(_countDownDisposable != null)
+			{
+				_countDownDisposable.Dispose();
+			}
+           	_countDownDisposable = Observable.EveryUpdate().TakeWhile(f).TakeUntilDestroy(this).Subscribe(_ =>
+            {
+                dt += Time.deltaTime;
+				var timeLeft = Mathf.RoundToInt(countDownTime - dt);
+				var dtInt = Mathf.RoundToInt(dt);
+				if(dtInt > dtMaxSec)
+				{
+					dtMaxSec = dtInt;
+					AudioManager.Instance.PlayAudioClip(dtInt % 2 == 0 ? GameAudioClipType.CLOCK_TICK : GameAudioClipType.CLOCK_TOCK);
+				}
+				SetTimer(timeLeft);
+				CountDownPercentage.Value = dt/countDownTime;
+            });
+		}
+    
 
         private void SetCubeLightsOn(bool immediate = false)
         {
@@ -132,6 +158,7 @@ namespace Futulabs
         public void ResetGame()
         {
             Debug.Log("GameManager ResetGame: Resetting the game");
+            HighscoreManager.SaveHighscores();
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
 

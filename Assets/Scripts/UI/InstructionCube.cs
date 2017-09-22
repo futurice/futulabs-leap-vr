@@ -21,6 +21,9 @@ namespace Futulabs
 
 		[SerializeField] private Animator _instructionAnimator;
 		[SerializeField] private float _animationMaxSpeed;
+
+		public GameObject _instructionBox;
+
 		private float _animSpeed;
 		private Tweener _currentAnimSpeedTween;
 

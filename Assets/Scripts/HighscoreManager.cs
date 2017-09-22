@@ -35,7 +35,7 @@ namespace Futulabs
 		public static void TakeSelfie(Highscore score)
 		{
 			WebCamDevice[] devices = WebCamTexture.devices;
-			var deviceName = devices[1].name; // Device 0 is the Oculus
+			var deviceName = devices[0].name; // Sometimes device 1 is the leap motion, sometimes it isn't
 			wct = new WebCamTexture(deviceName, 512, 512, 60);
 			wct.Play();
 			Observable.TimerFrame(60, FrameCountType.EndOfFrame).Subscribe(_ => 
@@ -59,6 +59,7 @@ namespace Futulabs
 				var highscore = new Highscore();
 				var score = PlayerPrefs.GetInt($"{_highScoreKey}_{i}", -1);
 				var selfiePath = PlayerPrefs.GetString($"{_highScoreKey}_{i}_selfiePath", string.Empty);
+				Debug.Log(i + " - " + score);
 				if(score != -1)
 				{
 					highscore.Score = score;
@@ -84,7 +85,12 @@ namespace Futulabs
 		{
 			AudioManager.Instance.PlayAudioClip(beatMax? GameAudioClipType.CHEERING : GameAudioClipType.CLAP_TRACK);
 			HighScores.Value.Add(score);
-			TakeSelfie(score);		
+			int time = 5;
+			GameManager.Instance.Countdown(time);
+			Observable.Timer(TimeSpan.FromSeconds(time)).Subscribe(_ =>
+			{
+				TakeSelfie(score);	
+			});		
 		}
 		
 		public static void TryAddHighscore(Highscore highscore)
@@ -99,15 +105,17 @@ namespace Futulabs
 			var scoreToBeat = HighScores.Value.Count > 0 ? HighScores.Value.Min(x => x.Score) : 0;
 			if (HighScores.Value.Count >= _maxScores)
 			{
-				if (highscore.Score > scoreToBeat && highscore.Score <= maxScore)
-				{												
-					HighScores.Value.Remove(HighScores.Value.FirstOrDefault(x => x.Score == highscore.Score));
-					AddScore(highscore, false);									
-				}
-				if (highscore.Score > maxScore)
-				{					
-					HighScores.Value.Remove(HighScores.Value.Find(x => x.Score == maxScore));				
-					AddScore(highscore, true);				
+				if (highscore.Score > scoreToBeat)
+				{
+					HighScores.Value.Remove(HighScores.Value.FirstOrDefault(x => x.Score == scoreToBeat));					
+					if (highscore.Score > maxScore)
+					{
+						AddScore(highscore, false);										
+					} 
+					else 
+					{
+						AddScore(highscore, false);				
+					}
 				}
 			}
 			else

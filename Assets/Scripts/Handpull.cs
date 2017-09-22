@@ -28,7 +28,7 @@ namespace Futulabs
         private Vector3 _oldForward;
         private bool _handExtended = false;
         private bool _pullingObjects = false;
-        private float _pullRadius = 3f;
+        private float _pullRadius = 2.5f;
         private float _pushMultiplier = 2f;
 
         private const int _frameCount = 30;
@@ -38,12 +38,16 @@ namespace Futulabs
         private float[] _timeElapsedFrames = new float[_frameCount];
         private int _velocityIndex = 0;
 
+        [SerializeField] private AudioSource _oneTimeAudio;
+        [SerializeField] private AudioSource _loopAudio;
+
         private HandUI _handUI;
 
         private bool _activated = false;
 
         private void Start()
         {
+            _loopAudio.clip = AudioManager.Instance.GetAudioClip(GameAudioClipType.PULL_LOOP);
             _handUI = FindObjectOfType<HandUI>();
             _handUI.MenuShown.Subscribe(isShown =>
             {
@@ -108,8 +112,11 @@ namespace Futulabs
                 {
                     _pullingObjects = true;
                     var pulledObject = hit.GetComponentInParent<InteractableObjectControllerBase>();
-                    _pulledObjects.Add(pulledObject);
-                    pulledObject.RigidBody.useGravity = false;
+                    if(pulledObject.RigidBody != null)
+                    {
+                        _pulledObjects.Add(pulledObject);
+                        pulledObject.RigidBody.useGravity = false;
+                    }
                 }
             }
             return _pulledObjects.Select(x => x.RigidBody).ToList();
@@ -136,53 +143,28 @@ namespace Futulabs
             }
             _activationTimer = Observable.Timer(TimeSpan.FromSeconds(1)).Subscribe(_ =>
             {
+                _loopAudio.Play();
+                _oneTimeAudio.PlayOneShot(AudioManager.Instance.GetAudioClip(GameAudioClipType.PULL_START));
                 _activated = _handExtended && !_handUI.MenuShown.Value;
             });
         }
 
         public void DeactivePulling()
         {
+            _loopAudio.Pause();
             _activated = false;
             _handExtended = false;
             _pullingObjects = false;
             var velocityToApply = CalculateCurrentVelocity();
             foreach(var obj in _pulledObjects)
             {
-                obj.UseGravity = GameManager.Instance.IsGravityOn;
-                /* Interesting but laggy 
-                if(GameManager.Instance.IsGravityOn)
+                if(obj.RigidBody != null)
                 {
-                    FadeInGravity(obj);
+                    obj.UseGravity = GameManager.Instance.IsGravityOn;
+                    obj.RigidBody.velocity = velocityToApply * _pushMultiplier;
                 }
-
-                */
-                obj.RigidBody.velocity = velocityToApply * _pushMultiplier;
             }
             _pulledObjects.Clear();
-        }
-
-        private float _gravity = 9.81f;
-        private void FadeInGravity(InteractableObjectControllerBase body)
-        {
-            if(body.SimulatedGravitySubscription != null)
-            {
-                body.SimulatedGravitySubscription.Dispose();
-            }
-            float bodyGravity = 0;
-            Func<long, bool> gravityReached = (x) => bodyGravity < _gravity;
-            var obs = Observable.EveryFixedUpdate().TakeWhile(gravityReached);
-            body.SimulatedGravitySubscription = obs.Subscribe(_ =>
-            {
-                Debug.Log(bodyGravity);
-                bodyGravity += _gravity*Time.deltaTime; // bodyGravity reaches gravity in 1 sec
-                var gravityVelocity = Vector3.down*bodyGravity * Time.deltaTime;
-                body.RigidBody.velocity = body.RigidBody.velocity + gravityVelocity;
-            });
-            // if we can just subscribe to when the observable 'obs' ends, I don't have to do this:
-            Observable.Timer(TimeSpan.FromSeconds(1)).Subscribe(_ =>
-            {
-                body.UseGravity = true;
-            });
         }
 
 

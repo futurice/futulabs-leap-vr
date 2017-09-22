@@ -266,7 +266,7 @@ Transform:
   m_GameObject: {fileID: 1319242503225090}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 2.5, z: 1}
+  m_LocalScale: {x: 2, y: 4, z: 1}
   m_Children: []
   m_Father: {fileID: 4874228818623336}
   m_RootOrder: 2
@@ -756,6 +756,7 @@ MonoBehaviour:
   _minAlpha: 0.25
   _instructionAnimator: {fileID: 95787548992464306}
   _animationMaxSpeed: 1
+  _instructionBox: {fileID: 1319242503225090}
 --- !u!114 &114421901447895640
 MonoBehaviour:
   m_ObjectHideFlags: 1

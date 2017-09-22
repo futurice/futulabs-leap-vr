@@ -41,20 +41,23 @@ namespace Futulabs
 		{
 			foreach(var body in _orbitingBodies)
 			{
-				var direction = transform.position - body.position;
-				float distance = direction.magnitude;
-				bool freeze = distance < _freezeDistance;
-				if(!freeze)
+				if(body != null)
 				{
-					var forceMag = ( _thisRigid.mass * body.mass) * Mathf.Pow(distance, 2f);
-					var force = direction.normalized * forceMag;
-					body.AddForce(force);
-				}
-				else
-				{
-					var velocityMag = Mathf.Pow(distance, 2f) *_freezeVelocityAmplifier;
-					var velocity = direction.normalized * velocityMag;
-					body.velocity = velocity;
+					var direction = transform.position - body.position;
+					float distance = direction.magnitude;
+					bool freeze = distance < _freezeDistance;
+					if(!freeze)
+					{
+						var forceMag = ( _thisRigid.mass * body.mass) * Mathf.Pow(distance, 2f);
+						var force = direction.normalized * forceMag;
+						body.AddForce(force);
+					}
+					else
+					{
+						var velocityMag = Mathf.Pow(distance, 2f) *_freezeVelocityAmplifier;
+						var velocity = direction.normalized * velocityMag;
+						body.velocity = velocity;
+					}
 				}
 			}
 		}

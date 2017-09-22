@@ -10,46 +10,34 @@ namespace Futulabs
 {
     public class CountdownButton : MonoBehaviour
     {
-        private const float _countDownTime = 20f;
+        private const int _countDownTime = 20;
         private float dt;
 
         public GameManager game;
         public Image RadialImage;
 
 		private IDisposable _countDownDisposable;
+		private IDisposable _tryAddHighscoreDisposable;
 
         public void TimerStart()
         {
 			EmptyTimer();
+			game.CountDownPercentage.Subscribe(percent => 
+			{
+				RadialImage.fillAmount = Mathf.Max(0, 1 - percent);
+			});
 			game.ResetBasketScore();
         }
 
 		private void EmptyTimer() 
 		{
 			RadialImage.fillAmount = 1;
-			var dtMaxSec = -1;
-			dt = 0;
-			Func<long, bool> f = (x) => _countDownTime - dt > 0;
-			if(_countDownDisposable != null)
+			game.Countdown(_countDownTime);
+			if(_tryAddHighscoreDisposable != null)
 			{
-				_countDownDisposable.Dispose();
+				_tryAddHighscoreDisposable.Dispose();
 			}
-           	_countDownDisposable = Observable.EveryUpdate().TakeWhile(f).Subscribe(_ =>
-            {
-                dt += Time.deltaTime;
-				var timeLeft = Mathf.RoundToInt(_countDownTime - dt);
-				var dtInt = Mathf.RoundToInt(dt);
-				if(dtInt > dtMaxSec)
-				{
-					dtMaxSec = dtInt;
-					AudioManager.Instance.PlayAudioClip(dtInt % 2 == 0 ? GameAudioClipType.CLOCK_TICK : GameAudioClipType.CLOCK_TOCK);
-				}
-				game.SetTimer(timeLeft);
-				var percentage = dt/_countDownTime;
-				RadialImage.fillAmount = Mathf.Max(0, 1 - percentage);
-            });
-
-			Observable.Timer(TimeSpan.FromSeconds(_countDownTime)).Subscribe(_ =>
+			_tryAddHighscoreDisposable = Observable.Timer(TimeSpan.FromSeconds(_countDownTime)).TakeUntilDestroy(this).Subscribe(_ =>
 			{
 				HighscoreManager.TryAddHighscore(new Highscore(game.CurrentBasketScore));
 			});

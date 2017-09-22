@@ -29,7 +29,10 @@ public enum GameAudioClipType
     CLOCK_TOCK = 20,
     CLAP_TRACK = 21,
     CHEERING = 22,
-    HAHA_LAUGH = 23
+    HAHA_LAUGH = 23,
+    PULL_START = 24,
+    PULL_LOOP = 25,
+    INSTRUCTION_ACTIVATE = 26
 }
 
 [System.Serializable]

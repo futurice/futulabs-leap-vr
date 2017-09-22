@@ -11,10 +11,18 @@ namespace Futulabs
 		private Transform _user;
 		private InstructionCube _currentCube;
 		[SerializeField] private LayerMask _mask;
+		[SerializeField] private AudioSource _audio;
 
 		private void Awake()
 		{
 			_user = GameObject.FindGameObjectWithTag("MainCamera").transform;	
+		}
+
+		void ActivateCube(RaycastHit hit)
+		{
+			_currentCube = hit.collider.transform.parent.GetComponent<InstructionCube>();
+			_currentCube.ShowInstruction();
+			_audio.PlayOneShot(AudioManager.Instance.GetAudioClip(GameAudioClipType.INSTRUCTION_ACTIVATE));
 		}
 
 		void Update()
@@ -22,16 +30,15 @@ namespace Futulabs
 			RaycastHit hit;
 			if (Physics.Raycast(_user.position, _user.forward, out hit, Mathf.Infinity, _mask))
 			{
-				if(_currentCube != null && hit.collider.gameObject != _currentCube.gameObject)
+				if(_currentCube != null && hit.collider.gameObject != _currentCube._instructionBox)
 				{
 					_currentCube.HideInstruction();
-					_currentCube = hit.collider.transform.parent.GetComponent<InstructionCube>();
-					_currentCube.ShowInstruction();
+					ActivateCube(hit);
 				}
 				else if(_currentCube == null)
 				{
 					_currentCube = hit.collider.transform.parent.GetComponent<InstructionCube>();
-					_currentCube.ShowInstruction();
+					ActivateCube(hit);
 				}
 			}
 		}

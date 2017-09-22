@@ -13,12 +13,28 @@ namespace Futulabs
 		private List<HighscoreInstance> _instances = new List<HighscoreInstance>();
 		void Start()
 		{
-			//PlayerPrefs.DeleteAll();
 			HighscoreManager.LoadHighscores();
-			HighscoreManager.HighScores.Subscribe(scores =>
+			HighscoreManager.HighScores.TakeUntilDestroy(this).Subscribe(scores =>
 			{
 				InitializeHighscores(scores);
 			});
+		}
+
+		private bool _highscoreDeleteToggling = false;
+
+		void Update()
+		{
+			if(Input.GetKey(KeyCode.H) && Input.GetKey(KeyCode.S) && !_highscoreDeleteToggling)
+			{
+				_highscoreDeleteToggling = true;
+				PlayerPrefs.DeleteAll();
+				Debug.Log("Highscores deleted");
+				Start();
+			}
+			if(!Input.GetKey(KeyCode.H) && !Input.GetKey(KeyCode.S))
+			{
+				_highscoreDeleteToggling = false;
+			}
 		}
 
 		void InitializeHighscores(List<Highscore> scores)
