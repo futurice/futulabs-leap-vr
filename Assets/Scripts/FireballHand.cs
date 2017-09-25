@@ -8,12 +8,13 @@ namespace Futulabs
 	public class FireballHand : MonoBehaviour 
 	{
 		[SerializeField] private Fireball _fireBallPrefab;
+		[SerializeField] private Transform _throwDirection;
 		private const float _handOpenTime = 1f;
 		private IDisposable _handOpeningSubscription;
 
 		private Fireball _fireBallInstance;
 		private HandVelocity _rightArm;
-		private float _fireVelocityLimit = 0.02f;
+		private float _fireVelocityLimit = 0.015f;
 		
 
 		void Start()
@@ -24,7 +25,9 @@ namespace Futulabs
 				if(ShouldFire(velocity) && _fireBallInstance != null)
 				{
 					//Debug.Break();
-					_fireBallInstance.Throw(_rightArm._averageVelocity.Value, 1000);
+					
+					var direction =  _throwDirection.forward;
+					_fireBallInstance.Throw(direction, 10);
 					_fireBallInstance = null;
 				}
 			});

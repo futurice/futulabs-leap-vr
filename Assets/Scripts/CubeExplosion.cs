@@ -9,10 +9,10 @@ namespace Futulabs
 		// Use this for initialization
 		void Start () 
 		{
-			Observable.Timer(System.TimeSpan.FromSeconds(3)).Subscribe(_ =>
-			{
+			//Observable.Timer(System.TimeSpan.FromSeconds(3)).Subscribe(_ =>
+			//{
 				Explode();
-			});
+			//});
 		}
 
 		private Vector3 RandomUnit()

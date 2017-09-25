@@ -19,7 +19,7 @@ namespace Futulabs
 
 		public void Kill()
 		{
-
+			Destroy(gameObject);
 		}
 
 		void OnCollisionEnter(Collision collision)
@@ -28,6 +28,7 @@ namespace Futulabs
 			{
 				collision.gameObject.AddComponent<CubeExplosion>();
 				collision.gameObject.tag = "Untagged";
+				Kill();
 			}
 		}
 	}
