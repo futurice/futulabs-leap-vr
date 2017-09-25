@@ -11,7 +11,6 @@ namespace Futulabs
         private void OnCollisionEnter(Collision collision)
         {
             Vector3 position = collision.transform.position;
-            ImpactLightController light = Instantiate(LightPrefab, position, Quaternion.identity) as ImpactLightController;
             InteractableObjectControllerBase icb = collision.gameObject.GetComponentInParent<InteractableObjectControllerBase>();
 
             if (icb == null)
@@ -19,10 +18,15 @@ namespace Futulabs
                 Debug.LogWarningFormat("LightWallController OnCollisionEnter: No InteractableObjectControllerBase present in the colliding game object: {0}", gameObject.name);
                 return;
             }
-
-            Color lightcolor = icb.EmissionColor;
             float intensityMultiplier = icb.WallImpactLightIntensityMultiplier;
-            light.Init(collision.relativeVelocity.magnitude * intensityMultiplier, lightcolor);
+            var magnitude = collision.relativeVelocity.magnitude * intensityMultiplier;
+
+            if(magnitude > 0)
+            {
+                Color lightcolor = icb.EmissionColor;
+                ImpactLightController light = Instantiate(LightPrefab, position, Quaternion.identity) as ImpactLightController;
+                light.Init(magnitude, lightcolor);
+            }
         }
     }
 }
