@@ -85,7 +85,7 @@ namespace Futulabs
 		{
 			AudioManager.Instance.PlayAudioClip(beatMax? GameAudioClipType.CHEERING : GameAudioClipType.CLAP_TRACK);
 			HighScores.Value.Add(score);
-			int time = 5;
+			int time = 9;
 			GameManager.Instance.Countdown(time);
 			Observable.Timer(TimeSpan.FromSeconds(time)).Subscribe(_ =>
 			{
