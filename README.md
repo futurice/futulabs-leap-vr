@@ -1,22 +1,17 @@
-# futulabs-leap-vr
-FutuLabs Leap Motion VR demo
+# What
+This is a fun sandbox demo that demonstrates the capabilities of at least Oculus Rift and Leap Motion. At some point it has also used HTC Vive and Kinect.
 
-## Backlog
-- Better grabbing objects (tried tweaking the values in material, not much of a difference)
-- Better pinching effects
-- Full body or leg tracking
-- Ragdoll
-- Tween the bloom
-- Materialization effect/animation
-- Basketball
-- Basketball fireworks/effect
-- Chilicorn rigging/animation
-- Jedi powers (star wars background music, let's get sued)
-- Gravity gesture (lever?)
-- Personal gravity when you turn off global gravity
-- Wobble wobble jelly effect on the wall
-- Bigger mass for bigger objects
-- UI stops working
-- Lightsaber
-- Ironman beam, destroy things man
-- LAN Multiplayer
+# How
+
+## Hardware
+First, you need a beefy computer. Second, you need Oculus Rift CV1 (and the headtracking sensors) and Leap Motion. You don't need Oculus touch controllers.
+
+## Software
+You need to be running Windows 7+ (we use 10 to develop). The project is currently on Unity version 5.5.3f1.
+Open the Main.scene which is the most up to date, the others are a little experimental.
+
+# Who
+People that have worked on this project include Joonas Nissinen (dev), Mathias Nørregaard (dev), Tuomas Ahva (sound) and Niclas Forsman (dev)
+
+# Why
+For fun and learning! But more importantly to promote that we know how to build VR stuff, so that we can sell VR projects.
