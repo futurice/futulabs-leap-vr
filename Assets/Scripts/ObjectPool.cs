@@ -41,11 +41,28 @@ namespace Futulabs
 
 		public Component Get(Type t)
 		{
+			if(_inactivePool.Count == 0)
+			{
+				_inactivePool.Add(Instantiate(_poolableObject));
+			}
 			var obj = _inactivePool.FirstOrDefault();
 			_inactivePool.Remove(obj);
 			_activePool.Add(obj);
 			obj.SetActive(true);
 			return obj.GetComponent(t);
+		}
+
+		public GameObject Get()
+		{
+			if(_inactivePool.Count == 0)
+			{
+				_inactivePool.Add(Instantiate(_poolableObject));
+			}
+			var obj = _inactivePool.FirstOrDefault();
+			_inactivePool.Remove(obj);
+			_activePool.Add(obj);
+			obj.SetActive(true);
+			return obj;
 		}
 
 	}

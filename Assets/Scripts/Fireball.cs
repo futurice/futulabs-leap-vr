@@ -14,7 +14,8 @@ namespace Futulabs
 		[SerializeField] private Vector3 _targetScale;
 		[SerializeField] private Transform _glowingBall;
 		[SerializeField] private GameObject _initialGlow;
-		[SerializeField] //bitch
+		[SerializeField] private ParticleSystem _particles;
+		[SerializeField] private Light _pointLight;
 
 		private bool _used = false;
 		
@@ -33,9 +34,16 @@ namespace Futulabs
 			_collider.enabled = true;
 			Observable.Timer(TimeSpan.FromSeconds(3f)).TakeUntilDestroy(gameObject).Subscribe(_ =>
 			{
-				_glowingBall.DOScale(Vector3.zero, 0.3f).OnComplete(() =>
+				_particles.Stop();
+				_pointLight.DOKill();
+				_pointLight.DOIntensity(0, 0.5f);
+				_glowingBall.DOScale(Vector3.zero, 0.5f).OnComplete(() =>
 				{
-					Destroy(gameObject);
+					_used = true;
+					Observable.Timer(TimeSpan.FromSeconds(3)).Subscribe(x =>
+					{
+						Kill();
+					});
 				});
 			});
 		}
@@ -47,17 +55,10 @@ namespace Futulabs
 
 		bool IsDestroyable(Collision c)
 		{
-			if(c.gameObject.tag == "WallCube")
+			var t = c.gameObject.tag;
+			if(t == "WallCube" || t == "InteractableObject" || t == "Destroyable")
 			{
 				return true;
-			}
-			if(c.gameObject.tag == "InteractableObject")
-			{
-				var cube = c.transform.parent.GetComponent<InteractableCubeController>();
-				if(cube != null)
-				{
-					return true;
-				}
 			}
 			return false;
 		}
@@ -68,7 +69,8 @@ namespace Futulabs
 			{
 				_used = true;
 				var destroyableObject = collision.gameObject;
-				destroyableObject.AddComponent<CubeExplosion>();
+				var voxelizer = destroyableObject.AddComponent<VoxelizeGameobject>();
+				voxelizer.Voxelize(collision.gameObject.tag=="Destroyable" ? 8 : 4);
 				destroyableObject.tag = "Untagged";
 				Kill();
 			}

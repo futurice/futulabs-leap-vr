@@ -10,11 +10,19 @@ namespace Futulabs
 	public class ExplosionCube : MonoBehaviour 
 	{
 		[SerializeField] private MeshRenderer _renderer;
+		[SerializeField] private MeshFilter _filter;
+		[SerializeField] private MeshCollider _collider;
 		private ObjectPool _explosionPool;
 		private float _totalFadeTime = 4f;
 		void Awake()
 		{
 			_explosionPool = GameObject.FindGameObjectWithTag("ExplosionPool").GetComponent<ObjectPool>();
+		}
+
+		public void SetMesh(Mesh m)
+		{
+			_filter.mesh = m;
+			_collider.sharedMesh = m;
 		}
 
 		public void FadeOut()

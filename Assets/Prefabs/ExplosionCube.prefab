@@ -21,9 +21,9 @@ GameObject:
   - component: {fileID: 4807717531806546}
   - component: {fileID: 33369776299124696}
   - component: {fileID: 23168092711667856}
-  - component: {fileID: 64432880347344928}
   - component: {fileID: 114823524814653824}
   - component: {fileID: 54440076977373258}
+  - component: {fileID: 65034024187799122}
   m_Layer: 16
   m_Name: ExplosionCube
   m_TagString: Untagged
@@ -37,13 +37,13 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1805795955393300}
-  m_LocalRotation: {x: -0, y: 0.42677388, z: -0, w: -0.9043584}
-  m_LocalPosition: {x: -0.108, y: 0.94, z: 0.952}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -2.637, y: 0.322, z: 1.527}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: -50.526, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &23168092711667856
 MeshRenderer:
   m_ObjectHideFlags: 1
@@ -81,7 +81,7 @@ MeshFilter:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1805795955393300}
-  m_Mesh: {fileID: 4300000, guid: 83f89a449aa9a3849bbce3612f86fbb7, type: 3}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!54 &54440076977373258
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -97,8 +97,8 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!64 &64432880347344928
-MeshCollider:
+--- !u!65 &65034024187799122
+BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
@@ -107,10 +107,8 @@ MeshCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Convex: 1
-  m_InflateMesh: 0
-  m_SkinWidth: 0.01
-  m_Mesh: {fileID: 4300000, guid: 83f89a449aa9a3849bbce3612f86fbb7, type: 3}
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &114823524814653824
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -123,3 +121,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _renderer: {fileID: 23168092711667856}
+  _filter: {fileID: 0}
+  _collider: {fileID: 0}

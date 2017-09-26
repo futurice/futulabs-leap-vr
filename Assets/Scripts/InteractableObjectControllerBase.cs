@@ -279,6 +279,11 @@ namespace Futulabs
 
         }
 
+        void OnDestroy()
+        {
+            Destroy(transform.parent.parent.gameObject);
+        }
+
         virtual protected void AddCreationForce()
         {
             Vector3 velocity = CalculateCurrentVelocity();
