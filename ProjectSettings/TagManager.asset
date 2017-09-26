@@ -7,6 +7,10 @@ TagManager:
   - InteractableObject
   - Wall
   - InstructionCube
+  - ExplosionPool
+  - LeftHand
+  - RightHand
+  - WallCube
   layers:
   - Default
   - TransparentFX

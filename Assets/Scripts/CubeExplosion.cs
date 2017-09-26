@@ -7,8 +7,10 @@ namespace Futulabs
 	public class CubeExplosion : MonoBehaviour 
 	{
 		// Use this for initialization
+		private Mesh _mesh;
 		void Start () 
 		{
+			//_mesh = GetComponent<MeshFilter>().mesh;
 			//Observable.Timer(System.TimeSpan.FromSeconds(3)).Subscribe(_ =>
 			//{
 				Explode();
@@ -28,7 +30,7 @@ namespace Futulabs
 			int divisions = 4;
 			Vector3 size = Vector3.one/divisions;
 			var explosionPool = GameObject.FindGameObjectWithTag("ExplosionPool").GetComponent<ObjectPool>();
-
+			//var bounds = _mesh.bounds;
 			for(int x = -divisions/2; x <= divisions/2; x++)
 			{
 				if(x != 0)
@@ -49,7 +51,7 @@ namespace Futulabs
 									var yPos = y*size.y - Mathf.Sign(y)*size.y/2;
 									var zPos = z*size.z - Mathf.Sign(z)*size.z/2;
 									var rb = instance.GetComponent<Rigidbody>();
-									rb.AddForce(RandomUnit()*Random.Range(200, 800));
+									rb.AddForce(RandomUnit()*Random.Range(400, 800));
 									instance.transform.localPosition = new Vector3(xPos, yPos,zPos)/50;
 									instance.transform.SetParent(null);
 								} 

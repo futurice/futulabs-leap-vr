@@ -9,12 +9,15 @@ namespace Futulabs
 	{
 		[SerializeField] private Fireball _fireBallPrefab;
 		[SerializeField] private Transform _throwDirection;
+		[SerializeField] private LayerMask _wallMask;
+		[SerializeField] private Transform _crossHair;
 		private const float _handOpenTime = 1f;
 		private IDisposable _handOpeningSubscription;
 
 		private Fireball _fireBallInstance;
 		private HandVelocity _rightArm;
 		private float _fireVelocityLimit = 0.01f;
+
 		
 
 		void Start()
@@ -23,12 +26,23 @@ namespace Futulabs
 			_rightArm._lastVelocity.TakeUntilDestroy(this).Subscribe(velocity =>
 			{
 				if(ShouldFire(velocity) && _fireBallInstance != null)
-				{					
+				{			
+					_crossHair.gameObject.SetActive(false);		
 					var direction =  _throwDirection.forward;
 					_fireBallInstance.Throw(direction, 4);
 					_fireBallInstance = null;
 				}
 			});
+		}
+
+
+		void Update()
+		{
+			RaycastHit hit;
+			if(Physics.Raycast(transform.position, _throwDirection.forward, out hit, Mathf.Infinity, _wallMask))
+			{
+				_crossHair.position = hit.point;
+			}
 		}
 
 		private bool IsPointWithinCone(Vector3 coneTipPosition, Vector3 coneCenterLine, Vector3 point, float FOVRadians)
@@ -64,7 +78,8 @@ namespace Futulabs
 		}
 
 		private void StartFireBall()
-		{
+		{;
+			_crossHair.gameObject.SetActive(true);
 			if(_fireBallInstance == null)
 			{
 				_fireBallInstance = Instantiate(_fireBallPrefab) as Fireball;

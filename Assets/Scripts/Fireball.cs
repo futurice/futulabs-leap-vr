@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using UniRx;
+using System;
 
 namespace Futulabs
 {
@@ -11,11 +13,15 @@ namespace Futulabs
 		[SerializeField] private Collider _collider;
 		[SerializeField] private Vector3 _targetScale;
 		[SerializeField] private Transform _glowingBall;
+		[SerializeField] private GameObject _initialGlow;
+		[SerializeField] //bitch
+
+		private bool _used = false;
 		
 		void Awake()
 		{
 			_glowingBall.localScale = Vector3.zero;
-			_glowingBall.DOScale(_targetScale, 0.3f);
+			_glowingBall.DOScale(_targetScale, 0.15f);
 		}
 
 		public void Throw(Vector3 direction, float velocityMag)
@@ -25,6 +31,13 @@ namespace Futulabs
 			_rigidBody.isKinematic = false;
 			_rigidBody.velocity = velocity;
 			_collider.enabled = true;
+			Observable.Timer(TimeSpan.FromSeconds(3f)).TakeUntilDestroy(gameObject).Subscribe(_ =>
+			{
+				_glowingBall.DOScale(Vector3.zero, 0.3f).OnComplete(() =>
+				{
+					Destroy(gameObject);
+				});
+			});
 		}
 
 		public void Kill()
@@ -32,12 +45,31 @@ namespace Futulabs
 			Destroy(gameObject);
 		}
 
+		bool IsDestroyable(Collision c)
+		{
+			if(c.gameObject.tag == "WallCube")
+			{
+				return true;
+			}
+			if(c.gameObject.tag == "InteractableObject")
+			{
+				var cube = c.transform.parent.GetComponent<InteractableCubeController>();
+				if(cube != null)
+				{
+					return true;
+				}
+			}
+			return false;
+		}
+
 		void OnCollisionEnter(Collision collision)
 		{
-			if(collision.gameObject.tag == "Wall")
+			if(IsDestroyable(collision) && !_used)
 			{
-				collision.gameObject.AddComponent<CubeExplosion>();
-				collision.gameObject.tag = "Untagged";
+				_used = true;
+				var destroyableObject = collision.gameObject;
+				destroyableObject.AddComponent<CubeExplosion>();
+				destroyableObject.tag = "Untagged";
 				Kill();
 			}
 		}
