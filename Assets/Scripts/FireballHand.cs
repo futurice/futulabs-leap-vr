@@ -14,7 +14,7 @@ namespace Futulabs
 
 		private Fireball _fireBallInstance;
 		private HandVelocity _rightArm;
-		private float _fireVelocityLimit = 0.015f;
+		private float _fireVelocityLimit = 0.01f;
 		
 
 		void Start()
@@ -23,11 +23,9 @@ namespace Futulabs
 			_rightArm._lastVelocity.TakeUntilDestroy(this).Subscribe(velocity =>
 			{
 				if(ShouldFire(velocity) && _fireBallInstance != null)
-				{
-					//Debug.Break();
-					
+				{					
 					var direction =  _throwDirection.forward;
-					_fireBallInstance.Throw(direction, 10);
+					_fireBallInstance.Throw(direction, 4);
 					_fireBallInstance = null;
 				}
 			});

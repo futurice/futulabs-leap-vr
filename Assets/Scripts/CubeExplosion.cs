@@ -41,14 +41,15 @@ namespace Futulabs
 							{
 								if(z != 0)
 								{
-									var instance = explosionPool.Get(typeof(ExplosionCube));
+									var instance = explosionPool.Get(typeof(ExplosionCube)) as ExplosionCube;
+									instance.FadeOut();
 									instance.transform.SetParent(transform);
 									instance.transform.localScale = size;
 									var xPos = x*size.x - Mathf.Sign(x)*size.x/2;
 									var yPos = y*size.y - Mathf.Sign(y)*size.y/2;
 									var zPos = z*size.z - Mathf.Sign(z)*size.z/2;
 									var rb = instance.GetComponent<Rigidbody>();
-									rb.AddForce(RandomUnit()*Random.Range(100, 500));
+									rb.AddForce(RandomUnit()*Random.Range(200, 800));
 									instance.transform.localPosition = new Vector3(xPos, yPos,zPos)/50;
 									instance.transform.SetParent(null);
 								} 
