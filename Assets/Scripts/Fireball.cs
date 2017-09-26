@@ -4,7 +4,7 @@ using UnityEngine;
 using DG.Tweening;
 using UniRx;
 using System;
-
+using Leap.Unity.Interaction;
 namespace Futulabs
 {
 	public class Fireball : MonoBehaviour 
@@ -16,6 +16,11 @@ namespace Futulabs
 		[SerializeField] private GameObject _initialGlow;
 		[SerializeField] private ParticleSystem _particles;
 		[SerializeField] private Light _pointLight;
+		[SerializeField] private AudioSource _impactAudio;
+		[SerializeField] private AudioSource _flyAudio;
+		[SerializeField] private InteractionBehaviour _interactionBehaviour;
+
+		[SerializeField] private ParticleSystem _impactParticlesPrefab;
 
 		private bool _used = false;
 		
@@ -27,11 +32,16 @@ namespace Futulabs
 
 		public void Throw(Vector3 direction, float velocityMag)
 		{
+			_interactionBehaviour.isKinematic = true;
 			transform.SetParent(null);
 			var velocity = direction * velocityMag;
-			_rigidBody.isKinematic = false;
+			_interactionBehaviour.isKinematic = false;
 			_rigidBody.velocity = velocity;
 			_collider.enabled = true;
+			Observable.Timer(TimeSpan.FromSeconds(0.05f)).TakeUntilDestroy(gameObject).Subscribe(_ =>
+			{
+				_flyAudio.Play();
+			});
 			Observable.Timer(TimeSpan.FromSeconds(3f)).TakeUntilDestroy(gameObject).Subscribe(_ =>
 			{
 				_particles.Stop();
@@ -63,15 +73,31 @@ namespace Futulabs
 			return false;
 		}
 
+		void PlayImpact()
+		{
+			_impactAudio.transform.SetParent(null);
+			var audioLength = _impactAudio.clip.length;
+			_impactAudio.Play();
+			Observable.Timer(TimeSpan.FromSeconds(audioLength)).Subscribe(_ =>
+			{
+				Destroy(_impactAudio.gameObject);
+			});
+		}
+
 		void OnCollisionEnter(Collision collision)
 		{
 			if(IsDestroyable(collision) && !_used)
 			{
 				_used = true;
 				var destroyableObject = collision.gameObject;
+				var particles = Instantiate(_impactParticlesPrefab);
+				particles.transform.localScale = collision.collider.bounds.size;
+				particles.transform.position = destroyableObject.transform.position;
 				var voxelizer = destroyableObject.AddComponent<VoxelizeGameobject>();
 				voxelizer.Voxelize(collision.gameObject.tag=="Destroyable" ? 8 : 4);
 				destroyableObject.tag = "Untagged";
+				PlayImpact();
+
 				Kill();
 			}
 		}

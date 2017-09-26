@@ -199,6 +199,10 @@ namespace Futulabs
             EnableMaterializedMeshes(false);
             EnableOutlineMeshes(false);
             StartCoroutine(Activate());
+            _rigidbody.OnDestroyAsObservable().TakeUntilDestroy(this).Subscribe(_ => 
+            {
+                Destroy(transform.parent.gameObject);
+            });
         }
 
         virtual protected IEnumerator Activate()
@@ -277,11 +281,6 @@ namespace Futulabs
             EffectAudioSource.clip = AudioManager.Instance.GetAudioClip(GameAudioClipType.INTERACTABLE_OBJECT_CREATING);
             EffectAudioSource.Play();
 
-        }
-
-        void OnDestroy()
-        {
-            Destroy(transform.parent.parent.gameObject);
         }
 
         virtual protected void AddCreationForce()

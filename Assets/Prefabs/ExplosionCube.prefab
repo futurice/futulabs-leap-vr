@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 114823524814653824}
   - component: {fileID: 54440076977373258}
   - component: {fileID: 65034024187799122}
-  m_Layer: 16
+  m_Layer: 0
   m_Name: ExplosionCube
   m_TagString: Untagged
   m_Icon: {fileID: 0}

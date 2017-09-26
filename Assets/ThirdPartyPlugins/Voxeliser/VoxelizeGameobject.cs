@@ -11,10 +11,10 @@ namespace Futulabs
 		private Collider _collider;
 		private ObjectPool _explosionPool;
 
-		private Vector3 RandomUnit()
+		private Vector3 ExplosionDirection()
 		{
 			var x = Random.Range(-100,100);
-			var y = Random.Range(50,100);
+			var y = Random.Range(-25,100);
 			var z = Random.Range(-100,100);
 			return new Vector3(x,y,z).normalized;
 		}
@@ -46,7 +46,7 @@ namespace Futulabs
 							var go = _explosionPool.Get(typeof(ExplosionCube)) as ExplosionCube;
 							go.FadeOut();
 							var rb = go.GetComponent<Rigidbody>();
-							rb.AddForce(RandomUnit()*Random.Range(400, 800)*size.magnitude);
+							rb.AddForce(ExplosionDirection()*Random.Range(400, 800)*size.magnitude);
 							go.transform.position = new Vector3(
 								x * gridCubeSize.x,
 								y * gridCubeSize.y,

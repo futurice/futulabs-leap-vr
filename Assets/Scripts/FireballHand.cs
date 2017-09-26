@@ -18,16 +18,25 @@ namespace Futulabs
 		private HandVelocity _rightArm;
 		private float _fireVelocityLimit = 0.01f;
 
-		
+		[Header("Sounds")]
+		[SerializeField] private AudioSource _throwAudio;
+
+		private bool _canThrow = false;
+
+		void Awake()
+		{
+			_crossHair.gameObject.SetActive(false);
+		}
 
 		void Start()
 		{
 			_rightArm = GameObject.FindGameObjectWithTag("RightHand").GetComponent<HandVelocity>();
 			_rightArm._lastVelocity.TakeUntilDestroy(this).Subscribe(velocity =>
 			{
-				if(ShouldFire(velocity) && _fireBallInstance != null)
+				if(ShouldThrow(velocity) && _fireBallInstance != null && _canThrow)
 				{			
-					_crossHair.gameObject.SetActive(false);		
+					_crossHair.gameObject.SetActive(false);
+					_throwAudio.Play();
 					var direction =  _throwDirection.forward;
 					_fireBallInstance.Throw(direction, 4);
 					_fireBallInstance = null;
@@ -53,7 +62,7 @@ namespace Futulabs
 			return Vector3.Dot(coneCenterLine, differenceVector) >= Mathf.Cos(FOVRadians);
 		}
 
-		private bool ShouldFire(Vector3 handVelocity)
+		private bool ShouldThrow(Vector3 handVelocity)
 		{
 			var velocityDirection = handVelocity.normalized;
 			var velocityPosition = transform.position + velocityDirection;
@@ -68,7 +77,12 @@ namespace Futulabs
 
 			_handOpeningSubscription = Observable.Timer(TimeSpan.FromSeconds(_handOpenTime)).TakeUntilDestroy(this).Subscribe(_ =>
 			{
+				_canThrow = false;
 				StartFireBall();
+				Observable.Timer(TimeSpan.FromSeconds(0.75)).TakeUntilDestroy(this).Subscribe(x =>
+				{
+					_canThrow = true;
+				});
 			});
 		}
 
@@ -79,6 +93,7 @@ namespace Futulabs
 
 		private void StartFireBall()
 		{;
+
 			_crossHair.gameObject.SetActive(true);
 			if(_fireBallInstance == null)
 			{
