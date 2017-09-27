@@ -102,7 +102,7 @@ namespace Futulabs
             _isStuck = true;
             Rigidbody.transform.rotation = Quaternion.identity;
             Rigidbody.isKinematic = true;
-            Rigidbody.gameObject.tag = "Wall";
+            Rigidbody.gameObject.tag = "WallCube";
             EffectAudioSource.PlayOneShot(AudioManager.Instance.GetAudioClip(GameAudioClipType.INTERACTABLE_OBJECT_STICK));
             Rigidbody.gameObject.layer = LayerMask.NameToLayer("Environment");
             StartCoroutine(DelayAddScript());
