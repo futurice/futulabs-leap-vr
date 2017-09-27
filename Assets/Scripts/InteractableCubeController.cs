@@ -4,6 +4,10 @@ using UnityEngine;
 using Leap.Unity;
 using Leap.Unity.Interaction;
 using DG.Tweening;
+using UniRx;
+using System;
+using UniRx.Triggers;
+
 namespace Futulabs
 {
 
@@ -97,23 +101,79 @@ namespace Futulabs
             }
         }
 
-        public void Stick()
+        public void Stick(Collider stickedObject)
         {
-            _isStuck = true;
-            Rigidbody.transform.rotation = Quaternion.identity;
-            Rigidbody.isKinematic = true;
-            Rigidbody.gameObject.tag = "WallCube";
-            EffectAudioSource.PlayOneShot(AudioManager.Instance.GetAudioClip(GameAudioClipType.INTERACTABLE_OBJECT_STICK));
-            Rigidbody.gameObject.layer = LayerMask.NameToLayer("Environment");
-            StartCoroutine(DelayAddScript());
+            if(!_isStuck)
+            {
+                _isStuck = true;
+                Rigidbody.transform.rotation = Quaternion.identity;
+                Rigidbody.isKinematic = true;
+                Rigidbody.gameObject.tag = "WallCube";
+                EffectAudioSource.PlayOneShot(AudioManager.Instance.GetAudioClip(GameAudioClipType.INTERACTABLE_OBJECT_STICK));
+                Rigidbody.gameObject.layer = LayerMask.NameToLayer("Environment");
+                Observable.TimerFrame(0, FrameCountType.EndOfFrame).TakeUntilDestroy(this).Subscribe(_ =>
+                {
+                    LightWallController wallScript = Rigidbody.gameObject.AddComponent<LightWallController>();
+                    wallScript.LightPrefab = LightControllerObject;
+                });
+                SetupUnsticking(stickedObject);
+            }
         }
 
-        private IEnumerator DelayAddScript()
+        // one in case something sticky unsticks, another in case it just gets destroyed
+        private IDisposable _stickingSub;
+        private IDisposable _otherStickingSub;
+
+        private void Dispose(IDisposable disposable)
         {
-            yield return new WaitForEndOfFrame();
-            LightWallController wallScript = Rigidbody.gameObject.AddComponent<LightWallController>();
-            wallScript.LightPrefab = LightControllerObject;
+            if(disposable != null)
+            {
+                disposable.Dispose();
+            }
         }
+
+        private void SetupUnsticking(Collider c)
+        {
+            if(_stickingSub != null)
+            {
+                _stickingSub.Dispose();
+            }
+
+            if(_otherStickingSub != null)
+            {
+                _otherStickingSub.Dispose();
+            }
+
+            var rigidbody = c.gameObject.GetComponentInChildren<Rigidbody>();
+            
+            if(rigidbody != null)
+            {
+                _stickingSub = rigidbody.ObserveEveryValueChanged(x => x.isKinematic).TakeUntilDestroy(this).Subscribe(kinematic => 
+                {
+                    if(!kinematic)
+                    {
+                        Unstick();
+                        Dispose(_otherStickingSub);
+                        Dispose(_stickingSub);
+                    }
+                });
+            }
+            _otherStickingSub = c.gameObject.OnDestroyAsObservable().TakeUntilDestroy(this).Subscribe(_ =>
+            {
+                Unstick();
+                Dispose(_otherStickingSub);
+                Dispose(_stickingSub);
+            });
+        }
+
+        private void Unstick()
+        {
+            _isStuck = false;
+            Rigidbody.isKinematic = false;
+            Rigidbody.gameObject.tag = "InteractableObject";
+            Rigidbody.gameObject.layer = LayerMask.NameToLayer("Interaction");
+        }
+
     }
 
 }

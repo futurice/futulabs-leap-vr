@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using UniRx;
+
 namespace Futulabs
 {
 	public class FireballHand : MonoBehaviour 
@@ -92,8 +93,7 @@ namespace Futulabs
 		}
 
 		private void StartFireBall()
-		{;
-
+		{
 			_crossHair.gameObject.SetActive(true);
 			if(_fireBallInstance == null)
 			{

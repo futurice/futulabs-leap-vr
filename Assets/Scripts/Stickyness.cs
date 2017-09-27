@@ -19,7 +19,7 @@ namespace Futulabs
                 return;
             if (collision.gameObject.tag.Equals("WallCube") || collision.gameObject.tag.Equals("Wall"))
             {
-                CubeComponent.Stick();
+                CubeComponent.Stick(collision.collider);
             }
         }
 
