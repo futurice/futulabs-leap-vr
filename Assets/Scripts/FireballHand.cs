@@ -13,6 +13,8 @@ namespace Futulabs
 		[SerializeField] private LayerMask _wallMask;
 		[SerializeField] private Transform _crossHair;
 		[SerializeField] private GameObject _crossHairLine;
+		[SerializeField] private HandClench _handClench;
+		
 		private const float _handOpenTime = 1f;
 		private IDisposable _handOpeningSubscription;
 
@@ -59,6 +61,10 @@ namespace Futulabs
 			if(Physics.Raycast(transform.position, _throwDirection.forward, out hit, Mathf.Infinity, _wallMask))
 			{
 				_crossHair.position = hit.point;
+			}
+			if(_fireBallInstance != null)
+			{
+				_fireBallInstance.transform.localScale = Vector3.Lerp(_fireBallInstance.transform.localScale, Vector3.one * _handClench.AverageFingerToPalmDistance.Value.magnitude*12f, Time.deltaTime*4f);
 			}
 		}
 

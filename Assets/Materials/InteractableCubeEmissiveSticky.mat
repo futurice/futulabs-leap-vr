@@ -90,7 +90,7 @@ Material:
       second: 0
     - first:
         name: _EmissionGain
-      second: 0.6493717
+      second: 0.6997123
     - first:
         name: _EmissionTextureContrast
       second: 1

@@ -5,6 +5,7 @@ using DG.Tweening;
 using UniRx;
 using System;
 using Leap.Unity.Interaction;
+
 namespace Futulabs
 {
 	public class Fireball : MonoBehaviour 
@@ -15,12 +16,16 @@ namespace Futulabs
 		[SerializeField] private Transform _glowingBall;
 		[SerializeField] private GameObject _initialGlow;
 		[SerializeField] private ParticleSystem _particles;
+		[SerializeField] private ParticleSystem _particleFlames;
 		[SerializeField] private Light _pointLight;
 		[SerializeField] private AudioSource _impactAudio;
 		[SerializeField] private AudioSource _flyAudio;
 		[SerializeField] private InteractionBehaviour _interactionBehaviour;
-
 		[SerializeField] private ParticleSystem _impactParticlesPrefab;
+		[SerializeField] private Vector3 _initialSize;
+
+		private float _initialParticleMinSize;
+		private float _initialParticleMaxSize;
 
 		private bool _used = false;
 		
@@ -28,6 +33,13 @@ namespace Futulabs
 		{
 			_glowingBall.localScale = Vector3.zero;
 			_glowingBall.DOScale(_targetScale, 0.15f);
+			_initialParticleMinSize = _particleFlames.main.startSize.constantMin;
+			_initialParticleMaxSize = _particleFlames.main.startSize.constantMax;
+		}
+
+		void Update()
+		{
+			ResetParticleSize();
 		}
 
 		public void Throw(Vector3 direction, float velocityMag)
@@ -58,6 +70,15 @@ namespace Futulabs
 			});
 		}
 
+		private void ResetParticleSize()
+		{
+			var size = transform.lossyScale;
+			var sizeRatio = size.magnitude / _initialSize.magnitude;
+			var main = _particleFlames.main;
+			main.startSize = new ParticleSystem.MinMaxCurve(_initialParticleMinSize*sizeRatio, _initialParticleMaxSize*sizeRatio);
+			Debug.Log(_particleFlames.main.startSize.constantMin + " - " + _particleFlames.main.startSize.constantMax);
+		}
+
 		public void Kill()
 		{
 			Destroy(gameObject);
@@ -86,20 +107,20 @@ namespace Futulabs
 
 		void OnCollisionEnter(Collision collision)
 		{
+			var particles = Instantiate(_impactParticlesPrefab);
+			particles.transform.position = transform.position;
+			PlayImpact();
 			if(IsDestroyable(collision) && !_used)
 			{
-				_used = true;
 				var destroyableObject = collision.gameObject;
-				var particles = Instantiate(_impactParticlesPrefab);
-				particles.transform.localScale = collision.collider.bounds.size;
-				particles.transform.position = destroyableObject.transform.position;
 				var voxelizer = destroyableObject.AddComponent<VoxelizeGameobject>();
 				voxelizer.Voxelize(collision.gameObject.tag=="Destroyable" ? 8 : 4);
 				destroyableObject.tag = "Untagged";
-				PlayImpact();
 
-				Kill();
 			}
+			particles.transform.localScale = Vector3.one/3f;
+			_used = true;
+			Kill();
 		}
 	}
 }

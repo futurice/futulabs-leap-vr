@@ -848,12 +848,14 @@ MonoBehaviour:
   _glowingBall: {fileID: 4125396173697652}
   _initialGlow: {fileID: 1911112398551864}
   _particles: {fileID: 198326703992644492}
+  _particleFlames: {fileID: 198334068050583152}
   _pointLight: {fileID: 108208127599230630}
   _impactAudio: {fileID: 82811910443111998}
   _flyAudio: {fileID: 82288738547634404}
   _interactionBehaviour: {fileID: 114047206746031086}
   _impactParticlesPrefab: {fileID: 198760525646766728, guid: 8a3cbb1e89e46034c991c88ef22f9eb0,
     type: 2}
+  _initialSize: {x: 0.2, y: 0.2, z: 0.2}
 --- !u!135 &135810796880788776
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -933,7 +935,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 2
-  randomSeed: 458903215
+  randomSeed: -1402462173
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -3570,7 +3572,7 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 2
-  randomSeed: 1928855902
+  randomSeed: 1204617838
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -6069,7 +6071,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 2
-  randomSeed: -1752665083
+  randomSeed: 896557324
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -8706,7 +8708,7 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 2
-  randomSeed: 25351894
+  randomSeed: 1946232163
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -11235,7 +11237,7 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 2
-  randomSeed: -748140745
+  randomSeed: 1197324835
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -13734,7 +13736,7 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 2
-  randomSeed: 763339428
+  randomSeed: -281313658
   InitialModule:
     serializedVersion: 3
     enabled: 1
