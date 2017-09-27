@@ -10,6 +10,7 @@ namespace Futulabs
 		void Update () 
 		{
 			transform.rotation = Quaternion.Lerp(transform.rotation, _target.rotation, Time.deltaTime*4f);
+			transform.position = _target.position;
 		}
 	}
 }

@@ -12,6 +12,7 @@ namespace Futulabs
 		[SerializeField] private Transform _throwDirection;
 		[SerializeField] private LayerMask _wallMask;
 		[SerializeField] private Transform _crossHair;
+		[SerializeField] private GameObject _crossHairLine;
 		private const float _handOpenTime = 1f;
 		private IDisposable _handOpeningSubscription;
 
@@ -26,7 +27,13 @@ namespace Futulabs
 
 		void Awake()
 		{
-			_crossHair.gameObject.SetActive(false);
+			SetActivePointing(false);
+		}
+
+		void SetActivePointing(bool active)
+		{
+			_crossHair.gameObject.SetActive(active);
+			_crossHairLine.SetActive(active);
 		}
 
 		void Start()
@@ -36,10 +43,10 @@ namespace Futulabs
 			{
 				if(ShouldThrow(velocity) && _fireBallInstance != null && _canThrow)
 				{			
-					_crossHair.gameObject.SetActive(false);
+					SetActivePointing(false);
 					_throwAudio.Play();
 					var direction =  _throwDirection.forward;
-					_fireBallInstance.Throw(direction, 4);
+					_fireBallInstance.Throw(direction, 6);
 					_fireBallInstance = null;
 				}
 			});
@@ -94,7 +101,7 @@ namespace Futulabs
 
 		private void StartFireBall()
 		{
-			_crossHair.gameObject.SetActive(true);
+			SetActivePointing(true);
 			if(_fireBallInstance == null)
 			{
 				_fireBallInstance = Instantiate(_fireBallPrefab) as Fireball;
