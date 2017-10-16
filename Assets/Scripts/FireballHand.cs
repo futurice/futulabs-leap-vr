@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using UniRx;
+using UniRx.Triggers;
 
 namespace Futulabs
 {
@@ -113,6 +114,10 @@ namespace Futulabs
 				_fireBallInstance = Instantiate(_fireBallPrefab) as Fireball;
 				_fireBallInstance.transform.SetParent(transform);
 				_fireBallInstance.transform.position = transform.position + transform.up * -0.1f;
+				_fireBallInstance.OnDestroyAsObservable().Subscribe(_ =>
+				{
+					SetActivePointing(false);
+				});
 			}
 		}
 
